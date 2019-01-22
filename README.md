@@ -6,7 +6,7 @@ __Deploy, start & stop service [on production environment] :__
 $ cat /lib/systemd/system/shipreporting.service 
 [Unit]
 Description=Shipreporting service middleware
-Documentation=https://gitlab.com/<YOUR_USER>/shipreporting-api
+Documentation=https://gitlab.com/deeper-x/shipreporting-api
 After=network.target
 
 [Service]
