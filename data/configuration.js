@@ -75,6 +75,12 @@ class Configuration {
                     'fk_portinformer'
                 ],
             },
+            '/trafficListNow': {
+                'methodToCall': routerObject.trafficListNow,
+                'params': [
+                    'fk_portinformer'
+                ],
+            },
             '/notFound': {
                 'methodToCall': routerObject.routeNotFound,
                 'params': []
