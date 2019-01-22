@@ -1,6 +1,6 @@
 # shipreporting-api
 
-__ Deploy, start & stop service [on production environment] :__
+__Deploy, start & stop service [on production environment] :__
 
 ```bash
 $ cat /lib/systemd/system/shipreporting.service 
