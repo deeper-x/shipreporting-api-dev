@@ -24,3 +24,13 @@ __Arrival previsions__:
 ```
 http://80.88.88.162:3000/arrivalPrevisionsNow?id_portinformer=<id_portinformer>
 ```
+
+__Commercial operations__:
+```
+#TODO
+```
+
+__RO/RO + RO/PAX__:
+```
+#TODO
+```
