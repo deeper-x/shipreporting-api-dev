@@ -210,6 +210,8 @@ let shippedGoods = function (idPortinformer) {
         ON fk_control_unit_data = id_control_unit_data
         INNER JOIN goods_categories
         ON fk_goods_category = id_goods_category
+        INNER JOIN ships
+        ON control_unit_data.fk_ship = id_ship
         WHERE control_unit_data.fk_portinformer = ${idPortinformer}
         AND control_unit_data.is_active = true`;
 };
