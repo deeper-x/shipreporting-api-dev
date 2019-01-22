@@ -69,6 +69,12 @@ class Configuration {
                     'fk_portinformer'
                 ],
             },
+            '/shippedGoodsNow': {
+                'methodToCall': routerObject.shippedGoodsNow,
+                'params': [
+                    'fk_portinformer'
+                ],
+            },
             '/notFound': {
                 'methodToCall': routerObject.routeNotFound,
                 'params': []
