@@ -18,7 +18,7 @@ class Router {
 
     dispatch (inputPathName) {
         let configuration = new Configuration();
-        this._calledURL = new URL(`${configuration.path}${this._queryString.path}`);
+        this._calledURL = new url.URL(`${configuration.path}${this._queryString.path}`);
         this._mappedUrl = configuration.getMappedUrl(this);
  
         if ( this._mappedUrl.hasOwnProperty(inputPathName) ) {
