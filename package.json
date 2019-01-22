@@ -18,6 +18,8 @@
   },
   "homepage": "https://gitlab.com/deeper-x/shipreporting-api#readme",
   "dependencies": {
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.12.1",
     "nodemon": "^1.18.9",
     "pg": "^7.6.1"
   }
