@@ -23,19 +23,14 @@ http://80.88.88.162:3000/departuresNow?id_portinformer=<id_portinformer>
 __Arrival previsions__:
 ```
 http://80.88.88.162:3000/arrivalPrevisionsNow?id_portinformer=<id_portinformer>
-``` 
-
-__Arrival previsions__:
-```
-http://80.88.88.162:3000/arrivalPrevisionsNow?id_portinformer=<id_portinformer>
 ```
 
-__Commercial operations__:
+__Goods: commercial operations__:
 ```
 http://80.88.88.162:3000/shippedGoodsNow?id_portinformer=<id_portinformer>
 ```
 
-__RO/RO + RO/PAX__:
+__RO/RO + RO/PAX: commercial operations__:
 ```
 http://80.88.88.162:3000/trafficListNow?id_portinformer=<id_portinformer>
 ```
