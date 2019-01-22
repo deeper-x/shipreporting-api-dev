@@ -3,7 +3,6 @@
 __Roadstead now__:
 ```
 http://80.88.88.162:3000/roadsteadNow?id_portinformer=<id_portinformer>&id_activity=2
-http://127.0.0.1:3001/roadsteadNow?id_portinformer=28&id_activity=2
 ```
 
 __Moored now__:
