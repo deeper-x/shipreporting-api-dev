@@ -203,13 +203,43 @@ let activeTrips = function (idPortinformer, notOperationalStates) {
         and fk_portinformer = ${idPortinformer}`;
 };
 
+
+let shippedGoods = function (idPortinformer) {
+    return `SELECT ships.ship_description, quantity, unit, goods_categories.description 
+        FROM shipped_goods INNER JOIN control_unit_data
+        ON fk_control_unit_data = id_control_unit_data
+        INNER JOIN goods_categories
+        ON fk_goods_category = id_goods_category
+        INNER JOIN ships
+        ON control_unit_data.fk_ship = id_ship
+        WHERE control_unit_data.fk_portinformer = ${idPortinformer}
+        AND control_unit_data.is_active = true`;
+};
+
+let trafficList = function (idPortinformer) {
+    return `SELECT ships.ship_description, num_container, num_passengers, num_camion, 
+        num_furgoni, num_rimorchi, num_auto, num_moto, num_camper, tons,
+        num_bus, num_minibus, traffic_list_mvnt_type, traffic_list_categories.description
+        FROM traffic_list INNER JOIN control_unit_data
+        ON fk_control_unit_data = id_control_unit_data
+        INNER JOIN traffic_list_categories
+        ON fk_traffic_list_category = id_traffic_list_category
+        INNER JOIN ships
+        ON control_unit_data.fk_ship = id_ship
+        WHERE control_unit_data.fk_portinformer = ${idPortinformer}
+        AND control_unit_data.is_active = true`;
+};
+
 let liveData = {
     moored: moored,
     roadstead: roadstead,
     arrivals: arrivals,
     departures: departures,
     arrivalPrevisions: arrivalPrevisions,
-    activeTrips: activeTrips
+    activeTrips: activeTrips,
+    shippedGoods: shippedGoods,
+    trafficList: trafficList
 };
+
 
 module.exports = liveData;
