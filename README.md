@@ -1,20 +1,39 @@
 # shipreporting-api
 
-__Start & Stop service:__
+__ Deploy, start & stop service [on production environment] :__
 
+```bash
+$ cat /lib/systemd/system/shipreporting.service 
+[Unit]
+Description=Shipreporting service middleware
+Documentation=https://gitlab.com/<YOUR_USER>/shipreporting-api
+After=network.target
+
+[Service]
+Environment=NODE_PORT=3000
+Type=simple
+User=<YOUR_USER>
+WorkingDirectory=/home/<YOUR_USER>/shipreporting-api
+ExecStart=/usr/bin/npm start
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+```
+Then:
 ```bash
 $ sudo systemctl start shipreporting.service
 $ sudo systemctl stop shipreporting.service
 ```
 
-__Local deploy:__
+__Local deploy [on dev environment]:__
 ```bash
 
 $ npm install
 [...omissis]
 $ npm start
 
-> shipreporting-api@1.0.0 start /home/deeper-x/NodeProjects/shipreporting-api
+> shipreporting-api@1.0.0 start /home/<YOUR_USER>/NodeProjects/shipreporting-api
 > ./node_modules/nodemon/bin/nodemon.js index.js
 
 [nodemon] 1.18.9
