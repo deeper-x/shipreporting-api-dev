@@ -20,8 +20,9 @@ const server = http.createServer((req, res) => {
         'fk_portinformer': searchParams.get('id_portinformer'),
         'fk_ship_current_activity': searchParams.get('id_activity')
     };
-    
+
     callback.methodToCall(res, SQLparams);
+     
 });
 
 

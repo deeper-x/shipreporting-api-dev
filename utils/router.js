@@ -20,11 +20,11 @@ class Router {
         let configuration = new Configuration();
         this._calledURL = new URL(`${configuration.path}${this._queryString.path}`);
         this._mappedUrl = configuration.getMappedUrl(this);
-
+ 
         if ( this._mappedUrl.hasOwnProperty(inputPathName) ) {
             return this._mappedUrl[inputPathName];
         } else {
-            return this.routeNotFound;
+            return this._mappedUrl['/notFound'];
         }
     }
         
@@ -87,8 +87,10 @@ class Router {
         response.end();
     }
 
-    routeNotFound () {
-        console.log('error: not found!');
+    routeNotFound (response, params) {
+        console.log('error: Resource not found!');
+        response.statusCode = 404;
+        response.end();
     }
 }
 

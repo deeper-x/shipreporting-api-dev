@@ -69,6 +69,10 @@ class Configuration {
                     'fk_portinformer'
                 ],
             },
+            '/notFound': {
+                'methodToCall': routerObject.routeNotFound,
+                'params': []
+            },
             '/favicon.ico': {
                 'methodToCall': routerObject.favicon
             }
