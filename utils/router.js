@@ -88,6 +88,13 @@ class Router {
         let query = sqlLiveData.shippedGoods(idPortinformer);
         QueryManager.runSelect(query, response);
     }
+      
+    trafficListNow (response, params) {
+        const idPortinformer = params.fk_portinformer;
+        
+        let query = sqlLiveData.trafficList(idPortinformer);
+        QueryManager.runSelect(query, response);
+    }
 
     favicon (response) {
         response.statusCode = 200;
@@ -95,7 +102,7 @@ class Router {
     }
 
     routeNotFound (response, params) {
-        console.log('error: Resource not found!');
+        console.log('Error: Resource not found!');
         response.statusCode = 404;
         response.end();
     }
