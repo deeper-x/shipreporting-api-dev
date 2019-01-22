@@ -24,6 +24,8 @@ $ npm start
 running on http://0.0.0.0:3000...
 ```
 
+__List of available calls:__
+
 __Roadstead now__:
 ```
 http://80.88.88.162:3000/roadsteadNow?id_portinformer=<id_portinformer>&id_activity=2
