@@ -12,7 +12,7 @@ const server = http.createServer((req, res) => {
     let callback = router.dispatch(pathToCall);
     
     let queryString = url.parse(req.url, true);
-    let calledURL = new URL(`${configuration.path}${queryString.path}`);
+    let calledURL = new url.URL(`${configuration.path}${queryString.path}`);
 
     let searchParams = calledURL.searchParams;
     
