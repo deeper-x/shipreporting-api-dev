@@ -1,7 +1,7 @@
 class Configuration {
     constructor () {
-        this._host = '127.0.0.1';
-        this._port = 3001;
+        this._host = '0.0.0.0';
+        this._port = 3000;
         this._mooringStates = '(17, 18, 19, 20, 21, 22)';
         this._roadsteadStates = '(16, 19, 25)';
         this._notOperationalStates = '(10, 11, 12)';
