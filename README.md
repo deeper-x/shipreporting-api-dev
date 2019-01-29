@@ -47,35 +47,35 @@ __List of available calls:__
 
 __Roadstead now__:
 ```
-http://80.88.88.162:3000/roadsteadNow?id_portinformer=<id_portinformer>&id_activity=2
+http://<REMOTE_IP>:3000/roadsteadNow?id_portinformer=<id_portinformer>&id_activity=2
 ```
 
 __Moored now__:
 ```
-http://80.88.88.162:3000/mooredNow?id_portinformer=<id_portinformer>&id_activity=5
+http://<REMOTE_IP>:3000/mooredNow?id_portinformer=<id_portinformer>&id_activity=5
 ```
 
 __Arrivals now__:
 ```
-http://80.88.88.162:3000/arrivalsNow?id_portinformer=<id_portinformer>
+http://<REMOTE_IP>:3000/arrivalsNow?id_portinformer=<id_portinformer>
 ```
 
 __Departures now__:
 ```
-http://80.88.88.162:3000/departuresNow?id_portinformer=<id_portinformer>
+http://<REMOTE_IP>:3000/departuresNow?id_portinformer=<id_portinformer>
 ```
 
 __Arrival previsions__:
 ```
-http://80.88.88.162:3000/arrivalPrevisionsNow?id_portinformer=<id_portinformer>
+http://<REMOTE_IP>:3000/arrivalPrevisionsNow?id_portinformer=<id_portinformer>
 ```
 
 __Goods: commercial operations__:
 ```
-http://80.88.88.162:3000/shippedGoodsNow?id_portinformer=<id_portinformer>
+http://<REMOTE_IP>:3000/shippedGoodsNow?id_portinformer=<id_portinformer>
 ```
 
 __RO/RO + RO/PAX: commercial operations__:
 ```
-http://80.88.88.162:3000/trafficListNow?id_portinformer=<id_portinformer>
+http://<REMOTE_IP>:3000/trafficListNow?id_portinformer=<id_portinformer>
 ```
