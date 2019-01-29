@@ -81,6 +81,12 @@ class Configuration {
                     'fk_portinformer'
                 ],
             },
+            '/tripsArchive':{
+                'methodToCall': routerObject.tripsArchive,
+                'params': [
+                    'fk_portinformer'
+                ]
+            },
             '/notFound': {
                 'methodToCall': routerObject.routeNotFound,
                 'params': []
