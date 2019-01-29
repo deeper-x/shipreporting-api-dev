@@ -79,3 +79,6 @@ __RO/RO + RO/PAX: commercial operations__:
 ```
 http://80.88.88.162:3000/trafficListNow?id_portinformer=<id_portinformer>
 ```
+__Trips archive (general info):__
+```
+http://80.88.88.162:3000/tripsArchive?id_portinformer=<ID_PORTINFORMER>
