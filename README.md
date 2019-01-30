@@ -1,4 +1,4 @@
-# shipreporting-api
+# Shipreporting API
 
 __Deploy, start & stop service [on production environment] :__
 
