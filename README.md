@@ -79,7 +79,7 @@ __RO/RO + RO/PAX: commercial operations__:
 ```
 http://<REMOTE_IP>:3000/trafficListNow?id_portinformer=<id_portinformer>
 ```
-__Trips archive (general info):__
+__Trips archive [global recap]:__
 ```
 http://<REMOTE_IP>:3000/tripsArchive?id_portinformer=<ID_PORTINFORMER>
 ```
