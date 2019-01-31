@@ -45,6 +45,11 @@ running on http://0.0.0.0:3000...
 
 __List of available calls:__
 
+__Active trips__:
+```
+http://<REMOTE_IP>:3000/activeTripsNow?id_portinformer=<id_portinformer>
+```
+
 __Roadstead now__:
 ```
 http://<REMOTE_IP>:3000/roadsteadNow?id_portinformer=<id_portinformer>&id_activity=2
