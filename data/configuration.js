@@ -91,6 +91,10 @@ class Configuration {
                 'methodToCall': routerObject.routeNotFound,
                 'params': []
             },
+            '/registerArrivals': {
+                'methodToCall': routerObject.registerArrivals,
+                'params': ['startTS', 'stopTS']
+            },
             '/favicon.ico': {
                 'methodToCall': routerObject.favicon
             }
