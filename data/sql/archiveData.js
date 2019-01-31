@@ -19,7 +19,7 @@ let tripsArchive = function (idPortinformer) {
                 ON shipped_goods.fk_operation_quay = id_quay
                 INNER JOIN berths
                 ON shipped_goods.fk_operation_berth = id_berth
-                GROUP BY fk_control_unit_data, fk_operation_quay, fk_operation_berth
+                GROUP BY fk_control_unit_data
             ) AS shipped_goods_data
             
             ON shipped_goods_data.fk_control_unit_data = id_control_unit_data
