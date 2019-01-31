@@ -6,7 +6,7 @@ let tripsArchive = function (idPortinformer) {
             shipping_details.ts_departure AS departure,
             ship_description AS ship,
             shipped_goods_details,
-            quays.description||'-'||berths.description AS quay_berth
+            quays.description||'-'||berths.description AS commercial_quay_berth
             FROM control_unit_data INNER JOIN ships
             ON control_unit_data.fk_ship = ships.id_ship
             INNER JOIN shipping_details
