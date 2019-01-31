@@ -11,7 +11,7 @@ let tripsArchive = function (idPortinformer) {
             INNER JOIN shipping_details
             ON control_unit_data.fk_shipping_details = id_shipping_details
             INNER JOIN ( 
-                SELECT fk_control_unit_data, string_agg(shipped_goods.goods_mvmnt_type||' '||goods_categories.description||' '||shipped_goods.quantity||' '||shipped_goods.unit||' - '||quays.description||'-'||berths.description , '-')
+                SELECT fk_control_unit_data, string_agg(shipped_goods.goods_mvmnt_type||':'||goods_categories.description||' '||shipped_goods.quantity||''||shipped_goods.unit||' ['||quays.description||'-'||berths.description||']' , ';')
                 AS shipped_goods_details
                 FROM shipped_goods INNER JOIN goods_categories
                 ON fk_goods_category = id_goods_category
