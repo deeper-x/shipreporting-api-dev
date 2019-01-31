@@ -1,7 +1,7 @@
 let tripsArchive = function (idPortinformer) {
     return `SELECT 
             id_control_unit_data AS id_trip,
-            control_unit_data.is_active AS in_progress,
+            control_unit_data.is_active::text AS in_progress,
             shipping_details.ts_arrival AS arrival,
             shipping_details.ts_departure AS departure,
             ship_description AS ship,
