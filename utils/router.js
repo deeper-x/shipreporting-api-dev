@@ -3,6 +3,7 @@ const QueryManager = require('./query_manager');
 const url = require('url');
 const sqlLiveData = require('../data/sql/liveData');
 const sqlArchiveData = require('../data/sql/archiveData');
+const sqlRegisterData = require('../data/sql/dailyRegisterData');
 
 class Router {
     constructor (request, response) {
@@ -101,6 +102,15 @@ class Router {
         const idPortinformer = params.fk_portinformer;
 
         let query = sqlArchiveData.tripsArchive(idPortinformer);
+        QueryManager.runSelect(query, response);
+    }
+
+    registerArrivals (response, params) {
+        const idPortinformer = params.fk_portinformer;
+        const startTS = params.startTS;
+        const stopTS = params.stopTS;
+
+        let query = sqlRegisterData.registerArrivals(idPortinformer, startTS, stopTS);
         QueryManager.runSelect(query, response);
     }
 

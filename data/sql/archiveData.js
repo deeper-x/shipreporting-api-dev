@@ -26,6 +26,7 @@ let tripsArchive = function (idPortinformer) {
             WHERE control_unit_data.fk_portinformer = ${idPortinformer}`;
 };
 
+
 let archiveData = {
     tripsArchive: tripsArchive,
 };

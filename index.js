@@ -1,6 +1,8 @@
 let http = require('http');
 let Router = require('./utils/router');
 let url = require('url');
+let querystring = require('querystring');
+
 let Configuration = require('./data/configuration');
 
 let configuration = new Configuration();
@@ -18,8 +20,10 @@ const server = http.createServer((req, res) => {
     
     let SQLparams = {
         'fk_portinformer': searchParams.get('id_portinformer'),
-        'fk_ship_current_activity': searchParams.get('id_activity')
-    };
+        'fk_ship_current_activity': searchParams.get('id_activity'),
+        'startTS': searchParams.get('startTS'),
+        'stopTS': searchParams.get('stopTS')
+    };  
 
     callback.methodToCall(res, SQLparams);
      

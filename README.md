@@ -88,3 +88,8 @@ __Trips archive [global recap]:__
 ```
 http://<REMOTE_IP>:3000/tripsArchive?id_portinformer=<ID_PORTINFORMER>
 ```
+
+__Register - Arrivals:__
+```
+http://127.0.0.1:3000/registerArrivals?id_portinformer=<ID_PORTINFORMER>&startTS=<START_TIMESTAMP>&stopTS=<STOP_TIMESTAMP>
+```
