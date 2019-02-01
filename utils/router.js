@@ -1,4 +1,5 @@
-const Configuration = require('../data/configuration'); 
+const Configuration = require('../settings/configuration');
+const Mapper = require('../utils/Mapper.js'); 
 const QueryManager = require('./query_manager');
 const url = require('url');
 const sqlLiveData = require('../data/sql/liveData');
@@ -20,8 +21,10 @@ class Router {
 
     dispatch (inputPathName) {
         let configuration = new Configuration();
+        let mapper = new Mapper();
+
         this._calledURL = new url.URL(`${configuration.path}${this._queryString.path}`);
-        this._mappedUrl = configuration.getMappedUrl(this);
+        this._mappedUrl = mapper.getMappedUrl(this);
  
         if ( this._mappedUrl.hasOwnProperty(inputPathName) ) {
             return this._mappedUrl[inputPathName];

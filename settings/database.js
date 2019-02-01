@@ -1,7 +1,7 @@
 const databaseConfig = {
-    user: '<YOUR_USER>',
+    user: 'lims_cn_user',
     host: '127.0.0.1',
-    password: '<YOUR_SECRET>',
+    password: '07R3BL4',
     database: 'lims_cn_sw',
     port: 5432
 };
