@@ -22,7 +22,7 @@ WantedBy=multi-user.target
 ```
 Create database and set configuration data:
 ```bash
-$ vim settings/database.js 
+$ vim settings/db_auth.js 
 ```
 
 Then:
