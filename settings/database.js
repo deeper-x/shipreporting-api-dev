@@ -1,5 +1,5 @@
 const databaseConfig = {
-    user: <INSERT USER>',
+    user: '<INSERT USER>',
     host: '<INSERT HOST>',
     password: '<INSERT PASSWORD>',
     database: '<INSERT DB>',
