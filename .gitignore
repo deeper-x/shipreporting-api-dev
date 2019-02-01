@@ -79,7 +79,7 @@ typings/
 .vscode/
 
 # DB SETTINGS
-settings/
+settings/db_auth.js
 
 # various 
 package-lock.json

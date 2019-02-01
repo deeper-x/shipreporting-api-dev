@@ -1,4 +1,4 @@
-const databaseConfig = require('../settings/database');
+const databaseConfig = require('../settings/db_auth');
 const {Pool, Client} = require('pg');
 
 const pool = new Pool(databaseConfig);
