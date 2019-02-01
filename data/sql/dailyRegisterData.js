@@ -1,4 +1,4 @@
-let registerArrivals = function (idPortinformer, startTS, stopTS) {
+let registerArrivals = function (idPortinformer) {
     return `SELECT ts_avvistamento, imo, ship_description, type_acronym,
             iso3 
             FROM control_unit_data 
@@ -11,7 +11,7 @@ let registerArrivals = function (idPortinformer, startTS, stopTS) {
             INNER JOIN countries
             ON ships.fk_country_flag = id_country
             WHERE control_unit_data.fk_portinformer = ${idPortinformer}
-            AND ts_avvistamento BETWEEN '${startTS}' AND '${stopTS}'`;
+            AND ts_avvistamento BETWEEN (select current_date - 1||' 08:00') AND (select current_date||' 08:00')`;
 };
 
 let dailyRegisterData = {
