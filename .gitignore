@@ -80,3 +80,6 @@ typings/
 
 # DB SETTINGS
 settings/
+
+# various 
+package-lock.json
