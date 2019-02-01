@@ -1,9 +1,8 @@
 let http = require('http');
 let Router = require('./utils/router');
 let url = require('url');
-let querystring = require('querystring');
 
-let Configuration = require('./data/configuration');
+let Configuration = require('./settings/configuration');
 
 let configuration = new Configuration();
 
@@ -28,7 +27,6 @@ const server = http.createServer((req, res) => {
     callback.methodToCall(res, SQLparams);
      
 });
-
 
 server.listen(configuration.port, configuration.host, () => {
     console.log(`running on ${configuration.path}...`);
