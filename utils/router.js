@@ -110,10 +110,9 @@ class Router {
 
     registerArrivals (response, params) {
         const idPortinformer = params.fk_portinformer;
-        const startTS = params.startTS;
-        const stopTS = params.stopTS;
-
-        let query = sqlRegisterData.registerArrivals(idPortinformer, startTS, stopTS);
+        
+        let query = sqlRegisterData.registerArrivals(idPortinformer);
+        console.log(query);
         QueryManager.runSelect(query, response);
     }
 

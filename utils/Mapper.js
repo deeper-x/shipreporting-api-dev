@@ -61,7 +61,7 @@ class Mapper {
             },
             '/registerArrivals': {
                 'methodToCall': routerObject.registerArrivals,
-                'params': ['startTS', 'stopTS']
+                'params': ['fk_portinformer']
             },
             '/favicon.ico': {
                 'methodToCall': routerObject.favicon
