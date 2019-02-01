@@ -20,6 +20,11 @@ Restart=on-failure
 [Install]
 WantedBy=multi-user.target
 ```
+Create database and set configuration data:
+```bash
+$ vim settings/database.js 
+```
+
 Then:
 ```bash
 $ sudo systemctl start shipreporting.service
