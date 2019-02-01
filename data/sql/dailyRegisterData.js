@@ -11,7 +11,7 @@ let registerArrivals = function (idPortinformer) {
             INNER JOIN countries
             ON ships.fk_country_flag = id_country
             WHERE control_unit_data.fk_portinformer = ${idPortinformer}
-            AND ts_avvistamento BETWEEN (select current_date - 1||' 08:00') AND (select current_date||' 08:00')`;
+            AND ts_avvistamento BETWEEN (select current_date - 1||' (SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer})') AND (select current_date||' (SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer})')`;
 };
 
 let dailyRegisterData = {
