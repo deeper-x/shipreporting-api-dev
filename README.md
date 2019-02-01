@@ -96,5 +96,5 @@ http://<REMOTE_IP>:3000/tripsArchive?id_portinformer=<ID_PORTINFORMER>
 
 __Daily register:__
 ```
-http://<REMOTE_IP>:3000/registerArrivals?id_portinformer
+http://<REMOTE_IP>:3000/registerArrivals?id_portinformer=<ID_PORTINFORMER>
 ```
