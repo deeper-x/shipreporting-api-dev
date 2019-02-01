@@ -77,3 +77,6 @@ typings/
 
 # VSCODE
 .vscode/
+
+# DB SETTINGS
+./settings/database.js
