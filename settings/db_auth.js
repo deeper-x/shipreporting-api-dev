@@ -7,4 +7,3 @@ const databaseConfig = {
 };
 
 module.exports = databaseConfig;
-~                                     
