@@ -123,8 +123,8 @@ let registerPlannedArrivals = function (idPortinformer) {
 };
 
 let registerShippedGoods = function (idPortinformer) {
-    return `SELECT quantity, unit, goods_mvmnt_type, goods_categories.description, imo, ship_description, type_acronym,
-            iso3, quays.description, berths.description 
+    return `SELECT quantity, unit, goods_mvmnt_type, goods_categories.description AS shipped_goods, imo, ship_description AS ship_name, type_acronym,
+            iso3, quays.description AS quay, berths.description AS berth 
             FROM control_unit_data 
             INNER JOIN data_avvistamento_nave
             ON id_control_unit_data = data_avvistamento_nave.fk_control_unit_data
