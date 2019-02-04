@@ -20,8 +20,6 @@ const server = http.createServer((req, res) => {
     let SQLparams = {
         'fk_portinformer': searchParams.get('id_portinformer'),
         'fk_ship_current_activity': searchParams.get('id_activity'),
-        'startTS': searchParams.get('startTS'),
-        'stopTS': searchParams.get('stopTS')
     };  
 
     callback.methodToCall(res, SQLparams);
