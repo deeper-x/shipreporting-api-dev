@@ -1,9 +1,10 @@
-'use strict';
-
-const Configuration = require('../data/configuration'); 
-const QueryManager = require('../utils/query_manager');
+const Configuration = require('../settings/configuration');
+const Mapper = require('../utils/Mapper.js'); 
+const QueryManager = require('./query_manager');
 const url = require('url');
 const sqlLiveData = require('../data/sql/liveData');
+const sqlArchiveData = require('../data/sql/archiveData');
+const sqlRegisterData = require('../data/sql/dailyRegisterData');
 
 class Router {
     constructor (request, response) {
@@ -14,19 +15,21 @@ class Router {
     getCallback () {
         let configuration = new Configuration();
 
-        this._calledURL = new URL(`${configuration.path}${this._queryString.path}`);
+        this._calledURL = new url.URL(`${configuration.path}${this._queryString.path}`);
         return this._calledURL.pathname;
     }
 
     dispatch (inputPathName) {
         let configuration = new Configuration();
-        this._calledURL = new URL(`${configuration.path}${this._queryString.path}`);
-        this._mappedUrl = configuration.getMappedUrl(this);
+        let mapper = new Mapper();
 
+        this._calledURL = new url.URL(`${configuration.path}${this._queryString.path}`);
+        this._mappedUrl = mapper.getMappedUrl(this);
+ 
         if ( this._mappedUrl.hasOwnProperty(inputPathName) ) {
             return this._mappedUrl[inputPathName];
         } else {
-            return this.routeNotFound;
+            return this._mappedUrl['/notFound'];
         }
     }
         
@@ -35,9 +38,10 @@ class Router {
         
         const idPortinformer = params.fk_portinformer;
         const idCurrentActivity = params.fk_ship_current_activity;
-        const mooringStates = configuration.mooringStates;
+        const notOperationalStates = configuration.notOperationalStates;
 
-        let query = sqlLiveData.moored(idPortinformer, idCurrentActivity, mooringStates); 
+        let query = sqlLiveData.moored(idPortinformer, idCurrentActivity, notOperationalStates);
+         
         QueryManager.runSelect(query, response);
     }
 
@@ -46,10 +50,77 @@ class Router {
 
         const idPortinformer = params.fk_portinformer;
         const idCurrentActivity = params.fk_ship_current_activity;
-        const roadsteadStates = configuration.roadsteadStates;
+        const notOperationalStates = configuration.notOperationalStates;
 
-        let query = sqlLiveData.roadstead(idPortinformer, idCurrentActivity, roadsteadStates);
+        let query = sqlLiveData.roadstead(idPortinformer, idCurrentActivity, notOperationalStates);        
+        QueryManager.runSelect(query, response);
+    }
+
+    arrivalsNow (response, params) {
+        const idPortinformer = params.fk_portinformer;
+
+        let query = sqlLiveData.arrivals(idPortinformer);
+        QueryManager.runSelect(query, response);
+    }
+
+    departuresNow (response, params) {
+        const idPortinformer = params.fk_portinformer;
+
+        let query = sqlLiveData.departures(idPortinformer);
+        QueryManager.runSelect(query, response);
+    }
+
+    arrivalPrevisionsNow (response, params) {
+        const idPortinformer = params.fk_portinformer;
         
+        let query = sqlLiveData.arrivalPrevisions(idPortinformer);
+        QueryManager.runSelect(query, response);
+    }
+
+    activeTripsNow (response, params) {
+        let configuration = new Configuration();
+
+        const idPortinformer = params.fk_portinformer;
+        const notOperationalStates = configuration.notOperationalStates;
+
+        let query = sqlLiveData.activeTrips(idPortinformer, notOperationalStates);
+        QueryManager.runSelect(query, response);
+    }
+
+    shippedGoodsNow (response, params) {
+        const idPortinformer = params.fk_portinformer;
+
+        let query = sqlLiveData.shippedGoods(idPortinformer);
+        QueryManager.runSelect(query, response);
+    }
+      
+    trafficListNow (response, params) {
+        const idPortinformer = params.fk_portinformer;
+        
+        let query = sqlLiveData.trafficList(idPortinformer);
+        QueryManager.runSelect(query, response);
+    }
+
+    tripsArchive (response, params) {
+        const idPortinformer = params.fk_portinformer;
+
+        let query = sqlArchiveData.tripsArchive(idPortinformer);
+        QueryManager.runSelect(query, response);
+    }
+
+    registerArrivals (response, params) {
+        const idPortinformer = params.fk_portinformer;
+        
+        let query = sqlRegisterData.registerArrivals(idPortinformer);
+        QueryManager.runSelect(query, response);
+    }
+
+    registerMoored (response, params) {
+        const idPortinformer = params.fk_portinformer;
+        let configuration = new Configuration();
+        let mooringStates = configuration.mooringStates;
+
+        let query = sqlRegisterData.registerMoored(idPortinformer, mooringStates);
         QueryManager.runSelect(query, response);
     }
 
@@ -58,8 +129,10 @@ class Router {
         response.end();
     }
 
-    routeNotFound () {
-        console.log('error: not found!');
+    routeNotFound (response, params) {
+        console.log('Error: Resource not found!');
+        response.statusCode = 404;
+        response.end();
     }
 }
 
