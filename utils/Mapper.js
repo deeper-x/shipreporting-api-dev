@@ -71,6 +71,10 @@ class Mapper {
                 'methodToCall': routerObject.registerRoadstead,
                 'params': ['fk_portinformer']
             },
+            '/registerDepartures': {
+                'methodToCall': routerObject.registerDepartures,
+                'params': ['fk_portinformer']
+            },
             '/favicon.ico': {
                 'methodToCall': routerObject.favicon
             }

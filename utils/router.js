@@ -129,7 +129,14 @@ class Router {
         let configuration = new Configuration();
         let roadsteadStates = configuration.roadsteadStates;
 
-        let query = sqlRegisterData.registerMoored(idPortinformer, roadsteadStates);
+        let query = sqlRegisterData.registerRoadstead(idPortinformer, roadsteadStates);
+        QueryManager.runSelect(query, response);
+    }
+
+    registerDepartures (response, params) {
+        const idPortinformer = params.fk_portinformer;
+
+        let query = sqlRegisterData.registerDepartures(idPortinformer);
         QueryManager.runSelect(query, response);
     }
 
