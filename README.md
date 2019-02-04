@@ -52,61 +52,61 @@ __List of available calls:__
 
 __LIVE DATA__
 
-__Active trips__:
+-__Active trips__:
 ```
 http://<REMOTE_IP>:3000/activeTripsNow?id_portinformer=<id_portinformer>
 ```
 
-__Roadstead now__:
+-__Roadstead now__:
 ```
 http://<REMOTE_IP>:3000/roadsteadNow?id_portinformer=<id_portinformer>&id_activity=2
 ```
 
-__Moored now__:
+-__Moored now__:
 ```
 http://<REMOTE_IP>:3000/mooredNow?id_portinformer=<id_portinformer>&id_activity=5
 ```
 
-__Arrivals now__:
+-__Arrivals now__:
 ```
 http://<REMOTE_IP>:3000/arrivalsNow?id_portinformer=<id_portinformer>
 ```
 
-__Departures now__:
+-__Departures now__:
 ```
 http://<REMOTE_IP>:3000/departuresNow?id_portinformer=<id_portinformer>
 ```
 
-__Arrival previsions__:
+-__Arrival previsions__:
 ```
 http://<REMOTE_IP>:3000/arrivalPrevisionsNow?id_portinformer=<id_portinformer>
 ```
 
-__Goods: commercial operations__:
+-__Goods: commercial operations__:
 ```
 http://<REMOTE_IP>:3000/shippedGoodsNow?id_portinformer=<id_portinformer>
 ```
 
-__RO/RO + RO/PAX: commercial operations__:
+-__RO/RO + RO/PAX: commercial operations__:
 ```
 http://<REMOTE_IP>:3000/trafficListNow?id_portinformer=<id_portinformer>
 ```
 
 __ARCHIVE DATA__
 
-__Trips archive [global recap]:__
+-__Trips archive [global recap]:__
 ```
 http://<REMOTE_IP>:3000/tripsArchive?id_portinformer=<ID_PORTINFORMER>
 ```
 
 __DAILY REGISTER:__
 
-__Arrivals:__
+-__Arrivals:__
 ```
 http://<REMOTE_IP>:3000/registerArrivals?id_portinformer=<ID_PORTINFORMER>
 ```
 
-__Moored:__
+-__Moored:__
 ```
 http://<REMOTE_IP>:3000/registerMoored?id_portinformer=<ID_PORTINFORMER>
 ```
