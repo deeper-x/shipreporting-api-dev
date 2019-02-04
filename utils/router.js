@@ -146,7 +146,13 @@ class Router {
         let shiftingStates = configuration.shiftingStates;
 
         let query = sqlRegisterData.registerShiftings(idPortinformer, shiftingStates);
-        console.log(query);
+        QueryManager.runSelect(query, response);
+    }
+
+    registerPlannedArrivals (response, params) {
+        const idPortinformer = params.fk_portinformer;
+
+        let query = sqlRegisterData.registerPlannedArrivals(idPortinformer);
         QueryManager.runSelect(query, response);
     }
 
