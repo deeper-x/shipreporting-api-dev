@@ -83,6 +83,10 @@ class Mapper {
                 'methodToCall': routerObject.registerPlannedArrivals,
                 'params': ['fk_portinformer']
             },
+            '/registerShippedGoods': {
+                'methodToCall': routerObject.registerShippedGoods,
+                'params': ['fk_portinformer']
+            },
             '/favicon.ico': {
                 'methodToCall': routerObject.favicon
             }
