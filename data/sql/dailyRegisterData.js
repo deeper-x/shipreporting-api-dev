@@ -108,12 +108,28 @@ let registerShiftings = function (idPortinformer, shiftingStates) {
             ORDER BY ts_main_event_field_val DESC LIMIT 1`;
 };
 
+let registerPlannedArrivals = function (idPortinformer) {
+    return `SELECT ts_arrival_prevision, imo, ship_description, type_acronym,
+            iso3 
+            FROM planned_arrivals
+            INNER JOIN ships
+            ON planned_arrivals.fk_ship = id_ship
+            INNER JOIN ship_types
+            ON id_ship_type = fk_ship_type
+            INNER JOIN countries
+            ON ships.fk_country_flag = id_country
+            WHERE planned_arrivals.fk_portinformer = ${idPortinformer}
+            AND ts_arrival_prevision BETWEEN (select current_date - 1||' (SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer})') AND (select current_date||' (SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer})')`;
+};
+
+
 let dailyRegisterData = {
     registerArrivals: registerArrivals,
     registerMoored: registerMoored,
     registerRoadstead: registerRoadstead,
     registerDepartures: registerDepartures,
     registerShiftings: registerShiftings,
+    registerPlannedArrivals: registerPlannedArrivals,
 };
 
 module.exports = dailyRegisterData;
