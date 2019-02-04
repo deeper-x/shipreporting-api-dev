@@ -70,7 +70,6 @@ http://<REMOTE_IP>:3000/registerRoadstead?id_portinformer=<ID_PORTINFORMER>
 
 - __Departures:__
 ```
-#TODO
 http://<REMOTE_IP>:3000/registerDepartures?id_portinformer=<ID_PORTINFORMER>
 ```
 
