@@ -1,53 +1,5 @@
 # Shipreporting API
 
-__Deploy, start & stop service [on production environment] :__
-
-```bash
-$ cat /lib/systemd/system/shipreporting.service 
-[Unit]
-Description=Shipreporting service middleware
-Documentation=https://gitlab.com/deeper-x/shipreporting-api
-After=network.target
-
-[Service]
-Environment=NODE_PORT=3000
-Type=simple
-User=<YOUR_USER>
-WorkingDirectory=/home/<YOUR_USER>/shipreporting-api
-ExecStart=/usr/bin/npm start
-Restart=on-failure
-
-[Install]
-WantedBy=multi-user.target
-```
-Create database and set configuration data:
-```bash
-$ vim settings/db_auth.js 
-```
-
-Then:
-```bash
-$ sudo systemctl start shipreporting.service
-$ sudo systemctl stop shipreporting.service
-```
-
-__Local deploy [on dev environment]:__
-```bash
-
-$ npm install
-[...omissis]
-$ npm start
-
-> shipreporting-api@1.0.0 start /home/<YOUR_USER>/NodeProjects/shipreporting-api
-> ./node_modules/nodemon/bin/nodemon.js index.js
-
-[nodemon] 1.18.9
-[nodemon] to restart at any time, enter `rs`
-[nodemon] watching: *.*
-[nodemon] starting `node index.js`
-running on http://0.0.0.0:3000...
-```
-
 __List of available calls:__
 
 ## LIVE DATA SERVICES:
@@ -111,37 +63,87 @@ http://<REMOTE_IP>:3000/registerArrivals?id_portinformer=<ID_PORTINFORMER>
 http://<REMOTE_IP>:3000/registerMoored?id_portinformer=<ID_PORTINFORMER>
 ```
 
-__Roadstead:__
+- __Roadstead:__
 ```
 http://<REMOTE_IP>:3000/registerRoadstead?id_portinformer=<ID_PORTINFORMER>
 ```
 
-__Departures:__
+- __Departures:__
 ```
 #TODO
 http://<REMOTE_IP>:3000/registerDepartures?id_portinformer=<ID_PORTINFORMER>
 ```
 
-__Shiftings:__
+- __Shiftings:__
 ```
 #TODO
 http://<REMOTE_IP>:3000/registerShiftings?id_portinformer=<ID_PORTINFORMER>
 ```
 
-__Arrival previsions:__
+- __Arrival previsions:__
 ```
 #TODO
 http://<REMOTE_IP>:3000/registerArrPrevisions?id_portinformer=<ID_PORTINFORMER>
 ```
 
-__Shipped goods:__
+- __Shipped goods:__
 ```
 #TODO
 http://<REMOTE_IP>:3000/registerShippedGoods?id_portinformer=<ID_PORTINFORMER>
 ```
 
-__Traffic list:__
+- __Traffic list:__
 ```
 #TODO
 http://<REMOTE_IP>:3000/registerTrafficList?id_portinformer=<ID_PORTINFORMER>
 ```
+
+
+__Deploy, start & stop service [on production environment] :__
+
+```bash
+$ cat /lib/systemd/system/shipreporting.service 
+[Unit]
+Description=Shipreporting service middleware
+Documentation=https://gitlab.com/deeper-x/shipreporting-api
+After=network.target
+
+[Service]
+Environment=NODE_PORT=3000
+Type=simple
+User=<YOUR_USER>
+WorkingDirectory=/home/<YOUR_USER>/shipreporting-api
+ExecStart=/usr/bin/npm start
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+```
+Create database and set configuration data:
+```bash
+$ vim settings/db_auth.js 
+```
+
+Then:
+```bash
+$ sudo systemctl start shipreporting.service
+$ sudo systemctl stop shipreporting.service
+```
+
+__Local deploy [on dev environment]:__
+```bash
+
+$ npm install
+[...omissis]
+$ npm start
+
+> shipreporting-api@1.0.0 start /home/<YOUR_USER>/NodeProjects/shipreporting-api
+> ./node_modules/nodemon/bin/nodemon.js index.js
+
+[nodemon] 1.18.9
+[nodemon] to restart at any time, enter `rs`
+[nodemon] watching: *.*
+[nodemon] starting `node index.js`
+running on http://0.0.0.0:3000...
+```
+
