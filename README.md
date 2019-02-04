@@ -85,7 +85,6 @@ http://<REMOTE_IP>:3000/registerArrPrevisions?id_portinformer=<ID_PORTINFORMER>
 
 - __Shipped goods:__
 ```
-#TODO
 http://<REMOTE_IP>:3000/registerShippedGoods?id_portinformer=<ID_PORTINFORMER>
 ```
 
