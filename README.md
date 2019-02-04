@@ -96,7 +96,7 @@ http://<REMOTE_IP>:3000/registerTrafficList?id_portinformer=<ID_PORTINFORMER>
 ```
 
 
-__Deploy, start & stop service [on production environment] :__
+# __Deploy, start & stop service:__
 
 ```bash
 $ cat /lib/systemd/system/shipreporting.service 
