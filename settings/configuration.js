@@ -5,6 +5,7 @@ class Configuration {
         this._mooringStates = '(17, 18, 19, 20, 21, 22)';
         this._roadsteadStates = '(16, 19, 25)';
         this._notOperationalStates = '(10, 11, 12)';
+        this._shiftingStates = '(18, 19, 20, 21, 22)';
     }
     
     get path () {
@@ -23,6 +24,10 @@ class Configuration {
         return this._mooringStates;
     }
 
+    get shiftingStates () {
+        return this._shiftingStates;
+    }
+    
     get roadsteadStates () {
         return this._roadsteadStates;
     }

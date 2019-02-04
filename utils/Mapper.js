@@ -75,6 +75,10 @@ class Mapper {
                 'methodToCall': routerObject.registerDepartures,
                 'params': ['fk_portinformer']
             },
+            '/registerShiftings': {
+                'methodToCall': routerObject.registerShiftings,
+                'params': ['fk_portinformer']
+            },
             '/favicon.ico': {
                 'methodToCall': routerObject.favicon
             }

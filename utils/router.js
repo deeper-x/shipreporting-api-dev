@@ -140,6 +140,16 @@ class Router {
         QueryManager.runSelect(query, response);
     }
 
+    registerShiftings (response, params) {
+        const idPortinformer = params.fk_portinformer;
+        let configuration = new Configuration();
+        let shiftingStates = configuration.shiftingStates;
+
+        let query = sqlRegisterData.registerShiftings(idPortinformer, shiftingStates);
+        console.log(query);
+        QueryManager.runSelect(query, response);
+    }
+
     favicon (response) {
         response.statusCode = 200;
         response.end();
