@@ -156,6 +156,13 @@ class Router {
         QueryManager.runSelect(query, response);
     }
 
+    registerShippedGoods (response, params) {
+        const idPortinformer = params.fk_portinformer;
+
+        let query = sqlRegisterData.registerShippedGoods(idPortinformer);
+        QueryManager.runSelect(query, response);
+    }
+
     favicon (response) {
         response.statusCode = 200;
         response.end();

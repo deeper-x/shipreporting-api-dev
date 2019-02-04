@@ -122,6 +122,30 @@ let registerPlannedArrivals = function (idPortinformer) {
             AND ts_arrival_prevision BETWEEN (select current_date - 1||' (SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer})') AND (select current_date||' (SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer})')`;
 };
 
+let registerShippedGoods = function (idPortinformer) {
+    return `SELECT quantity, unit, goods_mvmnt_type, goods_categories.description, imo, ship_description, type_acronym,
+            iso3, quays.description, berths.description 
+            FROM control_unit_data 
+            INNER JOIN data_avvistamento_nave
+            ON id_control_unit_data = data_avvistamento_nave.fk_control_unit_data
+            INNER JOIN ships
+            ON control_unit_data.fk_ship = id_ship
+            INNER JOIN ship_types
+            ON id_ship_type = fk_ship_type
+            INNER JOIN countries
+            ON ships.fk_country_flag = id_country
+            INNER JOIN shipped_goods
+            ON id_control_unit_data = shipped_goods.fk_control_unit_data
+            INNER JOIN goods_categories
+            ON fk_goods_category = id_goods_category
+            INNER JOIN quays
+            ON fk_operation_quay = id_quay
+            INNER JOIN berths
+            ON fk_operation_berth = id_berth
+            WHERE control_unit_data.fk_portinformer = ${idPortinformer}
+            AND ts_avvistamento BETWEEN (select current_date - 1||' (SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer})') AND (select current_date||' (SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer})')`;
+};
+
 
 let dailyRegisterData = {
     registerArrivals: registerArrivals,
@@ -130,6 +154,7 @@ let dailyRegisterData = {
     registerDepartures: registerDepartures,
     registerShiftings: registerShiftings,
     registerPlannedArrivals: registerPlannedArrivals,
+    registerShippedGoods: registerShippedGoods,
 };
 
 module.exports = dailyRegisterData;
