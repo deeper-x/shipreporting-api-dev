@@ -124,6 +124,15 @@ class Router {
         QueryManager.runSelect(query, response);
     }
 
+    registerRoadstead (response, params) {
+        const idPortinformer = params.fk_portinformer;
+        let configuration = new Configuration();
+        let roadsteadStates = configuration.roadsteadStates;
+
+        let query = sqlRegisterData.registerMoored(idPortinformer, roadsteadStates);
+        QueryManager.runSelect(query, response);
+    }
+
     favicon (response) {
         response.statusCode = 200;
         response.end();
