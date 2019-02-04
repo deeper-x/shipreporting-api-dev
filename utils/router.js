@@ -163,6 +163,13 @@ class Router {
         QueryManager.runSelect(query, response);
     }
 
+    registerTrafficList (response, params) {
+        const idPortinformer = params.fk_portinformer;
+
+        let query = sqlRegisterData.registerTrafficList(idPortinformer);
+        QueryManager.runSelect(query, response);
+    }
+
     favicon (response) {
         response.statusCode = 200;
         response.end();
