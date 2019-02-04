@@ -108,7 +108,6 @@ http://<REMOTE_IP>:3000/registerArrivals?id_portinformer=<ID_PORTINFORMER>
 
 __Moored:__
 ```
-#TODO
 http://<REMOTE_IP>:3000/registerMoored?id_portinformer=<ID_PORTINFORMER>
 ```
 __Roadstead:__
