@@ -75,13 +75,11 @@ http://<REMOTE_IP>:3000/registerDepartures?id_portinformer=<ID_PORTINFORMER>
 
 - __Shiftings:__
 ```
-#TODO
 http://<REMOTE_IP>:3000/registerShiftings?id_portinformer=<ID_PORTINFORMER>
 ```
 
 - __Arrival previsions:__
 ```
-#TODO
 http://<REMOTE_IP>:3000/registerArrPrevisions?id_portinformer=<ID_PORTINFORMER>
 ```
 
