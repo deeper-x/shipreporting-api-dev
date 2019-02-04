@@ -110,16 +110,10 @@ http://<REMOTE_IP>:3000/registerArrivals?id_portinformer=<ID_PORTINFORMER>
 ```
 http://<REMOTE_IP>:3000/registerMoored?id_portinformer=<ID_PORTINFORMER>
 ```
+
 __Roadstead:__
 ```
-#TODO
 http://<REMOTE_IP>:3000/registerRoadstead?id_portinformer=<ID_PORTINFORMER>
-```
-
-__Traffic list:__
-```
-#TODO
-http://<REMOTE_IP>:3000/registerTrafficList?id_portinformer=<ID_PORTINFORMER>
 ```
 
 __Departures:__
@@ -146,3 +140,8 @@ __Shipped goods:__
 http://<REMOTE_IP>:3000/registerShippedGoods?id_portinformer=<ID_PORTINFORMER>
 ```
 
+__Traffic list:__
+```
+#TODO
+http://<REMOTE_IP>:3000/registerTrafficList?id_portinformer=<ID_PORTINFORMER>
+```
