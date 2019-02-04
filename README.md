@@ -50,6 +50,8 @@ running on http://0.0.0.0:3000...
 
 __List of available calls:__
 
+__LIVE DATA__
+
 __Active trips__:
 ```
 http://<REMOTE_IP>:3000/activeTripsNow?id_portinformer=<id_portinformer>
@@ -89,12 +91,59 @@ __RO/RO + RO/PAX: commercial operations__:
 ```
 http://<REMOTE_IP>:3000/trafficListNow?id_portinformer=<id_portinformer>
 ```
+
+__ARCHIVE DATA__
+
 __Trips archive [global recap]:__
 ```
 http://<REMOTE_IP>:3000/tripsArchive?id_portinformer=<ID_PORTINFORMER>
 ```
 
-__Daily register:__
+__DAILY REGISTER:__
+
+__Arrivals:__
 ```
 http://<REMOTE_IP>:3000/registerArrivals?id_portinformer=<ID_PORTINFORMER>
 ```
+
+__Moored:__
+```
+#TODO
+http://<REMOTE_IP>:3000/registerMoored?id_portinformer=<ID_PORTINFORMER>
+```
+__Roadstead:__
+```
+#TODO
+http://<REMOTE_IP>:3000/registerRoadstead?id_portinformer=<ID_PORTINFORMER>
+```
+
+__Traffic list:__
+```
+#TODO
+http://<REMOTE_IP>:3000/registerTrafficList?id_portinformer=<ID_PORTINFORMER>
+```
+
+__Departures:__
+```
+#TODO
+http://<REMOTE_IP>:3000/registerDepartures?id_portinformer=<ID_PORTINFORMER>
+```
+
+__Shiftings:__
+```
+#TODO
+http://<REMOTE_IP>:3000/registerShiftings?id_portinformer=<ID_PORTINFORMER>
+```
+
+__Arrival previsions:__
+```
+#TODO
+http://<REMOTE_IP>:3000/registerArrPrevisions?id_portinformer=<ID_PORTINFORMER>
+```
+
+__Shipped goods:__
+```
+#TODO
+http://<REMOTE_IP>:3000/registerShippedGoods?id_portinformer=<ID_PORTINFORMER>
+```
+
