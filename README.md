@@ -50,7 +50,7 @@ running on http://0.0.0.0:3000...
 
 __List of available calls:__
 
-__LIVE DATA__
+## LIVE DATA SERVICES:
 
 -__Active trips__:
 ```
@@ -92,14 +92,14 @@ http://<REMOTE_IP>:3000/shippedGoodsNow?id_portinformer=<id_portinformer>
 http://<REMOTE_IP>:3000/trafficListNow?id_portinformer=<id_portinformer>
 ```
 
-__ARCHIVE DATA__
+## ARCHIVE DATA SERVICES:
 
 -__Trips archive [global recap]:__
 ```
 http://<REMOTE_IP>:3000/tripsArchive?id_portinformer=<ID_PORTINFORMER>
 ```
 
-__DAILY REGISTER:__
+## DAILY REGISTER SERVICES:
 
 -__Arrivals:__
 ```
