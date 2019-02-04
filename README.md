@@ -90,7 +90,6 @@ http://<REMOTE_IP>:3000/registerShippedGoods?id_portinformer=<ID_PORTINFORMER>
 
 - __Traffic list:__
 ```
-#TODO
 http://<REMOTE_IP>:3000/registerTrafficList?id_portinformer=<ID_PORTINFORMER>
 ```
 
