@@ -115,6 +115,15 @@ class Router {
         QueryManager.runSelect(query, response);
     }
 
+    registerMoored (response, params) {
+        const idPortinformer = params.fk_portinformer;
+        let configuration = new Configuration();
+        let mooringStates = configuration.mooringStates;
+
+        let query = sqlRegisterData.registerMoored(idPortinformer, mooringStates);
+        QueryManager.runSelect(query, response);
+    }
+
     favicon (response) {
         response.statusCode = 200;
         response.end();
