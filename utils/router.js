@@ -169,6 +169,7 @@ class Router {
         const idPortinformer = params.fk_portinformer;
 
         let query = sqlRegisterData.registerTrafficList(idPortinformer);
+        console.log(query);
         QueryManager.runSelect(query, response);
     }
 

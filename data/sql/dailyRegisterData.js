@@ -223,7 +223,7 @@ let registerTrafficList = function (idPortinformer) {
             INNER JOIN traffic_list
             ON traffic_list.fk_control_unit_data = id_control_unit_data
             WHERE control_unit_data.fk_portinformer = ${idPortinformer}
-            AND ts_avvistamento BETWEEN (select current_date - 1||' (SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer})') AND (select current_date||' (SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer})')`;
+            AND ts_avvistamento BETWEEN (select current_date - 1||' '||(SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer})) AND (select current_date||' '||(SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer}))`;
 };
 
 
