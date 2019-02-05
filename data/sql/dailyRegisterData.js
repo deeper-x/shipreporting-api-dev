@@ -26,8 +26,8 @@ let registerArrivals = function (idPortinformer) {
 };
 
 let registerMoored = function (idPortinformer, mooringStates) {
-    return `SELECT ts_main_event_field_val, imo, ship_description, type_acronym,
-            iso3, gross_tonnage
+    return `SELECT ts_main_event_field_val, imo, ship_description AS ship, type_acronym AS ship_type,
+            iso3 AS country, gross_tonnage AS GT, agencies.description AS agency
             FROM control_unit_data 
             INNER JOIN trips_logs
             ON id_control_unit_data = trips_logs.fk_control_unit_data
@@ -37,6 +37,8 @@ let registerMoored = function (idPortinformer, mooringStates) {
             ON id_ship_type = fk_ship_type
             INNER JOIN countries
             ON ships.fk_country_flag = id_country
+            INNER JOIN agencies
+            ON id_agency = trips_logs.fk_agency
             WHERE control_unit_data.fk_portinformer = ${idPortinformer}
             AND fk_state IN ${mooringStates}
             AND ts_main_event_field_val 
