@@ -131,7 +131,7 @@ let registerShiftings = function (idPortinformer, shiftingStates) {
                 SELECT id_berth, description
                 FROM berths
             ) AS start_berth
-            ON berths.id_berth = maneuverings.fk_start_berth
+            ON start_berth.id_berth = maneuverings.fk_start_berth
             WHERE control_unit_data.fk_portinformer = ${idPortinformer}
             AND trips_logs.fk_state IN ${shiftingStates}
             AND ts_main_event_field_val 
