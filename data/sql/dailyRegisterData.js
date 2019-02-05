@@ -128,7 +128,7 @@ let registerShiftings = function (idPortinformer, shiftingStates) {
             INNER JOIN berths
             ON berths.id_berth = maneuverings.fk_start_berth
             WHERE control_unit_data.fk_portinformer = ${idPortinformer}
-            AND fk_state IN ${shiftingStates}
+            AND trips_logs.fk_state IN ${shiftingStates}
             AND ts_main_event_field_val 
             BETWEEN 
             (select current_date - 1||' 
