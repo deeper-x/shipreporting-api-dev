@@ -127,10 +127,6 @@ let registerShiftings = function (idPortinformer, shiftingStates) {
             ON quays.id_quay = maneuverings.fk_start_quay
             INNER JOIN berths
             ON berths.id_berth = maneuverings.fk_start_berth
-            INNER JOIN quays
-            ON quays.id_quay = maneuverings.fk_stop_quay
-            INNER JOIN berths
-            ON berths.id_berth = maneuverings.fk_stop_berth
             WHERE control_unit_data.fk_portinformer = ${idPortinformer}
             AND trips_logs.fk_state IN ${shiftingStates}
             AND ts_main_event_field_val 
