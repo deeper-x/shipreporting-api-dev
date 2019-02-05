@@ -1,7 +1,7 @@
 let registerArrivals = function (idPortinformer) {
     return `SELECT ts_avvistamento, imo, ship_description, type_acronym,
     iso3, gross_tonnage, goods_categories.description AS goods_group, groups_categories.description AS goods_group, 
-    macro_categories.description AS macro_category, agencies.description 
+    macro_categories.description AS macro_category, agencies.description AS agency 
     FROM control_unit_data 
     INNER JOIN data_avvistamento_nave
     ON id_control_unit_data = data_avvistamento_nave.fk_control_unit_data
