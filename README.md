@@ -88,7 +88,7 @@ http://<REMOTE_IP>:3000/registerArrPrevisions?id_portinformer=<ID_PORTINFORMER>
 http://<REMOTE_IP>:3000/registerShippedGoods?id_portinformer=<ID_PORTINFORMER>
 ```
 
-- __Traffic list:__
+- __RO/RO + RO/PAX:__
 ```
 http://<REMOTE_IP>:3000/registerTrafficList?id_portinformer=<ID_PORTINFORMER>
 ```
