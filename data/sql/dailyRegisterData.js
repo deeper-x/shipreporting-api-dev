@@ -23,7 +23,7 @@ let registerArrivals = function (idPortinformer) {
     INNER JOIN agencies
     ON id_agency = data_avvistamento_nave.fk_agency
     WHERE control_unit_data.fk_portinformer = ${idPortinformer}
-    AND ts_avvistamento BETWEEN (select current_date - 1||' (SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer})') AND (select current_date||' (SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer})')`;
+    AND ts_avvistamento BETWEEN (select current_date - 1||' '||(SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer})) AND (select current_date||' '||(SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer}))`;
 };
 
 let registerMoored = function (idPortinformer, mooringStates) {
@@ -104,7 +104,7 @@ let registerDepartures = function (idPortinformer, idDeparture) {
             ON berths.id_berth = maneuverings.fk_start_berth
             WHERE control_unit_data.fk_portinformer = ${idPortinformer}
             AND trips_logs.fk_state = ${idDeparture}
-            AND ts_out_of_sight BETWEEN (select current_date - 1||' (SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer})') AND (select current_date||' (SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer})')`;
+            AND ts_out_of_sight BETWEEN (select current_date - 1||' '||(SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer})) AND (select current_date||' '||(SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer}))`;
 };
 
 let registerShiftings = function (idPortinformer, shiftingStates) {
@@ -180,7 +180,7 @@ let registerPlannedArrivals = function (idPortinformer) {
             INNER JOIN countries
             ON ships.fk_country_flag = id_country
             WHERE planned_arrivals.fk_portinformer = ${idPortinformer}
-            AND ts_arrival_prevision BETWEEN (select current_date - 1||' (SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer})') AND (select current_date||' (SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer})')`;
+            AND ts_arrival_prevision BETWEEN (select current_date - 1||' '||(SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer})) AND (select current_date||' '||(SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer}))`;
 };
 
 let registerShippedGoods = function (idPortinformer) {
@@ -204,7 +204,7 @@ let registerShippedGoods = function (idPortinformer) {
             INNER JOIN berths
             ON fk_operation_berth = id_berth
             WHERE control_unit_data.fk_portinformer = ${idPortinformer}
-            AND ts_avvistamento BETWEEN (select current_date - 1||' (SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer})') AND (select current_date||' (SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer})')`;
+            AND ts_avvistamento BETWEEN (select current_date - 1||' '||(SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer})) AND (select current_date||' '||(SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer}))`;
 };
 
 let registerTrafficList = function (idPortinformer) {
