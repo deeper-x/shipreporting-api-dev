@@ -217,7 +217,8 @@ let registerShippedGoods = function (idPortinformer) {
 let registerTrafficList = function (idPortinformer) {
     return `SELECT imo, ship_description AS ship_name, type_acronym,
             iso3, num_container, num_passengers, num_camion, num_furgoni, num_rimorchi, num_auto,
-            num_moto, num_camper, num_camper, num_bus, num_minibus, traffic_list_mvnt_type AS operation 
+            num_moto, num_camper, num_camper, num_bus, num_minibus, traffic_list_mvnt_type AS operation,
+            tons, traffic_list_categories.description as traffic_list_category 
             FROM control_unit_data 
             INNER JOIN data_avvistamento_nave
             ON id_control_unit_data = data_avvistamento_nave.fk_control_unit_data
@@ -229,6 +230,8 @@ let registerTrafficList = function (idPortinformer) {
             ON ships.fk_country_flag = id_country
             INNER JOIN traffic_list
             ON traffic_list.fk_control_unit_data = id_control_unit_data
+            INNER JOIN traffic_list_categories
+            ON traffic_list.fk_traffic_list_category = traffic_list.id_traffic_list
             WHERE control_unit_data.fk_portinformer = ${idPortinformer}
             AND ts_avvistamento BETWEEN (select current_date - 1||' '||(SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer})) AND (select current_date||' '||(SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer}))`;
 };
