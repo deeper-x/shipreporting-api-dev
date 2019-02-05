@@ -1,7 +1,7 @@
 let registerArrivals = function (idPortinformer) {
     return `SELECT ts_avvistamento, imo, ship_description, type_acronym,
     iso3, gross_tonnage, goods_categories.description AS goods_group, groups_categories.description AS goods_group, 
-    macro_categories.description AS macro_category 
+    macro_categories.description AS macro_category, agencies.description 
     FROM control_unit_data 
     INNER JOIN data_avvistamento_nave
     ON id_control_unit_data = data_avvistamento_nave.fk_control_unit_data
@@ -19,13 +19,15 @@ let registerArrivals = function (idPortinformer) {
     ON id_group = goods_categories.fk_group_category
     INNER JOIN macro_categories
     ON id_macro_category = groups_categories.fk_macro_category
+    INNER JOIN agencies
+    ON id_agency = data_avvistamento_nave.fk_agency
     WHERE control_unit_data.fk_portinformer = ${idPortinformer}
     AND ts_avvistamento BETWEEN (select current_date - 1||' (SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer})') AND (select current_date||' (SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer})')`;
 };
 
 let registerMoored = function (idPortinformer, mooringStates) {
     return `SELECT ts_main_event_field_val, imo, ship_description, type_acronym,
-            iso3 
+            iso3, gross_tonnage
             FROM control_unit_data 
             INNER JOIN trips_logs
             ON id_control_unit_data = trips_logs.fk_control_unit_data
