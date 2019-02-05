@@ -80,7 +80,7 @@ http://<REMOTE_IP>:3000/registerShiftings?id_portinformer=<ID_PORTINFORMER>
 
 - __Arrival previsions:__
 ```
-http://<REMOTE_IP>:3000/registerArrPrevisions?id_portinformer=<ID_PORTINFORMER>
+http://<REMOTE_IP>:3000/registerPlannedArrivals?id_portinformer=<ID_PORTINFORMER>
 ```
 
 - __Shipped goods:__
