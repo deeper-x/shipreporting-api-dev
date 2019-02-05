@@ -172,7 +172,7 @@ let registerShiftings = function (idPortinformer, shiftingStates) {
 let registerPlannedArrivals = function (idPortinformer) {
     return `SELECT ts_arrival_prevision AS arrival_prevision, imo, ship_description AS ship_name, 
             type_acronym AS ship_type, iso3 AS country, quays.description AS quay, berths.description AS berth,
-            agencies.description  
+            agencies.description, gross_tonnage  
             FROM planned_arrivals
             INNER JOIN ships
             ON planned_arrivals.fk_ship = id_ship
