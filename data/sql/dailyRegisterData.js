@@ -1,17 +1,26 @@
 let registerArrivals = function (idPortinformer) {
     return `SELECT ts_avvistamento, imo, ship_description, type_acronym,
-            iso3 
-            FROM control_unit_data 
-            INNER JOIN data_avvistamento_nave
-            ON id_control_unit_data = data_avvistamento_nave.fk_control_unit_data
-            INNER JOIN ships
-            ON control_unit_data.fk_ship = id_ship
-            INNER JOIN ship_types
-            ON id_ship_type = fk_ship_type
-            INNER JOIN countries
-            ON ships.fk_country_flag = id_country
-            WHERE control_unit_data.fk_portinformer = ${idPortinformer}
-            AND ts_avvistamento BETWEEN (select current_date - 1||' (SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer})') AND (select current_date||' (SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer})')`;
+    iso3, gross_tonnage, goods_categories.description AS goods_group, groups_categories.description AS goods_group, 
+    macro_categories.description AS macro_category 
+    FROM control_unit_data 
+    INNER JOIN data_avvistamento_nave
+    ON id_control_unit_data = data_avvistamento_nave.fk_control_unit_data
+    INNER JOIN ships
+    ON control_unit_data.fk_ship = id_ship
+    INNER JOIN ship_types
+    ON id_ship_type = fk_ship_type
+    INNER JOIN countries
+    ON ships.fk_country_flag = id_country
+    INNER JOIN shipped_goods
+    ON shipped_goods.fk_control_unit_data = id_control_unit_data
+    INNER JOIN goods_categories
+    ON id_goods_category = shipped_goods.fk_goods_category
+    INNER JOIN groups_categories
+    ON id_group = goods_categories.fk_group_category
+    INNER JOIN macro_categories
+    ON id_macro_category = groups_categories.fk_macro_category
+    WHERE control_unit_data.fk_portinformer = ${idPortinformer}
+    AND ts_avvistamento BETWEEN (select current_date - 1||' (SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer})') AND (select current_date||' (SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer})')`;
 };
 
 let registerMoored = function (idPortinformer, mooringStates) {
