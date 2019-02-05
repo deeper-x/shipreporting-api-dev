@@ -110,7 +110,7 @@ let registerDepartures = function (idPortinformer, idDeparture) {
 let registerShiftings = function (idPortinformer, shiftingStates) {
     return `SELECT ts_main_event_field_val, imo, ship_description AS ship_name, 
             type_acronym AS ship_type, iso3 AS country, start_quay.description AS start_quay,
-            stop_quay.description AS stop_berth     
+            start_berth.description AS start_berth     
             FROM control_unit_data 
             INNER JOIN trips_logs
             ON id_control_unit_data = trips_logs.fk_control_unit_data
