@@ -82,9 +82,9 @@ let registerRoadstead = function (idPortinformer, roadsteadStates) {
             ORDER BY ts_main_event_field_val DESC LIMIT 1`;
 };
 
-let registerDepartures = function (idPortinformer) {
-    return `SELECT ts_out_of_sight, imo, ship_description, type_acronym,
-            iso3 
+let registerDepartures = function (idPortinformer, idDeparture) {
+    return `SELECT ts_out_of_sight, imo, ship_description AS ship_name, type_acronym AS ship_type,
+            iso3 as country, quays.description AS quay, berths.description AS berth
             FROM control_unit_data 
             INNER JOIN data_fuori_dal_porto
             ON id_control_unit_data = data_fuori_dal_porto.fk_control_unit_data
@@ -94,7 +94,16 @@ let registerDepartures = function (idPortinformer) {
             ON id_ship_type = fk_ship_type
             INNER JOIN countries
             ON ships.fk_country_flag = id_country
+            INNER JOIN trips_logs
+            ON id_control_unit_data = trips_logs.fk_control_unit_data
+            INNER JOIN maneuverings
+            ON id_maneuvering = trips_logs.fk_maneuvering
+            INNER JOIN quays
+            ON quays.id_quay = maneuverings.fk_start_quay
+            INNER JOIN berths
+            ON berths.id_berth = maneuverings.fk_start_berth
             WHERE control_unit_data.fk_portinformer = ${idPortinformer}
+            AND trips_logs.fk_state = ${idDeparture}
             AND ts_out_of_sight BETWEEN (select current_date - 1||' (SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer})') AND (select current_date||' (SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer})')`;
 };
 

@@ -135,8 +135,10 @@ class Router {
 
     registerDepartures (response, params) {
         const idPortinformer = params.fk_portinformer;
+        let configuration = new Configuration();
+        let departureState = configuration.departureState;
 
-        let query = sqlRegisterData.registerDepartures(idPortinformer);
+        let query = sqlRegisterData.registerDepartures(idPortinformer, departureState);
         QueryManager.runSelect(query, response);
     }
 
