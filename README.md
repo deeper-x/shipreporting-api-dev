@@ -46,9 +46,13 @@ http://<REMOTE_IP>:3000/trafficListNow?id_portinformer=<id_portinformer>
 
 ## ARCHIVE DATA SERVICES:
 
-- __Trips archive [global recap]:__
+- __Trips archive [global recap, one row per trip]:__
 ```
 http://<REMOTE_IP>:3000/tripsArchive?id_portinformer=<ID_PORTINFORMER>
+```
+- Trips archive [global recap, one row per commercial operation]:
+```
+http://<REMOTE_IP>:3000/tripsArchiveMultiRows?id_portinformer=<ID_PORTINFORMER>
 ```
 
 ## DAILY REGISTER SERVICES:
