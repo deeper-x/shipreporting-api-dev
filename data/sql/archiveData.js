@@ -13,7 +13,7 @@ let tripsArchive = function (idPortinformer) {
             INNER JOIN shipping_details
             ON control_unit_data.fk_shipping_details = id_shipping_details
             INNER JOIN ( 
-                SELECT fk_control_unit_data, string_agg(shipped_goods.goods_mvmnt_type||':'||goods_categories.description||' '||shipped_goods.quantity||''||shipped_goods.unit||' ['||quays.description||'-'||berths.description||']' , '<br />')
+                SELECT fk_control_unit_data, string_agg(goods_categories.description||' '||shipped_goods.quantity||''||shipped_goods.unit||' ['||quays.description||'-'||berths.description||']' , '<br />')
                 AS shipped_goods_details_loaded
                 FROM shipped_goods INNER JOIN goods_categories
                 ON fk_goods_category = id_goods_category
@@ -26,7 +26,7 @@ let tripsArchive = function (idPortinformer) {
             ) AS shipped_goods_data_loaded            
             ON shipped_goods_data_loaded.fk_control_unit_data = id_control_unit_data
             INNER JOIN ( 
-                SELECT fk_control_unit_data, string_agg(shipped_goods.goods_mvmnt_type||':'||goods_categories.description||' '||shipped_goods.quantity||''||shipped_goods.unit||' ['||quays.description||'-'||berths.description||']' , '<br />')
+                SELECT fk_control_unit_data, string_agg(goods_categories.description||' '||shipped_goods.quantity||''||shipped_goods.unit||' ['||quays.description||'-'||berths.description||']' , '<br />')
                 AS shipped_goods_details_unloaded
                 FROM shipped_goods INNER JOIN goods_categories
                 ON fk_goods_category = id_goods_category
@@ -39,7 +39,7 @@ let tripsArchive = function (idPortinformer) {
             ) AS shipped_goods_data_unloaded            
             ON shipped_goods_data_unloaded.fk_control_unit_data = id_control_unit_data
             INNER JOIN ( 
-                SELECT fk_control_unit_data, string_agg(shipped_goods.goods_mvmnt_type||':'||goods_categories.description||' '||shipped_goods.quantity||''||shipped_goods.unit||' ['||quays.description||'-'||berths.description||']' , '<br />')
+                SELECT fk_control_unit_data, string_agg(goods_categories.description||' '||shipped_goods.quantity||''||shipped_goods.unit||' ['||quays.description||'-'||berths.description||']' , '<br />')
                 AS shipped_goods_details_transit
                 FROM shipped_goods INNER JOIN goods_categories
                 ON fk_goods_category = id_goods_category
