@@ -57,7 +57,9 @@ let tripsArchive = function (idPortinformer) {
 
 let tripsArchiveMultiRows = function (idPortinformer) {
     return `SELECT id_control_unit_data, ships.ship_description AS ship_name,
-            goods_mvmnt_type as operation,  
+            goods_mvmnt_type as operation,
+            data_avvistamento_nave.ts_avvistamento AS ts_sighting,
+            data_fuori_dal_porto.ts_out_of_sight AS ts_out_of_sight,  
             goods_categories.description AS shipped_goods, quantity, unit
             FROM shipped_goods
             INNER JOIN control_unit_data
