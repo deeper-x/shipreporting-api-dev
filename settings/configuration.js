@@ -7,6 +7,7 @@ class Configuration {
         this._notOperationalStates = '(10, 11, 12)';
         this._shiftingStates = '(18, 19, 20, 21, 22)';
         this._departureState = '26';
+        this._arrivalPrevisionState = '10';
     }
     
     get path () {
@@ -35,6 +36,10 @@ class Configuration {
 
     get departureState () {
         return this._departureState;
+    }
+
+    get arrivalPrevisionState () {
+        return this._arrivalPrevisionState;
     }
     
     get notOperationalStates () {
