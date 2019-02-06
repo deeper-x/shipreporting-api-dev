@@ -108,6 +108,14 @@ class Router {
         QueryManager.runSelect(query, response);
     }
 
+    tripsArchiveMultiRows (response, params) {
+        const idPortinformer = params.fk_portinformer;
+
+        let query = sqlArchiveData.tripsArchiveMultiRows(idPortinformer);
+        console.log(query);
+        QueryManager.runSelect(query, response);
+    }
+
     registerArrivals (response, params) {
         const idPortinformer = params.fk_portinformer;
         

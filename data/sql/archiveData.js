@@ -55,8 +55,26 @@ let tripsArchive = function (idPortinformer) {
 };
 
 
+let tripsArchiveMultiRows = function (idPortinformer) {
+    return `SELECT id_control_unit_data, ships.ship_description AS ship_name, 
+            goods_categories.description AS shipped_goods, quantity, unit
+            FROM shipped_goods
+            INNER JOIN control_unit_data
+            ON control_unit_data.id_control_unit_data = shipped_goods.fk_control_unit_data
+            INNER JOIN goods_categories
+            ON goods_categories.id_goods_category = shipped_goods.fk_goods_category
+            INNER JOIN ships
+            ON control_unit_data.fk_ship = ships.id_ship
+            INNER JOIN data_avvistamento_nave
+            ON control_unit_data.id_control_unit_data = data_avvistamento_nave.fk_control_unit_data
+            LEFT JOIN data_fuori_dal_porto
+            ON data_fuori_dal_porto.fk_control_unit_data = control_unit_data.id_control_unit_data
+            WHERE control_unit_data.fk_portinformer = ${idPortinformer}`;
+};
+
 let archiveData = {
     tripsArchive: tripsArchive,
+    tripsArchiveMultiRows: tripsArchiveMultiRows,
 };
 
 module.exports = archiveData;
