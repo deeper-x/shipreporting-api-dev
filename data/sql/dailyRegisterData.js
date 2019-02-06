@@ -236,9 +236,6 @@ let registerTrafficList = function (idPortinformer) {
             AND ts_avvistamento BETWEEN (select current_date - 1||' '||(SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer})) AND (select current_date||' '||(SELECT day_start_time FROM portinformers WHERE id_portinformer = ${idPortinformer}))`;
 };
 
-
-
-
 let dailyRegisterData = {
     registerArrivals: registerArrivals,
     registerMoored: registerMoored,
