@@ -55,6 +55,12 @@ class Mapper {
                     'fk_portinformer'
                 ]
             },
+            '/tripsArchiveMultiRows':{
+                'methodToCall': routerObject.tripsArchiveMultiRows,
+                'params': [
+                    'fk_portinformer'
+                ]
+            },
             '/notFound': {
                 'methodToCall': routerObject.routeNotFound,
                 'params': []
