@@ -60,6 +60,10 @@ let tripsArchiveMultiRows = function (idPortinformer, arrivalPrevisionState, dep
             ships.length AS length, ships.width AS width, ships.gross_tonnage AS gross_tonnage,
             arrival_agency.description AS arrival_agency,
             goods_mvmnt_type as operation,
+            maneuv_data_arriv_prev.draft_aft as arr_prev_draft_aft,
+            maneuv_data_arriv_prev.draft_fwd as arr_prev_draft_fwd,
+            maneuv_data_dep.draft_aft as dep_draft_aft,
+            maneuv_data_dep.draft_fwd as dep_draft_fwd,
             data_avvistamento_nave.ts_avvistamento AS ts_sighting,
             data_fuori_dal_porto.ts_out_of_sight AS ts_out_of_sight,  
             goods_categories.description AS shipped_goods, quantity, unit,
@@ -85,6 +89,28 @@ let tripsArchiveMultiRows = function (idPortinformer, arrivalPrevisionState, dep
             ON quays.id_quay = shipped_goods.fk_operation_quay
             INNER JOIN berths
             ON berths.id_berth = shipped_goods.fk_operation_berth
+            INNER JOIN (
+                SELECT id_maneuvering, trips_logs.fk_state as trip_state,
+                trips_logs.fk_control_unit_data as id_trip,
+                draft_aft, draft_fwd
+                FROM trips_logs INNER JOIN maneuverings
+                ON fk_maneuvering = id_maneuvering
+                WHERE trips_logs.fk_portinformer = ${idPortinformer}
+                AND trips_logs.fk_state = ${arrivalPrevisionState}
+                GROUP BY id_maneuvering, trip_state, id_trip, draft_aft, draft_fwd
+            ) AS maneuv_data_arriv_prev
+            ON maneuv_data_arriv_prev.id_trip = id_control_unit_data
+            INNER JOIN (
+                SELECT id_maneuvering, trips_logs.fk_state as trip_state,
+                trips_logs.fk_control_unit_data as id_trip,
+                draft_aft, draft_fwd
+                FROM trips_logs INNER JOIN maneuverings
+                ON fk_maneuvering = id_maneuvering
+                WHERE trips_logs.fk_portinformer = ${idPortinformer}
+                AND trips_logs.fk_state = ${departureState}
+                GROUP BY id_maneuvering, trip_state, id_trip, draft_aft, draft_fwd
+            ) AS maneuv_data_dep
+            ON maneuv_data_dep.id_trip = id_control_unit_data
             WHERE control_unit_data.fk_portinformer = ${idPortinformer}`;
 };
 

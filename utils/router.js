@@ -110,8 +110,11 @@ class Router {
 
     tripsArchiveMultiRows (response, params) {
         const idPortinformer = params.fk_portinformer;
-
-        let query = sqlArchiveData.tripsArchiveMultiRows(idPortinformer);
+        const configuration = new Configuration();
+        const arrivalPrevisionState = configuration.arrivalPrevisionState;
+        const departureState = configuration.departureState;
+        let query = sqlArchiveData.tripsArchiveMultiRows(idPortinformer, arrivalPrevisionState, departureState);
+        console.log(query);
         QueryManager.runSelect(query, response);
     }
 
@@ -176,7 +179,6 @@ class Router {
         const idPortinformer = params.fk_portinformer;
 
         let query = sqlRegisterData.registerTrafficList(idPortinformer);
-        console.log(query);
         QueryManager.runSelect(query, response);
     }
 
