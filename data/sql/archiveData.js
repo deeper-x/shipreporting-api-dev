@@ -58,12 +58,14 @@ let tripsArchive = function (idPortinformer) {
 let tripsArchiveMultiRows = function (idPortinformer, arrivalPrevisionState, departureState) {
     return `SELECT id_control_unit_data, ships.ship_description AS ship_name,
             ships.length AS length, ships.width AS width, ships.gross_tonnage AS gross_tonnage,
-            arrival_agency.description AS arrival_agency,
+            arrival_agency.description AS agency_arrival,
             goods_mvmnt_type as operation,
             maneuv_data_arriv_prev.draft_aft as arr_prev_draft_aft,
             maneuv_data_arriv_prev.draft_fwd as arr_prev_draft_fwd,
             maneuv_data_dep.draft_aft as dep_draft_aft,
             maneuv_data_dep.draft_fwd as dep_draft_fwd,
+            maneuv_data_arriv_prev.agency_arriv_prev,
+            maneuv_data_dep.agency_dep,
             data_avvistamento_nave.ts_avvistamento AS ts_sighting,
             data_fuori_dal_porto.ts_out_of_sight AS ts_out_of_sight,  
             goods_categories.description AS shipped_goods, quantity, unit,
@@ -92,23 +94,27 @@ let tripsArchiveMultiRows = function (idPortinformer, arrivalPrevisionState, dep
             INNER JOIN (
                 SELECT id_maneuvering, trips_logs.fk_state as trip_state,
                 trips_logs.fk_control_unit_data as id_trip,
-                draft_aft, draft_fwd
+                draft_aft, draft_fwd, agencies.description AS agency_arriv_prev
                 FROM trips_logs INNER JOIN maneuverings
                 ON fk_maneuvering = id_maneuvering
+                INNER JOIN agencies
+                ON agencies.id_agency = trips_logs.fk_agency
                 WHERE trips_logs.fk_portinformer = ${idPortinformer}
                 AND trips_logs.fk_state = ${arrivalPrevisionState}
-                GROUP BY id_maneuvering, trip_state, id_trip, draft_aft, draft_fwd
+                GROUP BY id_maneuvering, agencies.description, trip_state, id_trip, draft_aft, draft_fwd
             ) AS maneuv_data_arriv_prev
             ON maneuv_data_arriv_prev.id_trip = id_control_unit_data
             INNER JOIN (
                 SELECT id_maneuvering, trips_logs.fk_state as trip_state,
                 trips_logs.fk_control_unit_data as id_trip,
-                draft_aft, draft_fwd
+                draft_aft, draft_fwd, agencies.description AS agency_dep
                 FROM trips_logs INNER JOIN maneuverings
                 ON fk_maneuvering = id_maneuvering
+                INNER JOIN agencies
+                ON agencies.id_agency = trips_logs.fk_agency
                 WHERE trips_logs.fk_portinformer = ${idPortinformer}
                 AND trips_logs.fk_state = ${departureState}
-                GROUP BY id_maneuvering, trip_state, id_trip, draft_aft, draft_fwd
+                GROUP BY id_maneuvering, agencies.description, trip_state, id_trip, draft_aft, draft_fwd
             ) AS maneuv_data_dep
             ON maneuv_data_dep.id_trip = id_control_unit_data
             WHERE control_unit_data.fk_portinformer = ${idPortinformer}`;
