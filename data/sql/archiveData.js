@@ -66,6 +66,10 @@ let tripsArchiveMultiRows = function (idPortinformer, arrivalPrevisionState, dep
             maneuv_data_dep.draft_fwd as dep_draft_fwd,
             maneuv_data_arriv_prev.agency_arriv_prev,
             maneuv_data_dep.agency_dep,
+            destination_data.port_name AS destination_port,
+            destination_data.port_country AS destination_country,
+            lpc_data.port_name AS last_port_of_call_name,
+            lpc_data.port_country AS last_port_of_call_country,
             data_avvistamento_nave.ts_avvistamento AS ts_sighting,
             data_fuori_dal_porto.ts_out_of_sight AS ts_out_of_sight,  
             goods_categories.description AS shipped_goods, quantity, unit,
@@ -117,6 +121,22 @@ let tripsArchiveMultiRows = function (idPortinformer, arrivalPrevisionState, dep
                 GROUP BY id_maneuvering, agencies.description, trip_state, id_trip, draft_aft, draft_fwd
             ) AS maneuv_data_dep
             ON maneuv_data_dep.id_trip = id_control_unit_data
+            LEFT JOIN (
+                SELECT id_shipping_details, ports.name AS port_name,
+                ports.country as port_country
+                FROM ports 
+                INNER JOIN shipping_details
+                ON shipping_details.fk_port_provenance = id_port
+            ) AS lpc_data
+            ON lpc_data.id_shipping_details = control_unit_data.fk_shipping_details
+            LEFT JOIN (
+                SELECT id_shipping_details, ports.name AS port_name,
+                ports.country as port_country
+                FROM ports 
+                INNER JOIN shipping_details
+                ON shipping_details.fk_port_destination = id_port
+            ) AS destination_data
+            ON destination_data.id_shipping_details = control_unit_data.fk_shipping_details
             WHERE control_unit_data.fk_portinformer = ${idPortinformer}`;
 };
 
