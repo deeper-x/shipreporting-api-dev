@@ -114,7 +114,7 @@ class Router {
         const arrivalPrevisionState = configuration.arrivalPrevisionState;
         const departureState = configuration.departureState;
         let query = sqlArchiveData.tripsArchiveMultiRows(idPortinformer, arrivalPrevisionState, departureState);
-        console.log(query);
+        
         QueryManager.runSelect(query, response);
     }
 
