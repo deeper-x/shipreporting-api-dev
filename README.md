@@ -98,6 +98,7 @@ http://<REMOTE_IP>:3000/registerTrafficList?id_portinformer=<ID_PORTINFORMER>
 ```
 
 ## BUSINESS INTELLIGENCE ##
+- __Shiftings/maneuverings per quay/berth:__
 ```
 http://<REMOTE_IP>:3000/tripsManeuverings?id_portinformer=<ID_PORTINFORMER>
 ```
