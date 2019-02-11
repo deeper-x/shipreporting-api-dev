@@ -58,8 +58,10 @@ let tripsArchive = function (idPortinformer) {
 let tripsArchiveMultiRows = function (idPortinformer, arrivalPrevisionState, departureState) {
     return `SELECT id_control_unit_data, ships.ship_description AS ship_name,
             ships.length AS length, ships.width AS width, ships.gross_tonnage AS gross_tonnage,
-            arrival_agency.description AS agency_arrival,
+            ships.net_tonnage AS net_tonnage,
+            arrival_agency.description AS agency_arrival, countries.iso3 AS ship_flag,
             goods_mvmnt_type as operation,
+            ship_types.type_description AS ship_type, ship_subtypes.description AS ship_subtype,
             maneuv_data_arriv_prev.draft_aft as arr_prev_draft_aft,
             maneuv_data_arriv_prev.draft_fwd as arr_prev_draft_fwd,
             maneuv_data_dep.draft_aft as dep_draft_aft,
@@ -81,6 +83,10 @@ let tripsArchiveMultiRows = function (idPortinformer, arrivalPrevisionState, dep
             ON goods_categories.id_goods_category = shipped_goods.fk_goods_category
             INNER JOIN ships
             ON control_unit_data.fk_ship = ships.id_ship
+            INNER JOIN ship_types
+            ON ships.fk_ship_type = ship_types.id_ship_type
+            INNER JOIN ship_subtypes
+            ON ship_subtypes.fk_ship_type = ship_types.id_ship_type
             INNER JOIN data_avvistamento_nave
             ON control_unit_data.id_control_unit_data = data_avvistamento_nave.fk_control_unit_data
             LEFT JOIN data_fuori_dal_porto
@@ -95,6 +101,8 @@ let tripsArchiveMultiRows = function (idPortinformer, arrivalPrevisionState, dep
             ON quays.id_quay = shipped_goods.fk_operation_quay
             INNER JOIN berths
             ON berths.id_berth = shipped_goods.fk_operation_berth
+            LEFT JOIN countries
+            ON ships.fk_country_flag = id_country 
             INNER JOIN (
                 SELECT id_maneuvering, trips_logs.fk_state as trip_state,
                 trips_logs.fk_control_unit_data as id_trip,
