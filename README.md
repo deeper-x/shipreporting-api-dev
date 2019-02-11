@@ -46,11 +46,11 @@ http://<REMOTE_IP>:3000/trafficListNow?id_portinformer=<id_portinformer>
 
 ## ARCHIVE DATA SERVICES:
 
-- __Trips archive [global recap, one row per trip]:__
+- __Trips archive [global recap, one row per trip]__:
 ```
 http://<REMOTE_IP>:3000/tripsArchive?id_portinformer=<ID_PORTINFORMER>
 ```
-- Trips archive [global recap, one row per commercial operation]:
+- __Trips archive [global recap, one row per commercial operation]__:
 ```
 http://<REMOTE_IP>:3000/tripsArchiveMultiRows?id_portinformer=<ID_PORTINFORMER>
 ```
@@ -95,6 +95,11 @@ http://<REMOTE_IP>:3000/registerShippedGoods?id_portinformer=<ID_PORTINFORMER>
 - __RO/RO + RO/PAX:__
 ```
 http://<REMOTE_IP>:3000/registerTrafficList?id_portinformer=<ID_PORTINFORMER>
+```
+
+## BUSINESS INTELLIGENCE ##
+```
+http://<REMOTE_IP>:3000/tripsManeuverings?id_portinformer=<ID_PORTINFORMER>
 ```
 
 
