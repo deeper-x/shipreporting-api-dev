@@ -97,6 +97,10 @@ class Mapper {
                 'methodToCall': routerObject.registerTrafficList,
                 'params': ['fk_portinformer']
             },
+            '/tripsManeuverings': {
+                'methodToCall': routerObject.tripsManeuverings,
+                'params': ['fk_portinformer']
+            },
             '/favicon.ico': {
                 'methodToCall': routerObject.favicon
             }

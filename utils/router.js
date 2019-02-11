@@ -118,6 +118,14 @@ class Router {
         QueryManager.runSelect(query, response);
     }
 
+    tripsManeuverings (response, params) {
+        const idPortinformer = params.fk_portinformer;
+        const configuration = new Configuration();
+
+        let query = sqlArchiveData.tripsManeuverings(idPortinformer);
+        QueryManager.runSelect(query, response);
+    }
+
     registerArrivals (response, params) {
         const idPortinformer = params.fk_portinformer;
         
