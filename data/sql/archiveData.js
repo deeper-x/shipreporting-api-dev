@@ -151,7 +151,7 @@ let tripsArchiveMultiRows = function (idPortinformer, arrivalPrevisionState, dep
 let tripsManeuverings = function (idPortinformer) {
     return `(SELECT control_unit_data.id_control_unit_data AS id_trip, ships.ship_description AS ship_name, 
                 ts_fine_ormeggio AS ormeggio, ts_avvistamento AS avvistamento, quays.description AS quay, 
-                berths.description AS berth, state_name AS state, goods_categories.description as shipped_goods, coalesce(quantity, '0') AS quantity, unit, goods_mvmnt_type
+                berths.description AS berth, state_name AS state, goods_categories.description as shipped_goods, CASE WHEN quantity = '' THEN '0' ELSE quantity END AS quantity, unit, goods_mvmnt_type
                 FROM data_ormeggio_nave
                 INNER JOIN control_unit_data
                 ON data_ormeggio_nave.fk_control_unit_data = id_control_unit_data
@@ -179,7 +179,7 @@ let tripsManeuverings = function (idPortinformer) {
             UNION 
             (SELECT control_unit_data.id_control_unit_data AS id_trip, ships.ship_description AS ship_name, 
                 ts_fine_ormeggio AS ormeggio, ts_avvistamento AS avvistamento, quays.description AS quay, 
-                berths.description AS berth, state_name AS state, goods_categories.description as shipped_goods, coalesce(quantity, '0') AS quantity, unit, goods_mvmnt_type
+                berths.description AS berth, state_name AS state, goods_categories.description as shipped_goods, CASE WHEN quantity = '' THEN '0' ELSE quantity END AS quantity, unit, goods_mvmnt_type
                 FROM data_da_ormeggio_a_ormeggio
                 INNER JOIN control_unit_data
                 ON data_da_ormeggio_a_ormeggio.fk_control_unit_data = id_control_unit_data
@@ -207,7 +207,7 @@ let tripsManeuverings = function (idPortinformer) {
             UNION
             (SELECT control_unit_data.id_control_unit_data AS id_trip, ships.ship_description AS ship_name, 
                 ts_fine_ormeggio AS ormeggio, ts_avvistamento AS avvistamento, quays.description AS quay, 
-                berths.description AS berth, state_name AS state, goods_categories.description as shipped_goods, coalesce(quantity, '0') AS quantity, unit, goods_mvmnt_type
+                berths.description AS berth, state_name AS state, goods_categories.description as shipped_goods, CASE WHEN quantity = '' THEN '0' ELSE quantity END AS quantity, unit, goods_mvmnt_type
                 FROM data_da_rada_a_ormeggio
                 INNER JOIN control_unit_data
                 ON data_da_rada_a_ormeggio.fk_control_unit_data = id_control_unit_data
