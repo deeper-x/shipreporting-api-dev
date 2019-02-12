@@ -149,26 +149,37 @@ let tripsArchiveMultiRows = function (idPortinformer, arrivalPrevisionState, dep
 };
 
 let tripsManeuverings = function (idPortinformer) {
-    return `(SELECT control_unit_data.id_control_unit_data AS id_trip, ships.ship_description AS ship_name, ts_fine_ormeggio, quays.description AS quay, 
-            berths.description AS berth
-            FROM data_ormeggio_nave
-            INNER JOIN control_unit_data
-            ON data_ormeggio_nave.fk_control_unit_data = id_control_unit_data
-            INNER JOIN trips_logs
-            ON data_table_id::INTEGER = id_data_ormeggio_nave
-            INNER JOIN maneuverings
-            ON trips_logs.fk_maneuvering = id_maneuvering
-            INNER JOIN quays
-            ON maneuverings.fk_stop_quay = quays.id_quay
-            INNER JOIN berths
-            ON maneuverings.fk_stop_berth = berths.id_berth
-            INNER JOIN ships
-            ON control_unit_data.fk_ship = ships.id_ship
-            WHERE trips_logs.fk_portinformer = ${idPortinformer}
-            AND trips_logs.fk_state = 17) 
+    return `(SELECT control_unit_data.id_control_unit_data AS id_trip, ships.ship_description AS ship_name, 
+                ts_fine_ormeggio AS ormeggio, ts_avvistamento AS avvistamento, quays.description AS quay, 
+                berths.description AS berth, state_name AS state, goods_categories.description as shipped_goods, quantity, unit, goods_mvmnt_type
+                FROM data_ormeggio_nave
+                INNER JOIN control_unit_data
+                ON data_ormeggio_nave.fk_control_unit_data = id_control_unit_data
+                INNER JOIN trips_logs
+                ON data_table_id::INTEGER = id_data_ormeggio_nave
+                INNER JOIN maneuverings
+                ON trips_logs.fk_maneuvering = id_maneuvering
+                INNER JOIN quays
+                ON maneuverings.fk_stop_quay = quays.id_quay
+                INNER JOIN berths
+                ON maneuverings.fk_stop_berth = berths.id_berth
+                INNER JOIN ships
+                ON control_unit_data.fk_ship = ships.id_ship
+                INNER JOIN data_avvistamento_nave
+                ON control_unit_data.id_control_unit_data = data_avvistamento_nave.fk_control_unit_data
+                INNER JOIN states
+                ON states.id_state = trips_logs.fk_state
+                LEFT JOIN shipped_goods
+                ON shipped_goods.fk_control_unit_data = control_unit_data.id_control_unit_data
+                AND shipped_goods.fk_operation_quay = maneuverings.fk_stop_quay
+                INNER JOIN goods_categories
+                ON shipped_goods.fk_goods_category = goods_categories.id_goods_category
+                WHERE trips_logs.fk_portinformer = ${idPortinformer}
+                AND trips_logs.fk_state = 17) 
             UNION 
-            (SELECT control_unit_data.id_control_unit_data AS id_trip, ships.ship_description AS ship_name, ts_fine_ormeggio, quays.description AS quay, 
-                berths.description AS berth
+            (SELECT control_unit_data.id_control_unit_data AS id_trip, ships.ship_description AS ship_name, 
+                ts_fine_ormeggio AS ormeggio, ts_avvistamento AS avvistamento, quays.description AS quay, 
+                berths.description AS berth, state_name AS state, goods_categories.description as shipped_goods, quantity, unit, goods_mvmnt_type
                 FROM data_da_ormeggio_a_ormeggio
                 INNER JOIN control_unit_data
                 ON data_da_ormeggio_a_ormeggio.fk_control_unit_data = id_control_unit_data
@@ -182,28 +193,46 @@ let tripsManeuverings = function (idPortinformer) {
                 ON maneuverings.fk_stop_berth = berths.id_berth
                 INNER JOIN ships
                 ON control_unit_data.fk_ship = ships.id_ship
+                INNER JOIN data_avvistamento_nave
+                ON control_unit_data.id_control_unit_data = data_avvistamento_nave.fk_control_unit_data
+                INNER JOIN states
+                ON states.id_state = trips_logs.fk_state
+                LEFT JOIN shipped_goods
+                ON shipped_goods.fk_control_unit_data = control_unit_data.id_control_unit_data
+                INNER JOIN goods_categories
+                ON shipped_goods.fk_goods_category = goods_categories.id_goods_category
+                AND shipped_goods.fk_operation_quay = maneuverings.fk_stop_quay
                 WHERE trips_logs.fk_portinformer = ${idPortinformer}
                 AND trips_logs.fk_state = 18)
             UNION
-                (SELECT control_unit_data.id_control_unit_data AS id_trip, ships.ship_description AS ship_name, ts_fine_ormeggio, quays.description AS quay, 
-                    berths.description AS berth
-                    FROM data_da_rada_a_ormeggio
-                    INNER JOIN control_unit_data
-                    ON data_da_rada_a_ormeggio.fk_control_unit_data = id_control_unit_data
-                    INNER JOIN trips_logs
-                    ON data_table_id::INTEGER = id_data_da_rada_a_ormeggio
-                    INNER JOIN maneuverings
-                    ON trips_logs.fk_maneuvering = id_maneuvering
-                    INNER JOIN quays
-                    ON maneuverings.fk_stop_quay = quays.id_quay
-                    INNER JOIN berths
-                    ON maneuverings.fk_stop_berth = berths.id_berth
-                    INNER JOIN ships
-                    ON control_unit_data.fk_ship = ships.id_ship
-                    WHERE trips_logs.fk_portinformer = ${idPortinformer}
-                    AND trips_logs.fk_state = 20)
-            ORDER BY ts_fine_ormeggio
-            `;
+            (SELECT control_unit_data.id_control_unit_data AS id_trip, ships.ship_description AS ship_name, 
+                ts_fine_ormeggio AS ormeggio, ts_avvistamento AS avvistamento, quays.description AS quay, 
+                berths.description AS berth, state_name AS state, goods_categories.description as shipped_goods, quantity, unit, goods_mvmnt_type
+                FROM data_da_rada_a_ormeggio
+                INNER JOIN control_unit_data
+                ON data_da_rada_a_ormeggio.fk_control_unit_data = id_control_unit_data
+                INNER JOIN trips_logs
+                ON data_table_id::INTEGER = id_data_da_rada_a_ormeggio
+                INNER JOIN maneuverings
+                ON trips_logs.fk_maneuvering = id_maneuvering
+                INNER JOIN quays
+                ON maneuverings.fk_stop_quay = quays.id_quay
+                INNER JOIN berths
+                ON maneuverings.fk_stop_berth = berths.id_berth
+                INNER JOIN ships
+                ON control_unit_data.fk_ship = ships.id_ship
+                INNER JOIN data_avvistamento_nave
+                ON control_unit_data.id_control_unit_data = data_avvistamento_nave.fk_control_unit_data
+                INNER JOIN states
+                ON states.id_state = trips_logs.fk_state
+                LEFT JOIN shipped_goods
+                ON shipped_goods.fk_control_unit_data = control_unit_data.id_control_unit_data
+                AND shipped_goods.fk_operation_quay = maneuverings.fk_stop_quay
+                INNER JOIN goods_categories
+                ON shipped_goods.fk_goods_category = goods_categories.id_goods_category
+                WHERE trips_logs.fk_portinformer = ${idPortinformer}
+                AND trips_logs.fk_state = 20)
+            ORDER BY ormeggio`;
 };
 
 let archiveData = {
