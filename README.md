@@ -103,6 +103,10 @@ http://<REMOTE_IP>:3000/registerTrafficList?id_portinformer=<ID_PORTINFORMER>
 http://<REMOTE_IP>:3000/tripsManeuverings?id_portinformer=<ID_PORTINFORMER>
 ```
 
+- __Shipped goods recap:__
+```
+http://<REMOTE_IP>:3000/shippedGoodsRecap?id_portinformer=<ID_PORTINFORMER>
+```
 
 # __Deploy, start & stop service:__
 
