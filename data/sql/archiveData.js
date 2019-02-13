@@ -242,7 +242,7 @@ let tripsManeuverings = function (idPortinformer) {
 };
 
 let shippedGoodsRecap = function (idPortinformer) {
-    return `SELECT goods_categories.description,  
+    return `SELECT goods_categories.description AS shipped_goods,  
     goods_details_UN.tot||' '||goods_details_UN.goods_mvmnt_type AS UN,
     goods_details_LO.tot||' '||goods_details_LO.goods_mvmnt_type AS LO,
     goods_details_TR.tot||' '||goods_details_TR.goods_mvmnt_type AS TR,
