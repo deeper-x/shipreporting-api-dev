@@ -241,10 +241,69 @@ let tripsManeuverings = function (idPortinformer) {
             ORDER BY ormeggio`;
 };
 
+let shippedGoodsRecap = function (idPortinformer) {
+    return `SELECT goods_categories.description,  
+    goods_details_UN.tot||' '||goods_details_UN.goods_mvmnt_type AS UN,
+    goods_details_LO.tot||' '||goods_details_LO.goods_mvmnt_type AS LO,
+    goods_details_TR.tot||' '||goods_details_TR.goods_mvmnt_type AS TR,
+    goods_details_TF.tot||' '||goods_details_TF.goods_mvmnt_type AS TF
+    FROM goods_categories
+    FULL OUTER JOIN 
+        (SELECT id_goods_category, goods_categories.description as gc_description, COUNT(*) as tot, goods_mvmnt_type
+               FROM shipped_goods
+               INNER JOIN goods_categories 
+               ON id_goods_category = fk_goods_category 
+               INNER JOIN control_unit_data
+               ON shipped_goods.fk_control_unit_data = control_unit_data.id_control_unit_data
+               GROUP BY id_goods_category, control_unit_data.fk_portinformer, fk_goods_category, goods_categories.description, goods_mvmnt_type
+               HAVING control_unit_data.fk_portinformer = ${idPortinformer}
+               AND goods_mvmnt_type = 'UN'
+               ORDER BY fk_goods_category) AS goods_details_UN
+    ON goods_categories.id_goods_category = goods_details_UN.id_goods_category
+    FULL OUTER JOIN 
+    (SELECT id_goods_category, goods_categories.description as gc_description, COUNT(*) as tot, goods_mvmnt_type
+               FROM shipped_goods
+               INNER JOIN goods_categories 
+               ON id_goods_category = fk_goods_category 
+               INNER JOIN control_unit_data
+               ON shipped_goods.fk_control_unit_data = control_unit_data.id_control_unit_data
+               GROUP BY id_goods_category, control_unit_data.fk_portinformer, fk_goods_category, goods_categories.description, goods_mvmnt_type
+               HAVING control_unit_data.fk_portinformer = ${idPortinformer}
+               AND goods_mvmnt_type = 'LO'
+               ORDER BY fk_goods_category) AS goods_details_LO
+    ON goods_categories.id_goods_category = goods_details_LO.id_goods_category
+    FULL OUTER JOIN 
+    (SELECT id_goods_category, goods_categories.description as gc_description, COUNT(*) as tot, goods_mvmnt_type
+               FROM shipped_goods
+               INNER JOIN goods_categories 
+               ON id_goods_category = fk_goods_category 
+               INNER JOIN control_unit_data
+               ON shipped_goods.fk_control_unit_data = control_unit_data.id_control_unit_data
+               GROUP BY id_goods_category, control_unit_data.fk_portinformer, fk_goods_category, goods_categories.description, goods_mvmnt_type
+               HAVING control_unit_data.fk_portinformer = ${idPortinformer}
+               AND goods_mvmnt_type = 'TR'
+               ORDER BY fk_goods_category) AS goods_details_TR
+    ON goods_categories.id_goods_category = goods_details_TR.id_goods_category
+    FULL OUTER JOIN 
+    (SELECT id_goods_category, goods_categories.description as gc_description, COUNT(*) as tot, goods_mvmnt_type
+               FROM shipped_goods
+               INNER JOIN goods_categories 
+               ON id_goods_category = fk_goods_category 
+               INNER JOIN control_unit_data
+               ON shipped_goods.fk_control_unit_data = control_unit_data.id_control_unit_data
+               GROUP BY id_goods_category, control_unit_data.fk_portinformer, fk_goods_category, goods_categories.description, goods_mvmnt_type
+               HAVING control_unit_data.fk_portinformer = ${idPortinformer}
+               AND goods_mvmnt_type = 'TF'
+               ORDER BY fk_goods_category) AS goods_details_TF
+    ON goods_categories.id_goods_category = goods_details_TF.id_goods_category
+    ORDER BY UN, LO, TR, TF`;
+};
+
 let archiveData = {
     tripsArchive: tripsArchive,
     tripsArchiveMultiRows: tripsArchiveMultiRows,
-    tripsManeuverings: tripsManeuverings
+    tripsManeuverings: tripsManeuverings,
+    shippedGoodsRecap: shippedGoodsRecap, 
 };
 
 module.exports = archiveData;

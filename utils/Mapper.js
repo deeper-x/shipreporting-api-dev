@@ -101,6 +101,10 @@ class Mapper {
                 'methodToCall': routerObject.tripsManeuverings,
                 'params': ['fk_portinformer']
             },
+            '/shippedGoodsRecap': {
+                'methodToCall': routerObject.shippedGoodsRecap,
+                'params': ['fk_portinformer']
+            },
             '/favicon.ico': {
                 'methodToCall': routerObject.favicon
             }
