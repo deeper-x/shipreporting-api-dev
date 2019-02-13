@@ -12,7 +12,7 @@ let tripsArchive = function (idPortinformer) {
             ON control_unit_data.fk_ship = ships.id_ship
             INNER JOIN shipping_details
             ON control_unit_data.fk_shipping_details = id_shipping_details
-            INNER JOIN ( 
+            LEFT JOIN ( 
                 SELECT fk_control_unit_data, string_agg(goods_categories.description||' '||shipped_goods.quantity||''||shipped_goods.unit||' ['||quays.description||'-'||berths.description||']' , '<br />')
                 AS shipped_goods_details_loaded
                 FROM shipped_goods INNER JOIN goods_categories
@@ -25,7 +25,7 @@ let tripsArchive = function (idPortinformer) {
                 GROUP BY fk_control_unit_data
             ) AS shipped_goods_data_loaded            
             ON shipped_goods_data_loaded.fk_control_unit_data = id_control_unit_data
-            INNER JOIN ( 
+            LEFT JOIN ( 
                 SELECT fk_control_unit_data, string_agg(goods_categories.description||' '||shipped_goods.quantity||''||shipped_goods.unit||' ['||quays.description||'-'||berths.description||']' , '<br />')
                 AS shipped_goods_details_unloaded
                 FROM shipped_goods INNER JOIN goods_categories
@@ -38,7 +38,7 @@ let tripsArchive = function (idPortinformer) {
                 GROUP BY fk_control_unit_data
             ) AS shipped_goods_data_unloaded            
             ON shipped_goods_data_unloaded.fk_control_unit_data = id_control_unit_data
-            INNER JOIN ( 
+            LEFT JOIN ( 
                 SELECT fk_control_unit_data, string_agg(goods_categories.description||' '||shipped_goods.quantity||''||shipped_goods.unit||' ['||quays.description||'-'||berths.description||']' , '<br />')
                 AS shipped_goods_details_transit
                 FROM shipped_goods INNER JOIN goods_categories
