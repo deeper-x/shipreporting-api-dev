@@ -1,7 +1,5 @@
 # Shipreporting APIs - List of services
 
-__List of available calls:__
-
 ## LIVE DATA SERVICES:
 
 - __Active trips__:
