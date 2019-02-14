@@ -108,7 +108,7 @@ http://<REMOTE_IP>:3000/tripsManeuverings?id_portinformer=<ID_PORTINFORMER>
 http://<REMOTE_IP>:3000/shippedGoodsRecap?id_portinformer=<ID_PORTINFORMER>
 ```
 
--__Traffic list recap:__
+- __Traffic list recap:__
 ```
 http://<REMOTE_IP>:3000/trafficListRecap?id_portinformer=<ID_PORTINFORMER>
 ```
