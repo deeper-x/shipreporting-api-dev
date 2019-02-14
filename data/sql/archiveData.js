@@ -307,11 +307,30 @@ let shippedGoodsRecap = function (idPortinformer) {
     ORDER BY QTY_UN, QTY_LO, QTY_TR, QTY_TF`;
 };
 
+let trafficListRecap = function (idPortinformer) {
+    return `SELECT 
+            SUM(CASE WHEN num_container = '' THEN '0' ELSE num_container::NUMERIC END) AS tot_container,
+                SUM(CASE WHEN num_passengers = '' THEN '0' ELSE num_passengers::NUMERIC END) AS tot_passengers,
+                SUM(CASE WHEN num_camion = '' THEN '0' ELSE num_camion::NUMERIC END) AS tot_camion,
+                SUM(CASE WHEN num_furgoni = '' THEN '0' ELSE num_furgoni::NUMERIC END ) AS tot_furgoni,
+                SUM(CASE WHEN num_rimorchi = '' THEN '0' ELSE num_rimorchi::NUMERIC END) AS tot_rimorchi,
+                SUM(CASE WHEN num_auto = '' THEN '0' ELSE num_auto::NUMERIC END) AS tot_auto,
+                SUM(CASE WHEN num_moto = '' THEN '0' ELSE num_moto::NUMERIC END) AS tot_moto,
+                SUM(CASE WHEN num_camper = '' THEN '0' ELSE num_camper::NUMERIC END) AS tot_camper,
+                SUM(CASE WHEN num_bus = '' THEN '0' ELSE num_bus::NUMERIC END) AS tot_bus,
+                SUM(CASE WHEN num_minibus = '' THEN '0' ELSE num_minibus::NUMERIC END) AS tot_minibus
+        FROM traffic_list
+        INNER JOIN control_unit_data
+        ON traffic_list.fk_control_unit_data = control_unit_data.id_control_unit_data
+        WHERE control_unit_data.fk_portinformer =  ${idPortinformer}`;
+};
+
 let archiveData = {
     tripsArchive: tripsArchive,
     tripsArchiveMultiRows: tripsArchiveMultiRows,
     tripsManeuverings: tripsManeuverings,
-    shippedGoodsRecap: shippedGoodsRecap, 
+    shippedGoodsRecap: shippedGoodsRecap,
+    trafficListRecap: trafficListRecap 
 };
 
 module.exports = archiveData;
