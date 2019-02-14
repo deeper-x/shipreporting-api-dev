@@ -97,7 +97,7 @@ http://<REMOTE_IP>:3000/registerShippedGoods?id_portinformer=<ID_PORTINFORMER>
 http://<REMOTE_IP>:3000/registerTrafficList?id_portinformer=<ID_PORTINFORMER>
 ```
 
-## BUSINESS INTELLIGENCE ##
+## BUSINESS INTELLIGENCE SERVICES: ##
 - __Shiftings/maneuverings per quay/berth:__
 ```
 http://<REMOTE_IP>:3000/tripsManeuverings?id_portinformer=<ID_PORTINFORMER>
