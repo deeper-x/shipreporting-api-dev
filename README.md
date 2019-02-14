@@ -32,12 +32,12 @@ http://<REMOTE_IP>:3000/departuresNow?id_portinformer=<id_portinformer>
 http://<REMOTE_IP>:3000/arrivalPrevisionsNow?id_portinformer=<id_portinformer>
 ```
 
-- __Goods: commercial operations__:
+- __Shipped goods__:
 ```
 http://<REMOTE_IP>:3000/shippedGoodsNow?id_portinformer=<id_portinformer>
 ```
 
-- __RO/RO + RO/PAX: commercial operations__:
+- __RO/RO + RO/PAX__:
 ```
 http://<REMOTE_IP>:3000/trafficListNow?id_portinformer=<id_portinformer>
 ```
@@ -96,7 +96,7 @@ http://<REMOTE_IP>:3000/registerTrafficList?id_portinformer=<ID_PORTINFORMER>
 ```
 
 ## BUSINESS INTELLIGENCE SERVICES: ##
-- __Shiftings/maneuverings per quay/berth:__
+- __Shiftings/maneuverings [per quay/berth]:__
 ```
 http://<REMOTE_IP>:3000/tripsManeuverings?id_portinformer=<ID_PORTINFORMER>
 ```
@@ -106,7 +106,7 @@ http://<REMOTE_IP>:3000/tripsManeuverings?id_portinformer=<ID_PORTINFORMER>
 http://<REMOTE_IP>:3000/shippedGoodsRecap?id_portinformer=<ID_PORTINFORMER>
 ```
 
-- __Traffic list recap:__
+- __RO/RO + RO/PAX recap:__
 ```
 http://<REMOTE_IP>:3000/trafficListRecap?id_portinformer=<ID_PORTINFORMER>
 ```
