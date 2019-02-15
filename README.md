@@ -57,8 +57,6 @@ http://<REMOTE_IP>:3000/tripsArchiveMultiRows?id_portinformer=<ID_PORTINFORMER>
 http://<REMOTE_IP>:3000/shipReportList?id_portinformer=<ID_PORTINFORMER>
 ```
 
-## DAILY REGISTER SERVICES:
-=======
 ## C - DAILY REGISTER SERVICES:
 
 1. __Arrivals:__
