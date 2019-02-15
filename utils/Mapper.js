@@ -109,6 +109,10 @@ class Mapper {
                 'methodToCall': routerObject.trafficListRecap,
                 'params': ['fk_portinformer']
             },
+            '/shipReportList': {
+                'methodToCall': routerObject.shipReportList,
+                'params': ['fk_portinformer']
+            },
             '/favicon.ico': {
                 'methodToCall': routerObject.favicon
             }

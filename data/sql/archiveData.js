@@ -325,12 +325,68 @@ let trafficListRecap = function (idPortinformer) {
         WHERE control_unit_data.fk_portinformer =  ${idPortinformer}`;
 };
 
+let shipReportList = function (idPortinformer) {
+    return `SELECT 
+        id_control_unit_data AS id_trip, ships.ship_description AS ship_name, 
+        start_quay.description AS start_quay,
+        start_berth.description AS start_berth,
+        start_anchorage_point.description AS start_anchorage_point,
+        stop_quay.description AS stop_quay, 
+        stop_berth.description AS stop_berth, 
+        stop_anchorage_point.description AS stop_anchorage_point,
+        ts_main_event_field_val AS ts_operation,
+        states.state_name
+        FROM trips_logs
+        INNER JOIN maneuverings
+        ON trips_logs.fk_maneuvering = maneuverings.id_maneuvering
+        INNER JOIN (
+            SELECT id_quay, description
+            FROM quays
+        ) AS start_quay
+        ON maneuverings.fk_start_quay = start_quay.id_quay
+        INNER JOIN (
+            SELECT id_berth, description
+            FROM berths
+        ) AS start_berth
+        ON maneuverings.fk_start_berth = start_berth.id_berth
+        INNER JOIN (
+            SELECT id_anchorage_point, description
+            FROM anchorage_points
+        ) AS start_anchorage_point
+        ON maneuverings.fk_start_anchorage_point = start_anchorage_point.id_anchorage_point
+        INNER JOIN (
+            SELECT id_quay, description
+            FROM quays
+        ) AS stop_quay
+        ON maneuverings.fk_stop_quay = stop_quay.id_quay
+        INNER JOIN (
+            SELECT id_berth, description
+            FROM berths
+        ) AS stop_berth
+        ON maneuverings.fk_stop_berth = stop_berth.id_berth
+        INNER JOIN (
+            SELECT id_anchorage_point, description
+            FROM anchorage_points
+        ) AS stop_anchorage_point
+        ON maneuverings.fk_stop_anchorage_point = stop_anchorage_point.id_anchorage_point
+        INNER JOIN control_unit_data
+        ON trips_logs.fk_control_unit_data = control_unit_data.id_control_unit_data
+        INNER JOIN states
+        ON trips_logs.fk_state = states.id_state
+        INNER JOIN ships
+        ON control_unit_data.fk_ship = ships.id_ship
+        WHERE control_unit_data.fk_portinformer = ${idPortinformer}
+        ORDER BY id_trip`;
+};
+
+
 let archiveData = {
     tripsArchive: tripsArchive,
     tripsArchiveMultiRows: tripsArchiveMultiRows,
     tripsManeuverings: tripsManeuverings,
     shippedGoodsRecap: shippedGoodsRecap,
-    trafficListRecap: trafficListRecap 
+    trafficListRecap: trafficListRecap,
+    shipReportList: shipReportList 
 };
 
 module.exports = archiveData;
