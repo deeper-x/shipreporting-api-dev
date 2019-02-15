@@ -52,19 +52,23 @@ http://<REMOTE_IP>:3000/tripsArchive?id_portinformer=<ID_PORTINFORMER>
 ```
 http://<REMOTE_IP>:3000/tripsArchiveMultiRows?id_portinformer=<ID_PORTINFORMER>
 ```
+3. - __Ship report archive__:
+```
+http://<REMOTE_IP>:3000/shipReportList?id_portinformer=<ID_PORTINFORMER>
+```
 
+## DAILY REGISTER SERVICES:
+=======
 ## C - DAILY REGISTER SERVICES:
 
 1. __Arrivals:__
 ```
 http://<REMOTE_IP>:3000/registerArrivals?id_portinformer=<ID_PORTINFORMER>
 ```
-
 2. __Moored:__
 ```
 http://<REMOTE_IP>:3000/registerMoored?id_portinformer=<ID_PORTINFORMER>
 ```
-
 3. __Roadstead:__
 ```
 http://<REMOTE_IP>:3000/registerRoadstead?id_portinformer=<ID_PORTINFORMER>
