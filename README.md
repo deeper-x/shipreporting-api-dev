@@ -62,6 +62,8 @@ http://<REMOTE_IP>:3000/shipReportDetails?id_portinformer==<ID_PORTINFORMER>
 ```
 
 
+
+
 ## C - DAILY REGISTER SERVICES:
 
 1. __Arrivals:__
