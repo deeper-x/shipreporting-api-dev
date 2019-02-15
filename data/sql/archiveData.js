@@ -340,32 +340,32 @@ let shipReportList = function (idPortinformer) {
         FROM trips_logs
         INNER JOIN maneuverings
         ON trips_logs.fk_maneuvering = maneuverings.id_maneuvering
-        INNER JOIN (
+        LEFT JOIN (
             SELECT id_quay, description
             FROM quays
         ) AS start_quay
         ON maneuverings.fk_start_quay = start_quay.id_quay
-        INNER JOIN (
+        LEFT JOIN (
             SELECT id_berth, description
             FROM berths
         ) AS start_berth
         ON maneuverings.fk_start_berth = start_berth.id_berth
-        INNER JOIN (
+        LEFT JOIN (
             SELECT id_anchorage_point, description
             FROM anchorage_points
         ) AS start_anchorage_point
         ON maneuverings.fk_start_anchorage_point = start_anchorage_point.id_anchorage_point
-        INNER JOIN (
+        LEFT JOIN (
             SELECT id_quay, description
             FROM quays
         ) AS stop_quay
         ON maneuverings.fk_stop_quay = stop_quay.id_quay
-        INNER JOIN (
+        LEFT JOIN (
             SELECT id_berth, description
             FROM berths
         ) AS stop_berth
         ON maneuverings.fk_stop_berth = stop_berth.id_berth
-        INNER JOIN (
+        LEFT JOIN (
             SELECT id_anchorage_point, description
             FROM anchorage_points
         ) AS stop_anchorage_point
