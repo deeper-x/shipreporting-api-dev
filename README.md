@@ -52,11 +52,11 @@ http://<REMOTE_IP>:3000/tripsArchive?id_portinformer=<ID_PORTINFORMER>
 ```
 http://<REMOTE_IP>:3000/tripsArchiveMultiRows?id_portinformer=<ID_PORTINFORMER>
 ```
-3. __Ship report archive__:
+3. __Trip data archive__ [shipreport core]:
 ```
 http://<REMOTE_IP>:3000/shipReportList?id_portinformer=<ID_PORTINFORMER>
 ```
-4. __Ship report detailed__:
+4. __Trip data archive detailed__[shipreport core]:
 ```   
 http://<REMOTE_IP>:3000/shipReportDetails?id_portinformer==<ID_PORTINFORMER>
 ```
