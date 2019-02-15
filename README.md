@@ -56,7 +56,7 @@ http://<REMOTE_IP>:3000/tripsArchiveMultiRows?id_portinformer=<ID_PORTINFORMER>
 ```
 http://<REMOTE_IP>:3000/shipReportList?id_portinformer=<ID_PORTINFORMER>
 ```
-4. __Trip data archive detailed__[shipreport core]:
+4. __Trip data archive detailed__ [shipreport core]:
 ```   
 http://<REMOTE_IP>:3000/shipReportDetails?id_portinformer==<ID_PORTINFORMER>
 ```
