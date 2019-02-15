@@ -335,6 +335,7 @@ let shipReportList = function (idPortinformer) {
         stop_berth.description AS stop_berth, 
         stop_anchorage_point.description AS stop_anchorage_point,
         ts_main_event_field_val AS ts_operation,
+        states.main_event_field AS operation_type,
         states.state_name
         FROM trips_logs
         INNER JOIN maneuverings
