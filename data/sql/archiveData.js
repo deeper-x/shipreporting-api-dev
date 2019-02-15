@@ -338,7 +338,7 @@ let shipReportList = function (idPortinformer) {
         states.main_event_field AS operation_type,
         states.state_name
         FROM trips_logs
-        INNER JOIN maneuverings
+        LEFT JOIN maneuverings
         ON trips_logs.fk_maneuvering = maneuverings.id_maneuvering
         LEFT JOIN (
             SELECT id_quay, description
