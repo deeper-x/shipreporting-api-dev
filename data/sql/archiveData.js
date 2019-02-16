@@ -443,7 +443,7 @@ let shipReportDetails = function (idPortinformer) {
                 CASE WHEN start_anchorage_point.id_anchorage_point != 0 THEN start_anchorage_point.description ELSE '' END||''||
                 CASE WHEN stop_quay.id_quay != 0 THEN stop_quay.description ELSE '' END||''||
                 CASE WHEN stop_berth.id_berth != 0 THEN stop_berth.description ELSE '' END||''||
-                CASE WHEN stop_anchorage_point.id_anchorage_point != 0 THEN stop_anchorage_point.description ELSE '' END, ',') AS data
+                CASE WHEN stop_anchorage_point.id_anchorage_point != 0 THEN stop_anchorage_point.description ELSE '' END, '') AS data
                 FROM maneuverings
                     LEFT JOIN (
                     SELECT id_quay, description
