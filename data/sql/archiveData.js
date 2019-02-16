@@ -402,7 +402,8 @@ let shipReportDetails = function (idPortinformer) {
             data_partenza_da_rada.ts_disancoraggio AS partenza_da_rada,
             data_fuori_dal_porto.ts_out_of_sight AS fuori_vista,
             data_tug_services.tug_service_interv as tug_service,
-            maneuverings_data.data
+            maneuverings_data.data,
+            data_shipped_goods.details
             FROM control_unit_data 
             LEFT JOIN data_previsione_arrivo_nave
             ON control_unit_data.id_control_unit_data = data_previsione_arrivo_nave.fk_control_unit_data
@@ -434,6 +435,15 @@ let shipReportDetails = function (idPortinformer) {
                 group by fk_control_unit_data
             ) as data_tug_services
             ON data_tug_services.fk_control_unit_data = control_unit_data.id_control_unit_data
+            LEFT JOIN (
+                SELECT fk_control_unit_data, string_agg(goods_categories.description||' '||quantity||' '||unit, ',') AS details
+                FROM shipped_goods
+                INNER JOIN 
+                goods_categories
+                ON fk_goods_category = id_goods_category
+                group by fk_control_unit_data
+            ) as data_shipped_goods
+            ON data_shipped_goods.fk_control_unit_data = control_unit_data.id_control_unit_data
             LEFT JOIN (
             SELECT
                 fk_control_unit_data,
