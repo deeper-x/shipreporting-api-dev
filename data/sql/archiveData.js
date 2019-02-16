@@ -382,97 +382,108 @@ let shipReportList = function (idPortinformer) {
 
 let shipReportDetails = function (idPortinformer) {
     return `SELECT id_control_unit_data,
-	ts_previsione_arrivo, 
-	ts_avvistamento, 
-	data_nave_all_ingresso.ts_harbour_entrance, 
-	data_arrivo_in_rada.ts_anchor_drop, 
-	'prontezza:'||data_ormeggio_nave.ts_prontezza||' ormeggio:'||data_ormeggio_nave.ts_fine_ormeggio AS ormeggio,
-	'disormeggio:'||data_da_ormeggio_a_ormeggio.ts_disormeggio||' ormeggio:'||data_da_ormeggio_a_ormeggio.ts_fine_ormeggio AS da_ormeggio_a_ormeggio, 
-	'disormeggio:'||data_da_ormeggio_a_rada.ts_disormeggio||' out of break water:'||data_da_ormeggio_a_rada.ts_out_of_break_water||' anchor drop:'||data_da_ormeggio_a_rada.ts_anchor_drop AS da_orm_a_rada, 
-	data_da_rada_a_ormeggio.ts_disancoraggio||'->'||data_da_rada_a_ormeggio.ts_harbour_entrance||'->'||data_da_rada_a_ormeggio.ts_fine_ormeggio AS da_rada_a_orm,
-	data_rotazione.ts_disormeggio||'->'||data_rotazione.ts_fine_ormeggio AS rotazione,
-	data_partenza_da_banchina.ts_disormeggio AS partenza_da_banchina,
-	data_partenza_da_rada.ts_disancoraggio AS partenza_da_rada,
-	data_fuori_dal_porto.ts_out_of_sight AS fuori_vista,
-	data_tug_services.tug_service_interv as tug_service,
-	maneuverings_data.data
-	FROM control_unit_data 
-	LEFT JOIN data_previsione_arrivo_nave
-	ON control_unit_data.id_control_unit_data = data_previsione_arrivo_nave.fk_control_unit_data
-	LEFT JOIN data_avvistamento_nave
-	ON control_unit_data.id_control_unit_data = data_avvistamento_nave.fk_control_unit_data
-	LEFT JOIN data_arrivo_in_rada
-	ON control_unit_data.id_control_unit_data = data_arrivo_in_rada.fk_control_unit_data
-	LEFT JOIN data_nave_all_ingresso
-	ON control_unit_data.id_control_unit_data = data_nave_all_ingresso.fk_control_unit_data
-	LEFT JOIN data_ormeggio_nave
-	ON control_unit_data.id_control_unit_data = data_ormeggio_nave.fk_control_unit_data
-	LEFT JOIN data_da_ormeggio_a_ormeggio
-	ON control_unit_data.id_control_unit_data = data_da_ormeggio_a_ormeggio.fk_control_unit_data
-	LEFT JOIN data_da_ormeggio_a_rada
-	ON control_unit_data.id_control_unit_data = data_da_ormeggio_a_rada.fk_control_unit_data
-	LEFT JOIN data_da_rada_a_ormeggio
-	ON control_unit_data.id_control_unit_data = data_da_rada_a_ormeggio.fk_control_unit_data
-	LEFT JOIN data_rotazione
-	ON control_unit_data.id_control_unit_data = data_rotazione.fk_control_unit_data
-	LEFT JOIN data_partenza_da_banchina
-	ON control_unit_data.id_control_unit_data = data_partenza_da_banchina.fk_control_unit_data
-	LEFT JOIN data_partenza_da_rada
-	ON control_unit_data.id_control_unit_data = data_partenza_da_rada.fk_control_unit_data
-	LEFT JOIN data_fuori_dal_porto
-	ON control_unit_data.id_control_unit_data = data_fuori_dal_porto.fk_control_unit_data
-	LEFT JOIN (
-		SELECT fk_control_unit_data, string_agg(ts_start_service||'->'||ts_stop_service, ',') AS tug_service_interv
-		FROM tug_services
-		group by fk_control_unit_data
-	) as data_tug_services
-	ON data_tug_services.fk_control_unit_data = control_unit_data.id_control_unit_data
-	LEFT JOIN (
-	SELECT
-	     fk_control_unit_data,
-	     string_agg(
-	     CASE WHEN start_quay.id_quay != 0 THEN start_quay.description ELSE '' END||''||
-	     CASE WHEN start_berth.id_berth != 0 THEN start_berth.description ELSE '' END||''||
-	     CASE WHEN start_anchorage_point.id_anchorage_point != 0 THEN start_anchorage_point.description ELSE '' END||''||
-	     CASE WHEN stop_quay.id_quay != 0 THEN stop_quay.description ELSE '' END||''||
-	     CASE WHEN stop_berth.id_berth != 0 THEN stop_berth.description ELSE '' END||''||
-	     CASE WHEN stop_anchorage_point.id_anchorage_point != 0 THEN stop_anchorage_point.description ELSE '' END, ',') AS data
-	     FROM maneuverings
-		    LEFT JOIN (
-			SELECT id_quay, description
-			FROM quays
-		    ) AS start_quay
-		    ON maneuverings.fk_start_quay = start_quay.id_quay
-		    LEFT JOIN (
-			SELECT id_berth, description
-			FROM berths
-		    ) AS start_berth
-		    ON maneuverings.fk_start_berth = start_berth.id_berth
-		    LEFT JOIN (
-			SELECT id_anchorage_point, description
-			FROM anchorage_points
-		    ) AS start_anchorage_point
-		    ON maneuverings.fk_start_anchorage_point = start_anchorage_point.id_anchorage_point
-		    LEFT JOIN (
-			SELECT id_quay, description
-			FROM quays
-		    ) AS stop_quay
-		    ON maneuverings.fk_stop_quay = stop_quay.id_quay
-		    LEFT JOIN (
-			SELECT id_berth, description
-			FROM berths
-		    ) AS stop_berth
-		    ON maneuverings.fk_stop_berth = stop_berth.id_berth
-		    LEFT JOIN (
-			SELECT id_anchorage_point, description
-			FROM anchorage_points
-		    ) AS stop_anchorage_point
-		    ON maneuverings.fk_stop_anchorage_point = stop_anchorage_point.id_anchorage_point
-		GROUP BY 1
-	) AS maneuverings_data
-	ON maneuverings_data.fk_control_unit_data = control_unit_data.id_control_unit_data
-WHERE control_unit_data.fk_portinformer = 28
-ORDER BY id_control_unit_data;`;
+            ships.ship_description AS ship_name,
+            ships.mmsi AS mmsi,
+            ships.imo AS imo,
+            ships.length AS length,
+            ships.width AS width,
+            ships.gross_tonnage AS gross_tonnage,
+            ship_types.type_description AS ship_type,
+            ts_previsione_arrivo, 
+            ts_avvistamento, 
+            data_nave_all_ingresso.ts_harbour_entrance, 
+            data_arrivo_in_rada.ts_anchor_drop, 
+            'prontezza:'||data_ormeggio_nave.ts_prontezza||' ormeggio:'||data_ormeggio_nave.ts_fine_ormeggio AS ormeggio,
+            'disormeggio:'||data_da_ormeggio_a_ormeggio.ts_disormeggio||' ormeggio:'||data_da_ormeggio_a_ormeggio.ts_fine_ormeggio AS da_ormeggio_a_ormeggio, 
+            'disormeggio:'||data_da_ormeggio_a_rada.ts_disormeggio||' out of break water:'||data_da_ormeggio_a_rada.ts_out_of_break_water||' anchor drop:'||data_da_ormeggio_a_rada.ts_anchor_drop AS da_orm_a_rada, 
+            'disancoraggio:'||data_da_rada_a_ormeggio.ts_disancoraggio||' harbour entrance:'||data_da_rada_a_ormeggio.ts_harbour_entrance||' ormeggio:'||data_da_rada_a_ormeggio.ts_fine_ormeggio AS da_rada_a_orm,
+            'disormeggio:'||data_rotazione.ts_disormeggio||' ormeggio:'||data_rotazione.ts_fine_ormeggio AS rotazione,
+            data_partenza_da_banchina.ts_disormeggio AS partenza_da_banchina,
+            data_partenza_da_rada.ts_disancoraggio AS partenza_da_rada,
+            data_fuori_dal_porto.ts_out_of_sight AS fuori_vista,
+            data_tug_services.tug_service_interv as tug_service,
+            maneuverings_data.data
+            FROM control_unit_data 
+            LEFT JOIN data_previsione_arrivo_nave
+            ON control_unit_data.id_control_unit_data = data_previsione_arrivo_nave.fk_control_unit_data
+            LEFT JOIN data_avvistamento_nave
+            ON control_unit_data.id_control_unit_data = data_avvistamento_nave.fk_control_unit_data
+            LEFT JOIN data_arrivo_in_rada
+            ON control_unit_data.id_control_unit_data = data_arrivo_in_rada.fk_control_unit_data
+            LEFT JOIN data_nave_all_ingresso
+            ON control_unit_data.id_control_unit_data = data_nave_all_ingresso.fk_control_unit_data
+            LEFT JOIN data_ormeggio_nave
+            ON control_unit_data.id_control_unit_data = data_ormeggio_nave.fk_control_unit_data
+            LEFT JOIN data_da_ormeggio_a_ormeggio
+            ON control_unit_data.id_control_unit_data = data_da_ormeggio_a_ormeggio.fk_control_unit_data
+            LEFT JOIN data_da_ormeggio_a_rada
+            ON control_unit_data.id_control_unit_data = data_da_ormeggio_a_rada.fk_control_unit_data
+            LEFT JOIN data_da_rada_a_ormeggio
+            ON control_unit_data.id_control_unit_data = data_da_rada_a_ormeggio.fk_control_unit_data
+            LEFT JOIN data_rotazione
+            ON control_unit_data.id_control_unit_data = data_rotazione.fk_control_unit_data
+            LEFT JOIN data_partenza_da_banchina
+            ON control_unit_data.id_control_unit_data = data_partenza_da_banchina.fk_control_unit_data
+            LEFT JOIN data_partenza_da_rada
+            ON control_unit_data.id_control_unit_data = data_partenza_da_rada.fk_control_unit_data
+            LEFT JOIN data_fuori_dal_porto
+            ON control_unit_data.id_control_unit_data = data_fuori_dal_porto.fk_control_unit_data
+            LEFT JOIN (
+                SELECT fk_control_unit_data, string_agg(ts_start_service||'->'||ts_stop_service, ',') AS tug_service_interv
+                FROM tug_services
+                group by fk_control_unit_data
+            ) as data_tug_services
+            ON data_tug_services.fk_control_unit_data = control_unit_data.id_control_unit_data
+            LEFT JOIN (
+            SELECT
+                fk_control_unit_data,
+                string_agg(
+                CASE WHEN start_quay.id_quay != 0 THEN start_quay.description ELSE '' END||''||
+                CASE WHEN start_berth.id_berth != 0 THEN start_berth.description ELSE '' END||''||
+                CASE WHEN start_anchorage_point.id_anchorage_point != 0 THEN start_anchorage_point.description ELSE '' END||''||
+                CASE WHEN stop_quay.id_quay != 0 THEN stop_quay.description ELSE '' END||''||
+                CASE WHEN stop_berth.id_berth != 0 THEN stop_berth.description ELSE '' END||''||
+                CASE WHEN stop_anchorage_point.id_anchorage_point != 0 THEN stop_anchorage_point.description ELSE '' END, ',') AS data
+                FROM maneuverings
+                    LEFT JOIN (
+                    SELECT id_quay, description
+                    FROM quays
+                    ) AS start_quay
+                    ON maneuverings.fk_start_quay = start_quay.id_quay
+                    LEFT JOIN (
+                    SELECT id_berth, description
+                    FROM berths
+                    ) AS start_berth
+                    ON maneuverings.fk_start_berth = start_berth.id_berth
+                    LEFT JOIN (
+                    SELECT id_anchorage_point, description
+                    FROM anchorage_points
+                    ) AS start_anchorage_point
+                    ON maneuverings.fk_start_anchorage_point = start_anchorage_point.id_anchorage_point
+                    LEFT JOIN (
+                    SELECT id_quay, description
+                    FROM quays
+                    ) AS stop_quay
+                    ON maneuverings.fk_stop_quay = stop_quay.id_quay
+                    LEFT JOIN (
+                    SELECT id_berth, description
+                    FROM berths
+                    ) AS stop_berth
+                    ON maneuverings.fk_stop_berth = stop_berth.id_berth
+                    LEFT JOIN (
+                    SELECT id_anchorage_point, description
+                    FROM anchorage_points
+                    ) AS stop_anchorage_point
+                    ON maneuverings.fk_stop_anchorage_point = stop_anchorage_point.id_anchorage_point
+                GROUP BY 1
+            ) AS maneuverings_data
+            ON maneuverings_data.fk_control_unit_data = control_unit_data.id_control_unit_data
+        INNER JOIN ships
+        ON control_unit_data.fk_ship = ships.id_ship
+        INNER JOIN ship_types
+        ON ships.fk_ship_type = ship_types.id_ship_type
+        WHERE control_unit_data.fk_portinformer = 28
+        ORDER BY id_control_unit_data;`;
 };
 
 let archiveData = {
