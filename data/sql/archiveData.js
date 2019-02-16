@@ -403,7 +403,7 @@ let shipReportDetails = function (idPortinformer) {
             data_fuori_dal_porto.ts_out_of_sight AS fuori_vista,
             data_tug_services.tug_service_interv as tug_service,
             maneuverings_data.data,
-            data_shipped_goods.details
+            data_shipped_goods.details AS shipped_goods_details
             FROM control_unit_data 
             LEFT JOIN data_previsione_arrivo_nave
             ON control_unit_data.id_control_unit_data = data_previsione_arrivo_nave.fk_control_unit_data
