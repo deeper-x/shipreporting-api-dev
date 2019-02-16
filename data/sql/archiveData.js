@@ -492,7 +492,7 @@ let shipReportDetails = function (idPortinformer) {
         ON control_unit_data.fk_ship = ships.id_ship
         INNER JOIN ship_types
         ON ships.fk_ship_type = ship_types.id_ship_type
-        WHERE control_unit_data.fk_portinformer = 28
+        WHERE control_unit_data.fk_portinformer = ${idPortinformer}
         ORDER BY id_control_unit_data;`;
 };
 
