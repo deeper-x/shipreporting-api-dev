@@ -381,7 +381,7 @@ let shipReportList = function (idPortinformer) {
 };
 
 let shipReportDetails = function (idPortinformer) {
-    return `SELECT id_control_unit_data,
+    return `SELECT id_control_unit_data AS id_trip,
             ships.ship_description AS ship_name,
             ships.mmsi AS mmsi,
             ships.imo AS imo,
