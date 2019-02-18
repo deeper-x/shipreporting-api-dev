@@ -62,6 +62,15 @@ http://<REMOTE_IP>:3000/shipReportList?id_portinformer=<ID_PORTINFORMER>
 http://<REMOTE_IP>:3000/shipReportDetails?id_portinformer=<ID_PORTINFORMER>
 ```
 
+5. __Arrivals archive__:
+```
+http://<REMOTE_IP>:3000/arrivalsArchive?id_portinformer=<id_portinformer>
+```
+
+6. __Departures archive__:
+```
+http://<REMOTE_IP>:3000/departuresArchive?id_portinformer=<id_portinformer>
+```
 
 
 
