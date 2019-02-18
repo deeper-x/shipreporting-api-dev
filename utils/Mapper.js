@@ -61,6 +61,18 @@ class Mapper {
                     'fk_portinformer'
                 ]
             },
+            '/arrivalsArchive': {
+                'methodToCall': routerObject.arrivalsArchive,
+                'params': [
+                    'fk_portinformer'
+                ]
+            },
+            '/departuresArchive': {
+                'methodToCall': routerObject.departuresArchive,
+                'params': [
+                    'fk_portinformer'
+                ]
+            },
             '/notFound': {
                 'methodToCall': routerObject.routeNotFound,
                 'params': []
