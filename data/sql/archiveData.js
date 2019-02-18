@@ -326,8 +326,15 @@ let trafficListRecap = function (idPortinformer) {
 };
 
 let shipReportList = function (idPortinformer) {
-    return `SELECT 
-            id_control_unit_data AS id_trip, ships.ship_description AS ship_name, 
+    return `(SELECT 
+            id_control_unit_data AS id_trip,    
+            ships.ship_description AS ship_name,
+            ships.mmsi AS mmsi,
+            ships.imo AS imo,
+            ships.length AS length,
+            ships.width AS width,
+            ships.gross_tonnage AS gross_tonnage,
+            ship_types.type_description AS ship_type, 
             start_quay.description AS start_quay,
             start_berth.description AS start_berth,
             start_anchorage_point.description AS start_anchorage_point,
@@ -336,7 +343,8 @@ let shipReportList = function (idPortinformer) {
             stop_anchorage_point.description AS stop_anchorage_point,
             ts_main_event_field_val AS ts_operation,
             states.main_event_field AS operation_type,
-            states.state_name
+            states.state_name,
+            data_avvistamento_nave.ts_avvistamento AS cn_details
             FROM trips_logs
             LEFT JOIN maneuverings
             ON trips_logs.fk_maneuvering = maneuverings.id_maneuvering
@@ -376,8 +384,661 @@ let shipReportList = function (idPortinformer) {
             ON trips_logs.fk_state = states.id_state
             INNER JOIN ships
             ON control_unit_data.fk_ship = ships.id_ship
+            INNER JOIN ship_types
+            ON ships.fk_ship_type = ship_types.id_ship_type
+            LEFT JOIN data_avvistamento_nave
+            ON control_unit_data.id_control_unit_data = data_avvistamento_nave.fk_control_unit_data
             WHERE control_unit_data.fk_portinformer = ${idPortinformer}
-            ORDER BY id_trip`;
+            AND trips_logs.fk_state = 13) 
+            UNION
+            (SELECT 
+                id_control_unit_data AS id_trip,    
+                ships.ship_description AS ship_name,
+                ships.mmsi AS mmsi,
+                ships.imo AS imo,
+                ships.length AS length,
+                ships.width AS width,
+                ships.gross_tonnage AS gross_tonnage,
+                ship_types.type_description AS ship_type, 
+                start_quay.description AS start_quay,
+                start_berth.description AS start_berth,
+                start_anchorage_point.description AS start_anchorage_point,
+                stop_quay.description AS stop_quay, 
+                stop_berth.description AS stop_berth, 
+                stop_anchorage_point.description AS stop_anchorage_point,
+                ts_main_event_field_val AS ts_operation,
+                states.main_event_field AS operation_type,
+                states.state_name,
+                'Anchor drop:'||data_arrivo_in_rada.ts_anchor_drop||', Pilot onboard:'||data_arrivo_in_rada.ts_imbarco_pilota||', Pilot off:'||data_arrivo_in_rada.ts_sbarco_pilota AS cn_details
+                FROM trips_logs
+                LEFT JOIN maneuverings
+                ON trips_logs.fk_maneuvering = maneuverings.id_maneuvering
+                LEFT JOIN (
+                    SELECT id_quay, description
+                    FROM quays
+                ) AS start_quay
+                ON maneuverings.fk_start_quay = start_quay.id_quay
+                LEFT JOIN (
+                    SELECT id_berth, description
+                    FROM berths
+                ) AS start_berth
+                ON maneuverings.fk_start_berth = start_berth.id_berth
+                LEFT JOIN (
+                    SELECT id_anchorage_point, description
+                    FROM anchorage_points
+                ) AS start_anchorage_point
+                ON maneuverings.fk_start_anchorage_point = start_anchorage_point.id_anchorage_point
+                LEFT JOIN (
+                    SELECT id_quay, description
+                    FROM quays
+                ) AS stop_quay
+                ON maneuverings.fk_stop_quay = stop_quay.id_quay
+                LEFT JOIN (
+                    SELECT id_berth, description
+                    FROM berths
+                ) AS stop_berth
+                ON maneuverings.fk_stop_berth = stop_berth.id_berth
+                LEFT JOIN (
+                    SELECT id_anchorage_point, description
+                    FROM anchorage_points
+                ) AS stop_anchorage_point
+                ON maneuverings.fk_stop_anchorage_point = stop_anchorage_point.id_anchorage_point
+                INNER JOIN control_unit_data
+                ON trips_logs.fk_control_unit_data = control_unit_data.id_control_unit_data
+                INNER JOIN states
+                ON trips_logs.fk_state = states.id_state
+                INNER JOIN ships
+                ON control_unit_data.fk_ship = ships.id_ship
+                INNER JOIN ship_types
+                ON ships.fk_ship_type = ship_types.id_ship_type
+                LEFT JOIN data_arrivo_in_rada
+                ON control_unit_data.id_control_unit_data = data_arrivo_in_rada.fk_control_unit_data
+                WHERE control_unit_data.fk_portinformer = ${idPortinformer}
+                AND trips_logs.fk_state = 16)
+            UNION (
+                SELECT 
+                id_control_unit_data AS id_trip,    
+                ships.ship_description AS ship_name,
+                ships.mmsi AS mmsi,
+                ships.imo AS imo,
+                ships.length AS length,
+                ships.width AS width,
+                ships.gross_tonnage AS gross_tonnage,
+                ship_types.type_description AS ship_type, 
+                start_quay.description AS start_quay,
+                start_berth.description AS start_berth,
+                start_anchorage_point.description AS start_anchorage_point,
+                stop_quay.description AS stop_quay, 
+                stop_berth.description AS stop_berth, 
+                stop_anchorage_point.description AS stop_anchorage_point,
+                ts_main_event_field_val AS ts_operation,
+                states.main_event_field AS operation_type,
+                states.state_name,
+                data_nave_all_ingresso.ts_harbour_entrance AS cn_details
+                FROM trips_logs
+                LEFT JOIN maneuverings
+                ON trips_logs.fk_maneuvering = maneuverings.id_maneuvering
+                LEFT JOIN (
+                    SELECT id_quay, description
+                    FROM quays
+                ) AS start_quay
+                ON maneuverings.fk_start_quay = start_quay.id_quay
+                LEFT JOIN (
+                    SELECT id_berth, description
+                    FROM berths
+                ) AS start_berth
+                ON maneuverings.fk_start_berth = start_berth.id_berth
+                LEFT JOIN (
+                    SELECT id_anchorage_point, description
+                    FROM anchorage_points
+                ) AS start_anchorage_point
+                ON maneuverings.fk_start_anchorage_point = start_anchorage_point.id_anchorage_point
+                LEFT JOIN (
+                    SELECT id_quay, description
+                    FROM quays
+                ) AS stop_quay
+                ON maneuverings.fk_stop_quay = stop_quay.id_quay
+                LEFT JOIN (
+                    SELECT id_berth, description
+                    FROM berths
+                ) AS stop_berth
+                ON maneuverings.fk_stop_berth = stop_berth.id_berth
+                LEFT JOIN (
+                    SELECT id_anchorage_point, description
+                    FROM anchorage_points
+                ) AS stop_anchorage_point
+                ON maneuverings.fk_stop_anchorage_point = stop_anchorage_point.id_anchorage_point
+                INNER JOIN control_unit_data
+                ON trips_logs.fk_control_unit_data = control_unit_data.id_control_unit_data
+                INNER JOIN states
+                ON trips_logs.fk_state = states.id_state
+                INNER JOIN ships
+                ON control_unit_data.fk_ship = ships.id_ship
+                INNER JOIN ship_types
+                ON ships.fk_ship_type = ship_types.id_ship_type
+                LEFT JOIN data_nave_all_ingresso
+                ON control_unit_data.id_control_unit_data = data_nave_all_ingresso.fk_control_unit_data
+                WHERE control_unit_data.fk_portinformer = ${idPortinformer}
+                AND trips_logs.fk_state = 14    
+            ) UNION (
+                SELECT 
+                id_control_unit_data AS id_trip,    
+                ships.ship_description AS ship_name,
+                ships.mmsi AS mmsi,
+                ships.imo AS imo,
+                ships.length AS length,
+                ships.width AS width,
+                ships.gross_tonnage AS gross_tonnage,
+                ship_types.type_description AS ship_type, 
+                start_quay.description AS start_quay,
+                start_berth.description AS start_berth,
+                start_anchorage_point.description AS start_anchorage_point,
+                stop_quay.description AS stop_quay, 
+                stop_berth.description AS stop_berth, 
+                stop_anchorage_point.description AS stop_anchorage_point,
+                ts_main_event_field_val AS ts_operation,
+                states.main_event_field AS operation_type,
+                states.state_name,
+                'Ormeggio:'||data_ormeggio_nave.ts_fine_ormeggio||', Pilot onboard:'||data_ormeggio_nave.ts_imbarco_pilota||', Pilot off:'||data_ormeggio_nave.ts_sbarco_pilota AS cn_details
+                FROM trips_logs
+                LEFT JOIN maneuverings
+                ON trips_logs.fk_maneuvering = maneuverings.id_maneuvering
+                LEFT JOIN (
+                    SELECT id_quay, description
+                    FROM quays
+                ) AS start_quay
+                ON maneuverings.fk_start_quay = start_quay.id_quay
+                LEFT JOIN (
+                    SELECT id_berth, description
+                    FROM berths
+                ) AS start_berth
+                ON maneuverings.fk_start_berth = start_berth.id_berth
+                LEFT JOIN (
+                    SELECT id_anchorage_point, description
+                    FROM anchorage_points
+                ) AS start_anchorage_point
+                ON maneuverings.fk_start_anchorage_point = start_anchorage_point.id_anchorage_point
+                LEFT JOIN (
+                    SELECT id_quay, description
+                    FROM quays
+                ) AS stop_quay
+                ON maneuverings.fk_stop_quay = stop_quay.id_quay
+                LEFT JOIN (
+                    SELECT id_berth, description
+                    FROM berths
+                ) AS stop_berth
+                ON maneuverings.fk_stop_berth = stop_berth.id_berth
+                LEFT JOIN (
+                    SELECT id_anchorage_point, description
+                    FROM anchorage_points
+                ) AS stop_anchorage_point
+                ON maneuverings.fk_stop_anchorage_point = stop_anchorage_point.id_anchorage_point
+                INNER JOIN control_unit_data
+                ON trips_logs.fk_control_unit_data = control_unit_data.id_control_unit_data
+                INNER JOIN states
+                ON trips_logs.fk_state = states.id_state
+                INNER JOIN ships
+                ON control_unit_data.fk_ship = ships.id_ship
+                INNER JOIN ship_types
+                ON ships.fk_ship_type = ship_types.id_ship_type
+                LEFT JOIN data_ormeggio_nave
+                ON control_unit_data.id_control_unit_data = data_ormeggio_nave.fk_control_unit_data
+                WHERE control_unit_data.fk_portinformer = ${idPortinformer}
+                AND trips_logs.fk_state = 17
+            ) UNION (
+                SELECT 
+                id_control_unit_data AS id_trip,    
+                ships.ship_description AS ship_name,
+                ships.mmsi AS mmsi,
+                ships.imo AS imo,
+                ships.length AS length,
+                ships.width AS width,
+                ships.gross_tonnage AS gross_tonnage,
+                ship_types.type_description AS ship_type, 
+                start_quay.description AS start_quay,
+                start_berth.description AS start_berth,
+                start_anchorage_point.description AS start_anchorage_point,
+                stop_quay.description AS stop_quay, 
+                stop_berth.description AS stop_berth, 
+                stop_anchorage_point.description AS stop_anchorage_point,
+                ts_main_event_field_val AS ts_operation,
+                states.main_event_field AS operation_type,
+                states.state_name,
+                'Ormeggio:'||data_da_ormeggio_a_ormeggio.ts_fine_ormeggio||', Pilot onboard:'||data_da_ormeggio_a_ormeggio.ts_imbarco_pilota||', Pilot off:'||data_da_ormeggio_a_ormeggio.ts_sbarco_pilota||', Prontezza:'||data_da_ormeggio_a_ormeggio.ts_prontezza AS cn_details
+                FROM trips_logs
+                LEFT JOIN maneuverings
+                ON trips_logs.fk_maneuvering = maneuverings.id_maneuvering
+                LEFT JOIN (
+                    SELECT id_quay, description
+                    FROM quays
+                ) AS start_quay
+                ON maneuverings.fk_start_quay = start_quay.id_quay
+                LEFT JOIN (
+                    SELECT id_berth, description
+                    FROM berths
+                ) AS start_berth
+                ON maneuverings.fk_start_berth = start_berth.id_berth
+                LEFT JOIN (
+                    SELECT id_anchorage_point, description
+                    FROM anchorage_points
+                ) AS start_anchorage_point
+                ON maneuverings.fk_start_anchorage_point = start_anchorage_point.id_anchorage_point
+                LEFT JOIN (
+                    SELECT id_quay, description
+                    FROM quays
+                ) AS stop_quay
+                ON maneuverings.fk_stop_quay = stop_quay.id_quay
+                LEFT JOIN (
+                    SELECT id_berth, description
+                    FROM berths
+                ) AS stop_berth
+                ON maneuverings.fk_stop_berth = stop_berth.id_berth
+                LEFT JOIN (
+                    SELECT id_anchorage_point, description
+                    FROM anchorage_points
+                ) AS stop_anchorage_point
+                ON maneuverings.fk_stop_anchorage_point = stop_anchorage_point.id_anchorage_point
+                INNER JOIN control_unit_data
+                ON trips_logs.fk_control_unit_data = control_unit_data.id_control_unit_data
+                INNER JOIN states
+                ON trips_logs.fk_state = states.id_state
+                INNER JOIN ships
+                ON control_unit_data.fk_ship = ships.id_ship
+                INNER JOIN ship_types
+                ON ships.fk_ship_type = ship_types.id_ship_type
+                LEFT JOIN data_da_ormeggio_a_ormeggio
+                ON control_unit_data.id_control_unit_data = data_da_ormeggio_a_ormeggio.fk_control_unit_data
+                WHERE control_unit_data.fk_portinformer = ${idPortinformer}
+                AND trips_logs.fk_state = 18
+            ) UNION (
+                SELECT 
+                id_control_unit_data AS id_trip,    
+                ships.ship_description AS ship_name,
+                ships.mmsi AS mmsi,
+                ships.imo AS imo,
+                ships.length AS length,
+                ships.width AS width,
+                ships.gross_tonnage AS gross_tonnage,
+                ship_types.type_description AS ship_type, 
+                start_quay.description AS start_quay,
+                start_berth.description AS start_berth,
+                start_anchorage_point.description AS start_anchorage_point,
+                stop_quay.description AS stop_quay, 
+                stop_berth.description AS stop_berth, 
+                stop_anchorage_point.description AS stop_anchorage_point,
+                ts_main_event_field_val AS ts_operation,
+                states.main_event_field AS operation_type,
+                states.state_name,
+                'Disormeggio:'||data_da_ormeggio_a_rada.ts_disormeggio||', Out of break water:'||data_da_ormeggio_a_rada.ts_out_of_break_water||', Anchor drop:'||data_da_ormeggio_a_rada.ts_anchor_drop||', Pilot onboard:'||data_da_ormeggio_a_rada.ts_imbarco_pilota||', Pilot off:'||data_da_ormeggio_a_rada.ts_sbarco_pilota||', Prontezza:'||data_da_ormeggio_a_rada.ts_readiness AS cn_details                
+                FROM trips_logs
+                LEFT JOIN maneuverings
+                ON trips_logs.fk_maneuvering = maneuverings.id_maneuvering
+                LEFT JOIN (
+                    SELECT id_quay, description
+                    FROM quays
+                ) AS start_quay
+                ON maneuverings.fk_start_quay = start_quay.id_quay
+                LEFT JOIN (
+                    SELECT id_berth, description
+                    FROM berths
+                ) AS start_berth
+                ON maneuverings.fk_start_berth = start_berth.id_berth
+                LEFT JOIN (
+                    SELECT id_anchorage_point, description
+                    FROM anchorage_points
+                ) AS start_anchorage_point
+                ON maneuverings.fk_start_anchorage_point = start_anchorage_point.id_anchorage_point
+                LEFT JOIN (
+                    SELECT id_quay, description
+                    FROM quays
+                ) AS stop_quay
+                ON maneuverings.fk_stop_quay = stop_quay.id_quay
+                LEFT JOIN (
+                    SELECT id_berth, description
+                    FROM berths
+                ) AS stop_berth
+                ON maneuverings.fk_stop_berth = stop_berth.id_berth
+                LEFT JOIN (
+                    SELECT id_anchorage_point, description
+                    FROM anchorage_points
+                ) AS stop_anchorage_point
+                ON maneuverings.fk_stop_anchorage_point = stop_anchorage_point.id_anchorage_point
+                INNER JOIN control_unit_data
+                ON trips_logs.fk_control_unit_data = control_unit_data.id_control_unit_data
+                INNER JOIN states
+                ON trips_logs.fk_state = states.id_state
+                INNER JOIN ships
+                ON control_unit_data.fk_ship = ships.id_ship
+                INNER JOIN ship_types
+                ON ships.fk_ship_type = ship_types.id_ship_type
+                LEFT JOIN data_da_ormeggio_a_rada
+                ON control_unit_data.id_control_unit_data = data_da_ormeggio_a_rada.fk_control_unit_data
+                WHERE control_unit_data.fk_portinformer = ${idPortinformer}
+                AND trips_logs.fk_state = 19
+            ) UNION (
+                SELECT 
+                id_control_unit_data AS id_trip,    
+                ships.ship_description AS ship_name,
+                ships.mmsi AS mmsi,
+                ships.imo AS imo,
+                ships.length AS length,
+                ships.width AS width,
+                ships.gross_tonnage AS gross_tonnage,
+                ship_types.type_description AS ship_type, 
+                start_quay.description AS start_quay,
+                start_berth.description AS start_berth,
+                start_anchorage_point.description AS start_anchorage_point,
+                stop_quay.description AS stop_quay, 
+                stop_berth.description AS stop_berth, 
+                stop_anchorage_point.description AS stop_anchorage_point,
+                ts_main_event_field_val AS ts_operation,
+                states.main_event_field AS operation_type,
+                states.state_name,
+                'Anchor up:'||data_da_rada_a_ormeggio.ts_disancoraggio||', Harbour entrance:'||data_da_rada_a_ormeggio.ts_harbour_entrance||', Mooring:'||data_da_rada_a_ormeggio.ts_fine_ormeggio||', Pilot onboard:'||data_da_rada_a_ormeggio.ts_imbarco_pilota||', Pilot off:'||data_da_rada_a_ormeggio.ts_sbarco_pilota||', Prontezza:'||data_da_rada_a_ormeggio.ts_prontezza AS cn_details                
+                FROM trips_logs
+                LEFT JOIN maneuverings
+                ON trips_logs.fk_maneuvering = maneuverings.id_maneuvering
+                LEFT JOIN (
+                    SELECT id_quay, description
+                    FROM quays
+                ) AS start_quay
+                ON maneuverings.fk_start_quay = start_quay.id_quay
+                LEFT JOIN (
+                    SELECT id_berth, description
+                    FROM berths
+                ) AS start_berth
+                ON maneuverings.fk_start_berth = start_berth.id_berth
+                LEFT JOIN (
+                    SELECT id_anchorage_point, description
+                    FROM anchorage_points
+                ) AS start_anchorage_point
+                ON maneuverings.fk_start_anchorage_point = start_anchorage_point.id_anchorage_point
+                LEFT JOIN (
+                    SELECT id_quay, description
+                    FROM quays
+                ) AS stop_quay
+                ON maneuverings.fk_stop_quay = stop_quay.id_quay
+                LEFT JOIN (
+                    SELECT id_berth, description
+                    FROM berths
+                ) AS stop_berth
+                ON maneuverings.fk_stop_berth = stop_berth.id_berth
+                LEFT JOIN (
+                    SELECT id_anchorage_point, description
+                    FROM anchorage_points
+                ) AS stop_anchorage_point
+                ON maneuverings.fk_stop_anchorage_point = stop_anchorage_point.id_anchorage_point
+                INNER JOIN control_unit_data
+                ON trips_logs.fk_control_unit_data = control_unit_data.id_control_unit_data
+                INNER JOIN states
+                ON trips_logs.fk_state = states.id_state
+                INNER JOIN ships
+                ON control_unit_data.fk_ship = ships.id_ship
+                INNER JOIN ship_types
+                ON ships.fk_ship_type = ship_types.id_ship_type
+                LEFT JOIN data_da_rada_a_ormeggio
+                ON control_unit_data.id_control_unit_data = data_da_rada_a_ormeggio.fk_control_unit_data
+                WHERE control_unit_data.fk_portinformer = ${idPortinformer}
+                AND trips_logs.fk_state = 20
+            ) UNION (
+                SELECT 
+                id_control_unit_data AS id_trip,    
+                ships.ship_description AS ship_name,
+                ships.mmsi AS mmsi,
+                ships.imo AS imo,
+                ships.length AS length,
+                ships.width AS width,
+                ships.gross_tonnage AS gross_tonnage,
+                ship_types.type_description AS ship_type, 
+                start_quay.description AS start_quay,
+                start_berth.description AS start_berth,
+                start_anchorage_point.description AS start_anchorage_point,
+                stop_quay.description AS stop_quay, 
+                stop_berth.description AS stop_berth, 
+                stop_anchorage_point.description AS stop_anchorage_point,
+                ts_main_event_field_val AS ts_operation,
+                states.main_event_field AS operation_type,
+                states.state_name,
+                data_partenza_da_banchina.ts_disormeggio AS cn_details
+                FROM trips_logs
+                LEFT JOIN maneuverings
+                ON trips_logs.fk_maneuvering = maneuverings.id_maneuvering
+                LEFT JOIN (
+                    SELECT id_quay, description
+                    FROM quays
+                ) AS start_quay
+                ON maneuverings.fk_start_quay = start_quay.id_quay
+                LEFT JOIN (
+                    SELECT id_berth, description
+                    FROM berths
+                ) AS start_berth
+                ON maneuverings.fk_start_berth = start_berth.id_berth
+                LEFT JOIN (
+                    SELECT id_anchorage_point, description
+                    FROM anchorage_points
+                ) AS start_anchorage_point
+                ON maneuverings.fk_start_anchorage_point = start_anchorage_point.id_anchorage_point
+                LEFT JOIN (
+                    SELECT id_quay, description
+                    FROM quays
+                ) AS stop_quay
+                ON maneuverings.fk_stop_quay = stop_quay.id_quay
+                LEFT JOIN (
+                    SELECT id_berth, description
+                    FROM berths
+                ) AS stop_berth
+                ON maneuverings.fk_stop_berth = stop_berth.id_berth
+                LEFT JOIN (
+                    SELECT id_anchorage_point, description
+                    FROM anchorage_points
+                ) AS stop_anchorage_point
+                ON maneuverings.fk_stop_anchorage_point = stop_anchorage_point.id_anchorage_point
+                INNER JOIN control_unit_data
+                ON trips_logs.fk_control_unit_data = control_unit_data.id_control_unit_data
+                INNER JOIN states
+                ON trips_logs.fk_state = states.id_state
+                INNER JOIN ships
+                ON control_unit_data.fk_ship = ships.id_ship
+                INNER JOIN ship_types
+                ON ships.fk_ship_type = ship_types.id_ship_type
+                LEFT JOIN data_partenza_da_banchina
+                ON control_unit_data.id_control_unit_data = data_partenza_da_banchina.fk_control_unit_data
+                WHERE control_unit_data.fk_portinformer = ${idPortinformer}
+                AND trips_logs.fk_state = 23
+            ) UNION (
+                SELECT 
+                id_control_unit_data AS id_trip,    
+                ships.ship_description AS ship_name,
+                ships.mmsi AS mmsi,
+                ships.imo AS imo,
+                ships.length AS length,
+                ships.width AS width,
+                ships.gross_tonnage AS gross_tonnage,
+                ship_types.type_description AS ship_type, 
+                start_quay.description AS start_quay,
+                start_berth.description AS start_berth,
+                start_anchorage_point.description AS start_anchorage_point,
+                stop_quay.description AS stop_quay, 
+                stop_berth.description AS stop_berth, 
+                stop_anchorage_point.description AS stop_anchorage_point,
+                ts_main_event_field_val AS ts_operation,
+                states.main_event_field AS operation_type,
+                states.state_name,
+                data_partenza_da_rada.ts_disancoraggio AS cn_details
+                FROM trips_logs
+                LEFT JOIN maneuverings
+                ON trips_logs.fk_maneuvering = maneuverings.id_maneuvering
+                LEFT JOIN (
+                    SELECT id_quay, description
+                    FROM quays
+                ) AS start_quay
+                ON maneuverings.fk_start_quay = start_quay.id_quay
+                LEFT JOIN (
+                    SELECT id_berth, description
+                    FROM berths
+                ) AS start_berth
+                ON maneuverings.fk_start_berth = start_berth.id_berth
+                LEFT JOIN (
+                    SELECT id_anchorage_point, description
+                    FROM anchorage_points
+                ) AS start_anchorage_point
+                ON maneuverings.fk_start_anchorage_point = start_anchorage_point.id_anchorage_point
+                LEFT JOIN (
+                    SELECT id_quay, description
+                    FROM quays
+                ) AS stop_quay
+                ON maneuverings.fk_stop_quay = stop_quay.id_quay
+                LEFT JOIN (
+                    SELECT id_berth, description
+                    FROM berths
+                ) AS stop_berth
+                ON maneuverings.fk_stop_berth = stop_berth.id_berth
+                LEFT JOIN (
+                    SELECT id_anchorage_point, description
+                    FROM anchorage_points
+                ) AS stop_anchorage_point
+                ON maneuverings.fk_stop_anchorage_point = stop_anchorage_point.id_anchorage_point
+                INNER JOIN control_unit_data
+                ON trips_logs.fk_control_unit_data = control_unit_data.id_control_unit_data
+                INNER JOIN states
+                ON trips_logs.fk_state = states.id_state
+                INNER JOIN ships
+                ON control_unit_data.fk_ship = ships.id_ship
+                INNER JOIN ship_types
+                ON ships.fk_ship_type = ship_types.id_ship_type
+                LEFT JOIN data_partenza_da_rada
+                ON control_unit_data.id_control_unit_data = data_partenza_da_rada.fk_control_unit_data
+                WHERE control_unit_data.fk_portinformer = ${idPortinformer}
+                AND trips_logs.fk_state = 25
+            ) UNION (
+                SELECT 
+                id_control_unit_data AS id_trip,    
+                ships.ship_description AS ship_name,
+                ships.mmsi AS mmsi,
+                ships.imo AS imo,
+                ships.length AS length,
+                ships.width AS width,
+                ships.gross_tonnage AS gross_tonnage,
+                ship_types.type_description AS ship_type, 
+                start_quay.description AS start_quay,
+                start_berth.description AS start_berth,
+                start_anchorage_point.description AS start_anchorage_point,
+                stop_quay.description AS stop_quay, 
+                stop_berth.description AS stop_berth, 
+                stop_anchorage_point.description AS stop_anchorage_point,
+                ts_main_event_field_val AS ts_operation,
+                states.main_event_field AS operation_type,
+                states.state_name,
+                data_fuori_dal_porto.ts_out_of_sight AS cn_details
+                FROM trips_logs
+                LEFT JOIN maneuverings
+                ON trips_logs.fk_maneuvering = maneuverings.id_maneuvering
+                LEFT JOIN (
+                    SELECT id_quay, description
+                    FROM quays
+                ) AS start_quay
+                ON maneuverings.fk_start_quay = start_quay.id_quay
+                LEFT JOIN (
+                    SELECT id_berth, description
+                    FROM berths
+                ) AS start_berth
+                ON maneuverings.fk_start_berth = start_berth.id_berth
+                LEFT JOIN (
+                    SELECT id_anchorage_point, description
+                    FROM anchorage_points
+                ) AS start_anchorage_point
+                ON maneuverings.fk_start_anchorage_point = start_anchorage_point.id_anchorage_point
+                LEFT JOIN (
+                    SELECT id_quay, description
+                    FROM quays
+                ) AS stop_quay
+                ON maneuverings.fk_stop_quay = stop_quay.id_quay
+                LEFT JOIN (
+                    SELECT id_berth, description
+                    FROM berths
+                ) AS stop_berth
+                ON maneuverings.fk_stop_berth = stop_berth.id_berth
+                LEFT JOIN (
+                    SELECT id_anchorage_point, description
+                    FROM anchorage_points
+                ) AS stop_anchorage_point
+                ON maneuverings.fk_stop_anchorage_point = stop_anchorage_point.id_anchorage_point
+                INNER JOIN control_unit_data
+                ON trips_logs.fk_control_unit_data = control_unit_data.id_control_unit_data
+                INNER JOIN states
+                ON trips_logs.fk_state = states.id_state
+                INNER JOIN ships
+                ON control_unit_data.fk_ship = ships.id_ship
+                INNER JOIN ship_types
+                ON ships.fk_ship_type = ship_types.id_ship_type
+                LEFT JOIN data_fuori_dal_porto
+                ON control_unit_data.id_control_unit_data = data_fuori_dal_porto.fk_control_unit_data
+                WHERE control_unit_data.fk_portinformer = ${idPortinformer}
+                AND trips_logs.fk_state = 26
+            ) UNION (
+                SELECT 
+                id_control_unit_data AS id_trip,    
+                ships.ship_description AS ship_name,
+                ships.mmsi AS mmsi,
+                ships.imo AS imo,
+                ships.length AS length,
+                ships.width AS width,
+                ships.gross_tonnage AS gross_tonnage,
+                ship_types.type_description AS ship_type, 
+                start_quay.description AS start_quay,
+                start_berth.description AS start_berth,
+                start_anchorage_point.description AS start_anchorage_point,
+                stop_quay.description AS stop_quay, 
+                stop_berth.description AS stop_berth, 
+                stop_anchorage_point.description AS stop_anchorage_point,
+                ts_main_event_field_val AS ts_operation,
+                states.main_event_field AS operation_type,
+                states.state_name,
+                '-' AS cn_details
+                FROM trips_logs
+                LEFT JOIN maneuverings
+                ON trips_logs.fk_maneuvering = maneuverings.id_maneuvering
+                LEFT JOIN (
+                    SELECT id_quay, description
+                    FROM quays
+                ) AS start_quay
+                ON maneuverings.fk_start_quay = start_quay.id_quay
+                LEFT JOIN (
+                    SELECT id_berth, description
+                    FROM berths
+                ) AS start_berth
+                ON maneuverings.fk_start_berth = start_berth.id_berth
+                LEFT JOIN (
+                    SELECT id_anchorage_point, description
+                    FROM anchorage_points
+                ) AS start_anchorage_point
+                ON maneuverings.fk_start_anchorage_point = start_anchorage_point.id_anchorage_point
+                LEFT JOIN (
+                    SELECT id_quay, description
+                    FROM quays
+                ) AS stop_quay
+                ON maneuverings.fk_stop_quay = stop_quay.id_quay
+                LEFT JOIN (
+                    SELECT id_berth, description
+                    FROM berths
+                ) AS stop_berth
+                ON maneuverings.fk_stop_berth = stop_berth.id_berth
+                LEFT JOIN (
+                    SELECT id_anchorage_point, description
+                    FROM anchorage_points
+                ) AS stop_anchorage_point
+                ON maneuverings.fk_stop_anchorage_point = stop_anchorage_point.id_anchorage_point
+                INNER JOIN control_unit_data
+                ON trips_logs.fk_control_unit_data = control_unit_data.id_control_unit_data
+                INNER JOIN states
+                ON trips_logs.fk_state = states.id_state
+                INNER JOIN ships
+                ON control_unit_data.fk_ship = ships.id_ship
+                INNER JOIN ship_types
+                ON ships.fk_ship_type = ship_types.id_ship_type
+                WHERE control_unit_data.fk_portinformer = ${idPortinformer}
+                AND trips_logs.fk_state IN (10, 11, 12, 15, 21, 22)
+            )`;
 };
 
 let shipReportDetails = function (idPortinformer) {
