@@ -397,7 +397,7 @@ let shipReportList = function (idPortinformer) {
                 start_quay.description||' '||start_berth.description||' '||start_anchorage_point.description AS initial_position,
                 stop_quay.description||' '||stop_berth.description||' '||stop_anchorage_point.description AS final_position,
                 states.state_name AS state_name,
-                states.main_event_field||': '||ts_main_event_field_val||', '||', Pilot onboard:'||data_arrivo_in_rada.ts_imbarco_pilota||', Pilot off:'||data_arrivo_in_rada.ts_sbarco_pilota AS cn_details
+                states.main_event_field||': '||ts_main_event_field_val||'\n, '||', Pilot onboard:'||data_arrivo_in_rada.ts_imbarco_pilota||'\n, Pilot off:'||data_arrivo_in_rada.ts_sbarco_pilota AS cn_details
                 FROM trips_logs
                 LEFT JOIN maneuverings
                 ON trips_logs.fk_maneuvering = maneuverings.id_maneuvering
@@ -515,7 +515,7 @@ let shipReportList = function (idPortinformer) {
                 start_quay.description||' '||start_berth.description||' '||start_anchorage_point.description AS initial_position,
                 stop_quay.description||' '||stop_berth.description||' '||stop_anchorage_point.description AS final_position,
                 states.state_name AS state_name,
-                states.main_event_field||': '||ts_main_event_field_val||', Pilot onboard:'||data_ormeggio_nave.ts_imbarco_pilota||', Pilot off:'||data_ormeggio_nave.ts_sbarco_pilota AS cn_details
+                states.main_event_field||': '||ts_main_event_field_val||'\n, Pilot onboard:'||data_ormeggio_nave.ts_imbarco_pilota||'\n, Pilot off:'||data_ormeggio_nave.ts_sbarco_pilota AS cn_details
                 FROM trips_logs
                 LEFT JOIN maneuverings
                 ON trips_logs.fk_maneuvering = maneuverings.id_maneuvering
@@ -574,7 +574,7 @@ let shipReportList = function (idPortinformer) {
                 start_quay.description||' '||start_berth.description||' '||start_anchorage_point.description AS initial_position,
                 stop_quay.description||' '||stop_berth.description||' '||stop_anchorage_point.description AS final_position,
                 states.state_name AS state_name,
-                states.main_event_field||': '||ts_main_event_field_val||', Mooring:'||data_da_ormeggio_a_ormeggio.ts_fine_ormeggio||', Pilot onboard:'||data_da_ormeggio_a_ormeggio.ts_imbarco_pilota||', Pilot off:'||data_da_ormeggio_a_ormeggio.ts_sbarco_pilota||', Prontezza:'||data_da_ormeggio_a_ormeggio.ts_prontezza AS cn_details
+                states.main_event_field||': '||ts_main_event_field_val||'\n, Mooring:'||data_da_ormeggio_a_ormeggio.ts_fine_ormeggio||'\n, Pilot onboard:'||data_da_ormeggio_a_ormeggio.ts_imbarco_pilota||'\n, Pilot off:'||data_da_ormeggio_a_ormeggio.ts_sbarco_pilota||'\n, Prontezza:'||data_da_ormeggio_a_ormeggio.ts_prontezza AS cn_details
                 FROM trips_logs
                 LEFT JOIN maneuverings
                 ON trips_logs.fk_maneuvering = maneuverings.id_maneuvering
@@ -633,7 +633,7 @@ let shipReportList = function (idPortinformer) {
                 start_quay.description||' '||start_berth.description||' '||start_anchorage_point.description AS initial_position,
                 stop_quay.description||' '||stop_berth.description||' '||stop_anchorage_point.description AS final_position,
                 states.state_name AS state_name,
-                states.main_event_field||': '||ts_main_event_field_val||', Out of break water:'||data_da_ormeggio_a_rada.ts_out_of_break_water||', Anchor drop:'||data_da_ormeggio_a_rada.ts_anchor_drop||', Pilot onboard:'||data_da_ormeggio_a_rada.ts_imbarco_pilota||', Pilot off:'||data_da_ormeggio_a_rada.ts_sbarco_pilota||', Prontezza:'||data_da_ormeggio_a_rada.ts_readiness AS cn_details                
+                states.main_event_field||': '||ts_main_event_field_val||'\n, Out of break water:'||data_da_ormeggio_a_rada.ts_out_of_break_water||'\n, Anchor drop:'||data_da_ormeggio_a_rada.ts_anchor_drop||'\n, Pilot onboard:'||data_da_ormeggio_a_rada.ts_imbarco_pilota||'\n, Pilot off:'||data_da_ormeggio_a_rada.ts_sbarco_pilota||'\n, Prontezza:'||data_da_ormeggio_a_rada.ts_readiness AS cn_details                
                 FROM trips_logs
                 LEFT JOIN maneuverings
                 ON trips_logs.fk_maneuvering = maneuverings.id_maneuvering
@@ -692,7 +692,7 @@ let shipReportList = function (idPortinformer) {
                 start_quay.description||' '||start_berth.description||' '||start_anchorage_point.description AS initial_position,
                 stop_quay.description||' '||stop_berth.description||' '||stop_anchorage_point.description AS final_position,
                 states.state_name AS state_name,
-                states.main_event_field||': '||ts_main_event_field_val||', Harbour entrance:'||data_da_rada_a_ormeggio.ts_harbour_entrance||', Mooring:'||data_da_rada_a_ormeggio.ts_fine_ormeggio||', Pilot onboard:'||data_da_rada_a_ormeggio.ts_imbarco_pilota||', Pilot off:'||data_da_rada_a_ormeggio.ts_sbarco_pilota||', Prontezza:'||data_da_rada_a_ormeggio.ts_prontezza AS cn_details                
+                states.main_event_field||': '||ts_main_event_field_val||'\n, Harbour entrance:'||data_da_rada_a_ormeggio.ts_harbour_entrance||'\n, Mooring:'||data_da_rada_a_ormeggio.ts_fine_ormeggio||'\n, Pilot onboard:'||data_da_rada_a_ormeggio.ts_imbarco_pilota||'\n, Pilot off:'||data_da_rada_a_ormeggio.ts_sbarco_pilota||'\n, Prontezza:'||data_da_rada_a_ormeggio.ts_prontezza AS cn_details                
                 FROM trips_logs
                 LEFT JOIN maneuverings
                 ON trips_logs.fk_maneuvering = maneuverings.id_maneuvering
