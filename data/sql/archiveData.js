@@ -574,7 +574,7 @@ let shipReportList = function (idPortinformer) {
                 start_quay.description||' '||start_berth.description||' '||start_anchorage_point.description AS initial_position,
                 stop_quay.description||' '||stop_berth.description||' '||stop_anchorage_point.description AS final_position,
                 states.state_name AS state_name,
-                states.main_event_field||': '||ts_main_event_field_val||', Pilot onboard:'||data_da_ormeggio_a_ormeggio.ts_imbarco_pilota||', Pilot off:'||data_da_ormeggio_a_ormeggio.ts_sbarco_pilota||', Prontezza:'||data_da_ormeggio_a_ormeggio.ts_prontezza AS cn_details
+                states.main_event_field||': '||ts_main_event_field_val||', Mooring:'||data_da_ormeggio_a_ormeggio.ts_fine_ormeggio||', Pilot onboard:'||data_da_ormeggio_a_ormeggio.ts_imbarco_pilota||', Pilot off:'||data_da_ormeggio_a_ormeggio.ts_sbarco_pilota||', Prontezza:'||data_da_ormeggio_a_ormeggio.ts_prontezza AS cn_details
                 FROM trips_logs
                 LEFT JOIN maneuverings
                 ON trips_logs.fk_maneuvering = maneuverings.id_maneuvering
