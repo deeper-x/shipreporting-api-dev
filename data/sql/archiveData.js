@@ -1133,7 +1133,7 @@ let arrivalsArchive = function (idPortinformer, idArrival, idArrivalPrevision) {
                 SELECT id_port, ports.name AS port_name, ports.country AS port_country
                 FROM ports
             ) AS port_destination
-            ON shipping_details.fk_port_provenance = port_destination.id_port
+            ON shipping_details.fk_port_destination = port_destination.id_port
             LEFT JOIN quays
             ON maneuverings.fk_stop_quay = quays.id_quay
             AND maneuverings.fk_state = ${idArrivalPrevision}
@@ -1185,7 +1185,7 @@ let departuresArchive = function (idPortinformer, idDepartureState) {
                 SELECT id_port, ports.name AS port_name, ports.country AS port_country
                 FROM ports
             ) AS port_destination
-            ON shipping_details.fk_port_provenance = port_destination.id_port
+            ON shipping_details.fk_port_destination = port_destination.id_port
             LEFT JOIN quays
             ON maneuverings.fk_stop_quay = quays.id_quay
             AND maneuverings.fk_state = ${idDepartureState}
