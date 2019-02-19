@@ -220,8 +220,11 @@ class Router {
 
     arrivalsArchive (response, params) {
         const idPortinformer = params.fk_portinformer;
+        const configuration = new Configuration();
 
-        let query = sqlArchiveData.arrivalsArchive(idPortinformer);
+        const idArrival = configuration.arrivalState;
+        let query = sqlArchiveData.arrivalsArchive(idPortinformer, idArrival);
+        console.log(query);
         QueryManager.runSelect(query, response);
     }
 
