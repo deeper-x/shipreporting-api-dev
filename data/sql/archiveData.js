@@ -1092,7 +1092,7 @@ let shipReportDetails = function (idPortinformer) {
 };
 
 
-let arrivalsArchive = function (idPortinformer, idArrival) {
+let arrivalsArchive = function (idPortinformer, idArrival, idArrivalPrevision) {
     return `SELECT id_control_unit_data AS id_trip, 
             ships.ship_description AS ship_name, 
             ship_types.type_acronym AS ship_type,  
@@ -1107,7 +1107,7 @@ let arrivalsArchive = function (idPortinformer, idArrival) {
             agencies.description AS agency,
             last_port_of_call.port_name||'('||last_port_of_call.port_country||')' AS last_port_of_call,
             port_destination.port_name||'('||port_destination.port_country||')' AS port_destination,
-            quays.description||'-'||berths.description AS destination_quay_berth
+            quays.description AS destination_quay_berth
             FROM control_unit_data
             INNER JOIN data_avvistamento_nave
             ON data_avvistamento_nave.fk_control_unit_data = id_control_unit_data
@@ -1119,7 +1119,7 @@ let arrivalsArchive = function (idPortinformer, idArrival) {
             ON ships.fk_country_flag = countries.id_country
             INNER JOIN maneuverings
             ON maneuverings.fk_control_unit_data = control_unit_data.id_control_unit_data
-            AND maneuverings.fk_state = ${idArrival}
+            AND maneuverings.fk_state = ${idArrivalPrevision}
             INNER JOIN agencies
             ON data_avvistamento_nave.fk_agency = agencies.id_agency
             INNER JOIN shipping_details
@@ -1134,10 +1134,12 @@ let arrivalsArchive = function (idPortinformer, idArrival) {
                 FROM ports
             ) AS port_destination
             ON shipping_details.fk_port_provenance = port_destination.id_port
-            INNER JOIN quays
+            LEFT JOIN quays
             ON maneuverings.fk_stop_quay = quays.id_quay
-            INNER JOIN berths
+            AND maneuverings.fk_state = ${idArrivalPrevision}
+            LEFT JOIN berths
             ON maneuverings.fk_stop_berth = berths.id_berth
+            AND maneuverings.fk_state = ${idArrivalPrevision}
             WHERE control_unit_data.fk_portinformer = ${idPortinformer}
             AND LENGTH(ts_avvistamento) > 0`;
 };
