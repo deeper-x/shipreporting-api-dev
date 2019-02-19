@@ -223,7 +223,9 @@ class Router {
         const configuration = new Configuration();
 
         const idArrival = configuration.arrivalState;
-        let query = sqlArchiveData.arrivalsArchive(idPortinformer, idArrival);
+        const idArrivalPrevision = configuration.arrivalPrevisionState;
+
+        let query = sqlArchiveData.arrivalsArchive(idPortinformer, idArrival, idArrivalPrevision);
         console.log(query);
         QueryManager.runSelect(query, response);
     }

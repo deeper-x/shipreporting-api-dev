@@ -7,6 +7,7 @@ class Configuration {
         this._notOperationalStates = '(10, 11, 12)';
         this._shiftingStates = '(18, 19, 20, 21, 22)';
         this._arrivalState = '13';
+        this._arrivalPrevision = '10';
         this._departureState = '26';
         this._arrivalPrevisionState = '10';
     }
