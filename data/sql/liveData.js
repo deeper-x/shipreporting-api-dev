@@ -24,7 +24,7 @@ let moored = function (idPortinformer, idCurrentActivity, notOperationalStates) 
         ON control_unit_data.id_control_unit_data = TL.fk_control_unit_data
         INNER JOIN shipping_details
         ON shipping_details.id_shipping_details = control_unit_data.fk_shipping_details
-        INNER JOIN (
+        LEFT JOIN (
             SELECT fk_control_unit_data, string_agg(goods_mvmnt_type||'->'||goods_categories.description::TEXT||'-'||groups_categories.description, ', ') AS shipped_goods_row
             FROM shipped_goods
             INNER JOIN goods_categories
