@@ -34,6 +34,14 @@ let moored = function (idPortinformer, idCurrentActivity, notOperationalStates) 
             GROUP BY fk_control_unit_data        
         ) as shipped_goods_data
         ON shipped_goods_data.fk_control_unit_data = control_unit_data.id_control_unit_data
+        INNER JOIN (
+                SELECT fk_control_unit_data, string_agg(traffic_list_mvnt_type, '-')
+                FROM traffic_list
+                INNER JOIN traffic_list_categories
+                ON traffic_list_categories.id_traffic_list_category = traffic_list.fk_traffic_list_category
+                GROUP BY fk_control_unit_data
+        ) AS traffic_list_data
+        ON control_unit_data.id_control_unit_data = traffic_list_data.fk_control_unit_data
         INNER JOIN ports
         ON shipping_details.fk_port_provenance = ports.id_port 
         INNER JOIN ships
@@ -86,6 +94,13 @@ let roadstead = function (idPortinformer, idCurrentActivity, notOperationalState
             GROUP BY fk_control_unit_data        
         ) as shipped_goods_data
         ON shipped_goods_data.fk_control_unit_data = control_unit_data.id_control_unit_data
+        INNER JOIN (
+            SELECT fk_control_unit_data, string_agg(traffic_list_mvnt_type, '-')
+            FROM traffic_list
+            INNER JOIN traffic_list_categories
+            ON id_traffic_list_category = fk_traffic_list_category
+        ) AS traffic_list_data
+        ON control_unit_data.id_control_unit_data = traffic_list_category.fk_control_unit_data
         INNER JOIN ports
         ON shipping_details.fk_port_provenance = ports.id_port 
         INNER JOIN ships
