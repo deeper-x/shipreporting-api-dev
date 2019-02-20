@@ -2,7 +2,7 @@ let moored = function (idPortinformer, idCurrentActivity, notOperationalStates) 
     return `SELECT RES.fk_control_unit_data as id_trip, ship_description as ship, 
         ts_main_event_field_val, quays.description as quay, berths.description as berth, 
         type_acronym as ship_type, iso3, gross_tonnage, ships.length, ships.width,
-        ports.name as port, agencies.description as agency, shipped_goods_data.shipped_goods_row AS shipped_goods_data
+        ports.name as port, agencies.description as agency, shipped_goods_data
         FROM (  
             SELECT fk_control_unit_data, MAX(ts_main_event_field_val) AS max_time, fk_portinformer
             FROM trips_logs
@@ -24,7 +24,7 @@ let moored = function (idPortinformer, idCurrentActivity, notOperationalStates) 
         ON control_unit_data.id_control_unit_data = TL.fk_control_unit_data
         INNER JOIN shipping_details
         ON shipping_details.id_shipping_details = control_unit_data.fk_shipping_details
-        LEFT JOIN (
+        INNER JOIN (
             SELECT fk_control_unit_data, string_agg(goods_mvmnt_type||'->'||goods_categories.description::TEXT||'-'||groups_categories.description, ', ') AS shipped_goods_row
             FROM shipped_goods
             INNER JOIN goods_categories
@@ -34,14 +34,6 @@ let moored = function (idPortinformer, idCurrentActivity, notOperationalStates) 
             GROUP BY fk_control_unit_data        
         ) as shipped_goods_data
         ON shipped_goods_data.fk_control_unit_data = control_unit_data.id_control_unit_data
-        LEFT JOIN (
-                SELECT fk_control_unit_data, string_agg(traffic_list_mvnt_type, '-')
-                FROM traffic_list
-                INNER JOIN traffic_list_categories
-                ON traffic_list_categories.id_traffic_list_category = traffic_list.fk_traffic_list_category
-                GROUP BY fk_control_unit_data
-        ) AS traffic_list_data
-        ON control_unit_data.id_control_unit_data = traffic_list_data.fk_control_unit_data
         INNER JOIN ports
         ON shipping_details.fk_port_provenance = ports.id_port 
         INNER JOIN ships
@@ -56,7 +48,7 @@ let moored = function (idPortinformer, idCurrentActivity, notOperationalStates) 
         AND is_active = true
         GROUP BY id_trip, ts_main_event_field_val, ship, 
         quay, berth, ship_type, iso3, gross_tonnage, ships.length, 
-        ships.width, port, agency, shipped_goods_row
+        ships.width, port, agency, shipped_goods_data
         ORDER BY RES.fk_control_unit_data`;
 };  
 
@@ -64,7 +56,7 @@ let roadstead = function (idPortinformer, idCurrentActivity, notOperationalState
     return `SELECT RES.fk_control_unit_data as id_trip, ship_description as ship, 
         ts_main_event_field_val, anchorage_points.description as anchorage_point, 
         type_acronym as ship_type, iso3, gross_tonnage, ships.length, ships.width,
-        ports.name as port, agencies.description as agency, shipped_goods_data.shipped_goods_row AS shipped_goods_data
+        ports.name as port, agencies.description as agency, shipped_goods_data
         FROM (  
             SELECT fk_control_unit_data, MAX(ts_main_event_field_val) AS max_time, fk_portinformer
             FROM trips_logs
@@ -94,13 +86,6 @@ let roadstead = function (idPortinformer, idCurrentActivity, notOperationalState
             GROUP BY fk_control_unit_data        
         ) as shipped_goods_data
         ON shipped_goods_data.fk_control_unit_data = control_unit_data.id_control_unit_data
-        INNER JOIN (
-            SELECT fk_control_unit_data, string_agg(traffic_list_mvnt_type, '-')
-            FROM traffic_list
-            INNER JOIN traffic_list_categories
-            ON id_traffic_list_category = fk_traffic_list_category
-        ) AS traffic_list_data
-        ON control_unit_data.id_control_unit_data = traffic_list_category.fk_control_unit_data
         INNER JOIN ports
         ON shipping_details.fk_port_provenance = ports.id_port 
         INNER JOIN ships
@@ -115,7 +100,7 @@ let roadstead = function (idPortinformer, idCurrentActivity, notOperationalState
         AND is_active = true
         GROUP BY id_trip, ts_main_event_field_val, ship, 
         anchorage_point, ship_type, iso3, gross_tonnage, ships.length, 
-        ships.width, port, agency, shipped_goods_row
+        ships.width, port, agency, shipped_goods_data
         ORDER BY RES.fk_control_unit_data`;
 };
 
