@@ -4,7 +4,7 @@ let moored = function (idPortinformer, idCurrentActivity, notOperationalStates) 
         type_acronym as ship_type, iso3, gross_tonnage, ships.length, ships.width,
         ports.name as port, agencies.description as agency, 
         shipped_goods_data.shipped_goods_row AS shipped_goods_data,
-        traffic_list_data.traffic_list_details AS traffic_list_data
+        traffic_list_data.traffic_list_details AS traffic_list_details
         FROM (  
             SELECT fk_control_unit_data, MAX(ts_main_event_field_val) AS max_time, fk_portinformer
             FROM trips_logs
@@ -58,7 +58,7 @@ let moored = function (idPortinformer, idCurrentActivity, notOperationalStates) 
         AND is_active = true
         GROUP BY id_trip, ts_main_event_field_val, ship, 
         quay, berth, ship_type, iso3, gross_tonnage, ships.length, 
-        ships.width, port, agency, shipped_goods_row
+        ships.width, port, agency, shipped_goods_row, traffic_list_details
         ORDER BY RES.fk_control_unit_data`;
 };  
 
@@ -68,7 +68,7 @@ let roadstead = function (idPortinformer, idCurrentActivity, notOperationalState
         type_acronym as ship_type, iso3, gross_tonnage, ships.length, ships.width,
         ports.name as port, agencies.description as agency, 
         shipped_goods_data.shipped_goods_row AS shipped_goods_data,
-        traffic_list_data.traffic_list_details AS traffic_list_data
+        traffic_list_data.traffic_list_details AS traffic_list_details
         FROM (  
             SELECT fk_control_unit_data, MAX(ts_main_event_field_val) AS max_time, fk_portinformer
             FROM trips_logs
@@ -119,7 +119,7 @@ let roadstead = function (idPortinformer, idCurrentActivity, notOperationalState
         AND is_active = true
         GROUP BY id_trip, ts_main_event_field_val, ship, 
         anchorage_point, ship_type, iso3, gross_tonnage, ships.length, 
-        ships.width, port, agency, shipped_goods_row
+        ships.width, port, agency, shipped_goods_row, traffic_list_details
         ORDER BY RES.fk_control_unit_data`;
 };
 
