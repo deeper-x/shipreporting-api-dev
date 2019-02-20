@@ -318,16 +318,22 @@ let shippedGoods = function (idPortinformer) {
 
 let trafficList = function (idPortinformer) {
     return `SELECT ships.ship_description, num_container, num_passengers, num_camion, 
-        num_furgoni, num_rimorchi, num_auto, num_moto, num_camper, tons,
-        num_bus, num_minibus, traffic_list_mvnt_type, traffic_list_categories.description
-        FROM traffic_list INNER JOIN control_unit_data
-        ON fk_control_unit_data = id_control_unit_data
-        INNER JOIN traffic_list_categories
-        ON fk_traffic_list_category = id_traffic_list_category
-        INNER JOIN ships
-        ON control_unit_data.fk_ship = id_ship
-        WHERE control_unit_data.fk_portinformer = ${idPortinformer}
-        AND control_unit_data.is_active = true`;
+                num_furgoni, num_rimorchi, num_auto, num_moto, num_camper, tons,
+                num_bus, num_minibus, traffic_list_mvnt_type, traffic_list_categories.description,
+                quays.description AS quay
+                FROM traffic_list INNER JOIN control_unit_data
+                ON fk_control_unit_data = id_control_unit_data
+                INNER JOIN traffic_list_categories
+                ON fk_traffic_list_category = id_traffic_list_category
+                INNER JOIN ships
+                ON control_unit_data.fk_ship = id_ship
+                INNER JOIN maneuverings
+                ON maneuverings.fk_control_unit_data = control_unit_data.id_control_unit_data
+                AND maneuverings.fk_state = 17
+                INNER JOIN quays
+                ON maneuverings.fk_stop_quay = quays.id_quay
+                WHERE control_unit_data.fk_portinformer = ${idPortinformer}
+                AND control_unit_data.is_active = true`;
 };
 
 let liveData = {
