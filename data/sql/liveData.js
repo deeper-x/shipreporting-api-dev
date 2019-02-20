@@ -2,7 +2,9 @@ let moored = function (idPortinformer, idCurrentActivity, notOperationalStates) 
     return `SELECT RES.fk_control_unit_data as id_trip, ship_description as ship, 
         ts_main_event_field_val, quays.description as quay, berths.description as berth, 
         type_acronym as ship_type, iso3, gross_tonnage, ships.length, ships.width,
-        ports.name as port, agencies.description as agency, shipped_goods_data.shipped_goods_row AS shipped_goods_data
+        ports.name as port, agencies.description as agency, 
+        shipped_goods_data.shipped_goods_row AS shipped_goods_data,
+        traffic_list_data.traffic_list_details AS traffic_list_data
         FROM (  
             SELECT fk_control_unit_data, MAX(ts_main_event_field_val) AS max_time, fk_portinformer
             FROM trips_logs
@@ -35,7 +37,7 @@ let moored = function (idPortinformer, idCurrentActivity, notOperationalStates) 
         ) as shipped_goods_data
         ON shipped_goods_data.fk_control_unit_data = control_unit_data.id_control_unit_data
         LEFT JOIN (
-                SELECT fk_control_unit_data, string_agg(traffic_list_mvnt_type, '-')
+                SELECT fk_control_unit_data, string_agg(traffic_list_mvnt_type, '-') AS traffic_list_details
                 FROM traffic_list
                 INNER JOIN traffic_list_categories
                 ON traffic_list_categories.id_traffic_list_category = traffic_list.fk_traffic_list_category
@@ -64,7 +66,9 @@ let roadstead = function (idPortinformer, idCurrentActivity, notOperationalState
     return `SELECT RES.fk_control_unit_data as id_trip, ship_description as ship, 
         ts_main_event_field_val, anchorage_points.description as anchorage_point, 
         type_acronym as ship_type, iso3, gross_tonnage, ships.length, ships.width,
-        ports.name as port, agencies.description as agency, shipped_goods_data.shipped_goods_row AS shipped_goods_data
+        ports.name as port, agencies.description as agency, 
+        shipped_goods_data.shipped_goods_row AS shipped_goods_data,
+        traffic_list_data.traffic_list_details AS traffic_list_data
         FROM (  
             SELECT fk_control_unit_data, MAX(ts_main_event_field_val) AS max_time, fk_portinformer
             FROM trips_logs
@@ -95,7 +99,7 @@ let roadstead = function (idPortinformer, idCurrentActivity, notOperationalState
         ) as shipped_goods_data
         ON shipped_goods_data.fk_control_unit_data = control_unit_data.id_control_unit_data
         INNER JOIN (
-            SELECT fk_control_unit_data, string_agg(traffic_list_mvnt_type, '-')
+            SELECT fk_control_unit_data, string_agg(traffic_list_mvnt_type, '-') AS traffic_list_data
             FROM traffic_list
             INNER JOIN traffic_list_categories
             ON id_traffic_list_category = fk_traffic_list_category
