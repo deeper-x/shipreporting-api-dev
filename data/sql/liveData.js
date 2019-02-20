@@ -2,7 +2,7 @@ let moored = function (idPortinformer, idCurrentActivity, notOperationalStates) 
     return `SELECT RES.fk_control_unit_data as id_trip, ship_description as ship, 
         ts_main_event_field_val, quays.description as quay, berths.description as berth, 
         type_acronym as ship_type, iso3, gross_tonnage, ships.length, ships.width,
-        ports.name as port, agencies.description as agency, shipped_goods_data.shipped_goods_row AS shipped_goods_data
+        ports.name as port, agencies.description as agency, shipped_goods_data
         FROM (  
             SELECT fk_control_unit_data, MAX(ts_main_event_field_val) AS max_time, fk_portinformer
             FROM trips_logs
@@ -48,7 +48,7 @@ let moored = function (idPortinformer, idCurrentActivity, notOperationalStates) 
         AND is_active = true
         GROUP BY id_trip, ts_main_event_field_val, ship, 
         quay, berth, ship_type, iso3, gross_tonnage, ships.length, 
-        ships.width, port, agency, shipped_goods_row
+        ships.width, port, agency, shipped_goods_data
         ORDER BY RES.fk_control_unit_data`;
 };  
 
@@ -56,7 +56,7 @@ let roadstead = function (idPortinformer, idCurrentActivity, notOperationalState
     return `SELECT RES.fk_control_unit_data as id_trip, ship_description as ship, 
         ts_main_event_field_val, anchorage_points.description as anchorage_point, 
         type_acronym as ship_type, iso3, gross_tonnage, ships.length, ships.width,
-        ports.name as port, agencies.description as agency, shipped_goods_data.shipped_goods_row AS shipped_goods_data
+        ports.name as port, agencies.description as agency, shipped_goods_data
         FROM (  
             SELECT fk_control_unit_data, MAX(ts_main_event_field_val) AS max_time, fk_portinformer
             FROM trips_logs
@@ -100,7 +100,7 @@ let roadstead = function (idPortinformer, idCurrentActivity, notOperationalState
         AND is_active = true
         GROUP BY id_trip, ts_main_event_field_val, ship, 
         anchorage_point, ship_type, iso3, gross_tonnage, ships.length, 
-        ships.width, port, agency, shipped_goods_row
+        ships.width, port, agency, shipped_goods_data
         ORDER BY RES.fk_control_unit_data`;
 };
 
