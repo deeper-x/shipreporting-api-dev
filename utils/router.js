@@ -59,14 +59,19 @@ class Router {
     arrivalsNow (response, params) {
         const idPortinformer = params.fk_portinformer;
 
-        let query = sqlLiveData.arrivals(idPortinformer);
+        const configuration = new Configuration();
+        const idArrivalPrevision = configuration.arrivalPrevisionState;
+        let query = sqlLiveData.arrivals(idPortinformer, idArrivalPrevision);
+        
         QueryManager.runSelect(query, response);
     }
 
     departuresNow (response, params) {
         const idPortinformer = params.fk_portinformer;
+        const configuration = new Configuration();
+        const idDepartureState = configuration.departureState;
 
-        let query = sqlLiveData.departures(idPortinformer);
+        let query = sqlLiveData.departures(idPortinformer, idDepartureState);
         QueryManager.runSelect(query, response);
     }
 
