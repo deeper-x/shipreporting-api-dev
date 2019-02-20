@@ -289,7 +289,7 @@ let activeTrips = function (idPortinformer, notOperationalStates) {
 
 
 let shippedGoods = function (idPortinformer) {
-    return `SELECT ships.ship_description, 
+    return `SELECT ships.ship_description AS ship_name, 
         quantity, 
         unit, 
         goods_categories.description AS goods_category,
