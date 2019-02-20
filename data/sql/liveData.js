@@ -185,7 +185,10 @@ let departures = function (idPortinformer) {
 };
 
 let activeTrips = function (idPortinformer, notOperationalStates) {
-    return `SELECT ship_description, ship_current_activities.description, last_trip_ts 
+    return `SELECT ships.ship_description AS ship_name,
+        ships.length AS length, ships.width AS width, ships.gross_tonnage AS gross_tonnage,
+        ships.net_tonnage AS net_tonnage,
+        ship_current_activities.description||': '||last_trip_ts AS details 
         FROM control_unit_data INNER JOIN ships
         ON fk_ship = id_ship
         INNER JOIN ship_current_activities
