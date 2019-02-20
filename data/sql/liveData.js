@@ -34,7 +34,7 @@ let moored = function (idPortinformer, idCurrentActivity, notOperationalStates) 
             GROUP BY fk_control_unit_data        
         ) as shipped_goods_data
         ON shipped_goods_data.fk_control_unit_data = control_unit_data.id_control_unit_data
-        INNER JOIN (
+        LEFT JOIN (
                 SELECT fk_control_unit_data, string_agg(traffic_list_mvnt_type, '-')
                 FROM traffic_list
                 INNER JOIN traffic_list_categories
