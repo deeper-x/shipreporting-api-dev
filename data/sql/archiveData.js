@@ -1236,6 +1236,60 @@ let departuresArchive = function (idPortinformer, idDepartureState) {
 };
 
 
+let shippedGoodsArchive = function (idPortinformer) {
+    return `SELECT
+        fk_control_unit_data AS id_trip,
+        ships.ship_description AS ship_name, 
+        quantity, 
+        unit, 
+        goods_categories.description AS goods_category,
+        ship_types.type_acronym AS ship_type,  
+        countries.iso3 AS ship_flag,
+        ships.width AS ship_width,
+        ships.length AS ship_length,
+        ships.gross_tonnage AS gross_tonnage,
+        ships.net_tonnage AS net_tonnage,
+        groups_categories.description AS group_category,
+        macro_categories.description AS macro_category                 
+        FROM shipped_goods INNER JOIN control_unit_data
+        ON fk_control_unit_data = id_control_unit_data
+        INNER JOIN goods_categories
+        ON fk_goods_category = id_goods_category
+        INNER JOIN ships
+        ON control_unit_data.fk_ship = id_ship
+        INNER JOIN countries
+        ON ships.fk_country_flag = id_country
+        INNER JOIN ship_types
+        ON ships.fk_ship_type = ship_types.id_ship_type
+        INNER JOIN groups_categories
+        ON goods_categories.fk_group_category = groups_categories.id_group
+        INNER JOIN macro_categories
+        ON groups_categories.fk_macro_category = macro_categories.id_macro_category     
+        WHERE control_unit_data.fk_portinformer = ${idPortinformer}`;
+};
+
+let trafficListArchive = function (idPortinformer) {
+    return `SELECT
+                control_unit_data.id_control_unit_data AS id_trip,
+                ships.ship_description AS ship_name, 
+                num_container, num_passengers, num_camion, 
+                num_furgoni, num_rimorchi, num_auto, num_moto, num_camper, tons,
+                num_bus, num_minibus, traffic_list_mvnt_type, traffic_list_categories.description,
+                quays.description AS quay
+                FROM traffic_list INNER JOIN control_unit_data
+                ON fk_control_unit_data = id_control_unit_data
+                INNER JOIN traffic_list_categories
+                ON fk_traffic_list_category = id_traffic_list_category
+                INNER JOIN ships
+                ON control_unit_data.fk_ship = id_ship
+                INNER JOIN maneuverings
+                ON maneuverings.fk_control_unit_data = control_unit_data.id_control_unit_data
+                AND maneuverings.fk_state = 17
+                INNER JOIN quays
+                ON maneuverings.fk_stop_quay = quays.id_quay
+                WHERE control_unit_data.fk_portinformer = ${idPortinformer}`;
+};
+
 let archiveData = {
     tripsArchive: tripsArchive,
     arrivalsArchive: arrivalsArchive,
@@ -1245,7 +1299,9 @@ let archiveData = {
     shippedGoodsRecap: shippedGoodsRecap,
     trafficListRecap: trafficListRecap,
     shipReportList: shipReportList,
-    shipReportDetails: shipReportDetails, 
+    shipReportDetails: shipReportDetails,
+    shippedGoodsArchive: shippedGoodsArchive,
+    trafficListArchive: trafficListArchive 
 };
 
 module.exports = archiveData;
