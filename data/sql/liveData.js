@@ -99,12 +99,13 @@ let roadstead = function (idPortinformer, idCurrentActivity, notOperationalState
         ) as shipped_goods_data
         ON shipped_goods_data.fk_control_unit_data = control_unit_data.id_control_unit_data
         INNER JOIN (
-            SELECT fk_control_unit_data, string_agg(traffic_list_mvnt_type, '-') AS traffic_list_data
+            SELECT fk_control_unit_data, string_agg(traffic_list_mvnt_type, '-') AS traffic_list_details
             FROM traffic_list
             INNER JOIN traffic_list_categories
             ON id_traffic_list_category = fk_traffic_list_category
+            GROUP BY fk_control_unit_data
         ) AS traffic_list_data
-        ON control_unit_data.id_control_unit_data = traffic_list_category.fk_control_unit_data
+        ON control_unit_data.id_control_unit_data = traffic_list_data.fk_control_unit_data
         INNER JOIN ports
         ON shipping_details.fk_port_provenance = ports.id_port 
         INNER JOIN ships
