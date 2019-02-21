@@ -267,6 +267,7 @@ let departures = function (idPortinformer, idDepartureState) {
 
 let activeTrips = function (idPortinformer, notOperationalStates) {
     return `SELECT ships.ship_description AS ship_name,
+        ship_types.type_description||'('||ship_types.type_acronym||')' AS ship_type,
         ships.length AS length, ships.width AS width, ships.gross_tonnage AS gross_tonnage,
         ships.net_tonnage AS net_tonnage,
         ship_current_activities.description||': '||last_trip_ts AS details 
@@ -283,6 +284,8 @@ let activeTrips = function (idPortinformer, notOperationalStates) {
             GROUP BY fk_control_unit_data
         ) as last_trip_log
         ON last_trip_log.fk_control_unit_data = id_control_unit_data
+        INNER JOIN ship_types
+        ON ships.fk_ship_type = ship_types.id_ship_type
         WHERE is_active  = true
         and fk_portinformer = ${idPortinformer}`;
 };
