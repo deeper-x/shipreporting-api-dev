@@ -88,7 +88,7 @@ let roadstead = function (idPortinformer, idCurrentActivity, notOperationalState
         ON control_unit_data.id_control_unit_data = TL.fk_control_unit_data
         INNER JOIN shipping_details
         ON shipping_details.id_shipping_details = control_unit_data.fk_shipping_details
-        INNER JOIN (
+        LEFT JOIN (
             SELECT fk_control_unit_data, string_agg(goods_mvmnt_type||'->'||goods_categories.description::TEXT||'-'||groups_categories.description, ', ') AS shipped_goods_row
             FROM shipped_goods
             INNER JOIN goods_categories
@@ -98,7 +98,7 @@ let roadstead = function (idPortinformer, idCurrentActivity, notOperationalState
             GROUP BY fk_control_unit_data        
         ) as shipped_goods_data
         ON shipped_goods_data.fk_control_unit_data = control_unit_data.id_control_unit_data
-        INNER JOIN (
+        LEFT JOIN (
             SELECT fk_control_unit_data, string_agg(traffic_list_mvnt_type, '-') AS traffic_list_details
             FROM traffic_list
             INNER JOIN traffic_list_categories
