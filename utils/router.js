@@ -235,6 +235,20 @@ class Router {
         QueryManager.runSelect(query, response);
     }
 
+    shippedGoodsArchive (response, params) {
+        const idPortinformer = params.fk_portinformer;
+
+        let query = sqlArchiveData.shippedGoodsArchive(idPortinformer);
+        QueryManager.runSelect(query, response);
+    }
+
+    trafficListArchive (response, params) {
+        const idPortinformer = params.fk_portinformer;
+
+        let query = sqlArchiveData.trafficListArchive(idPortinformer);
+        QueryManager.runSelect(query, response);
+    }
+
     departuresArchive (response, params) {
         const idPortinformer = params.fk_portinformer;
         const configuration = new Configuration();

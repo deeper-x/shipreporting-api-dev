@@ -55,6 +55,18 @@ class Mapper {
                     'fk_portinformer'
                 ]
             },
+            '/shippedGoodsArchive': {
+                'methodToCall': routerObject.shippedGoodsArchive,
+                'params': [
+                    'fk_portinformer'
+                ]
+            },
+            '/trafficListArchive': {
+                'methodToCall': routerObject.trafficListArchive,
+                'params': [
+                    'fk_portinformer'
+                ]
+            },
             '/tripsArchiveMultiRows':{
                 'methodToCall': routerObject.tripsArchiveMultiRows,
                 'params': [
