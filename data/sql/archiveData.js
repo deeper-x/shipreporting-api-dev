@@ -74,13 +74,19 @@ let tripsArchiveMultiRows = function (idPortinformer, arrivalPrevisionState, dep
             lpc_data.port_country AS last_port_of_call_country,
             data_avvistamento_nave.ts_avvistamento AS ts_sighting,
             data_fuori_dal_porto.ts_out_of_sight AS ts_out_of_sight,  
-            goods_categories.description AS shipped_goods, quantity, unit,
+            goods_categories.description AS shipped_goods_details, quantity, unit,
+            groups_categories.description AS shipped_goods_group,
+            macro_categories.description AS shipped_goods_macro,
             quays.description AS quay, berths.description AS berth
             FROM shipped_goods
             INNER JOIN control_unit_data
             ON control_unit_data.id_control_unit_data = shipped_goods.fk_control_unit_data
             INNER JOIN goods_categories
             ON goods_categories.id_goods_category = shipped_goods.fk_goods_category
+            INNER JOIN groups_categories
+            ON groups_categories.id_group = goods_categories.fk_group_category
+            INNER JOIN macro_categories
+            ON groups_categories.fk_macro_category = macro_categories.id_macro_category
             INNER JOIN ships
             ON control_unit_data.fk_ship = ships.id_ship
             INNER JOIN ship_types
@@ -149,9 +155,16 @@ let tripsArchiveMultiRows = function (idPortinformer, arrivalPrevisionState, dep
 };
 
 let tripsManeuverings = function (idPortinformer) {
-    return `(SELECT control_unit_data.id_control_unit_data AS id_trip, ships.ship_description AS ship_name, 
-                ts_fine_ormeggio AS ormeggio, ts_avvistamento AS avvistamento, quays.description AS quay, 
-                berths.description AS berth, state_name AS state, goods_categories.description as shipped_goods, 
+    return `(SELECT control_unit_data.id_control_unit_data AS id_trip, 
+                ships.ship_description AS ship_name, 
+                ts_fine_ormeggio AS ormeggio, 
+                ts_avvistamento AS avvistamento, 
+                quays.description AS quay, 
+                berths.description AS berth, 
+                state_name AS state, 
+                goods_categories.description AS shipped_goods,
+                groups_categories.description AS goods_group,
+                macro_categories.description AS goods_macro,
                 CASE WHEN quantity = '' THEN '0' ELSE quantity END AS quantity, 
                 unit, goods_mvmnt_type
                 FROM data_ormeggio_nave
@@ -176,12 +189,23 @@ let tripsManeuverings = function (idPortinformer) {
                 AND shipped_goods.fk_operation_quay = maneuverings.fk_stop_quay
                 INNER JOIN goods_categories
                 ON shipped_goods.fk_goods_category = goods_categories.id_goods_category
+                INNER JOIN groups_categories
+                ON groups_categories.id_group = goods_categories.fk_group_category
+                INNER JOIN macro_categories
+                ON macro_categories.id_macro_category = groups_categories.fk_macro_category
                 WHERE trips_logs.fk_portinformer = ${idPortinformer}
                 AND trips_logs.fk_state = 17) 
             UNION 
-            (SELECT control_unit_data.id_control_unit_data AS id_trip, ships.ship_description AS ship_name, 
-                ts_fine_ormeggio AS ormeggio, ts_avvistamento AS avvistamento, quays.description AS quay, 
-                berths.description AS berth, state_name AS state, goods_categories.description as shipped_goods, 
+            (SELECT control_unit_data.id_control_unit_data AS id_trip, 
+                ships.ship_description AS ship_name, 
+                ts_fine_ormeggio AS ormeggio, 
+                ts_avvistamento AS avvistamento, 
+                quays.description AS quay, 
+                berths.description AS berth, 
+                state_name AS state, 
+                goods_categories.description as shipped_goods,
+                groups_categories.description AS goods_group,
+                macro_categories.description AS goods_macro, 
                 CASE WHEN quantity = '' THEN '0' ELSE quantity END AS quantity, 
                 unit, goods_mvmnt_type
                 FROM data_da_ormeggio_a_ormeggio
@@ -203,15 +227,26 @@ let tripsManeuverings = function (idPortinformer) {
                 ON states.id_state = trips_logs.fk_state
                 LEFT JOIN shipped_goods
                 ON shipped_goods.fk_control_unit_data = control_unit_data.id_control_unit_data
+                AND shipped_goods.fk_operation_quay = maneuverings.fk_stop_quay
                 INNER JOIN goods_categories
                 ON shipped_goods.fk_goods_category = goods_categories.id_goods_category
-                AND shipped_goods.fk_operation_quay = maneuverings.fk_stop_quay
+                INNER JOIN groups_categories
+                ON groups_categories.id_group = goods_categories.fk_group_category
+                INNER JOIN macro_categories
+                ON macro_categories.id_macro_category = groups_categories.fk_macro_category
                 WHERE trips_logs.fk_portinformer = ${idPortinformer}
                 AND trips_logs.fk_state = 18)
             UNION
-            (SELECT control_unit_data.id_control_unit_data AS id_trip, ships.ship_description AS ship_name, 
-                ts_fine_ormeggio AS ormeggio, ts_avvistamento AS avvistamento, quays.description AS quay, 
-                berths.description AS berth, state_name AS state, goods_categories.description as shipped_goods, 
+            (SELECT control_unit_data.id_control_unit_data AS id_trip, 
+                ships.ship_description AS ship_name, 
+                ts_fine_ormeggio AS ormeggio, 
+                ts_avvistamento AS avvistamento, 
+                quays.description AS quay, 
+                berths.description AS berth, 
+                state_name AS state, 
+                goods_categories.description as shipped_goods, 
+                groups_categories.description AS goods_group,
+                macro_categories.description AS goods_macro,
                 CASE WHEN quantity = '' THEN '0' ELSE quantity END AS quantity, 
                 unit, goods_mvmnt_type
                 FROM data_da_rada_a_ormeggio
@@ -236,6 +271,10 @@ let tripsManeuverings = function (idPortinformer) {
                 AND shipped_goods.fk_operation_quay = maneuverings.fk_stop_quay
                 INNER JOIN goods_categories
                 ON shipped_goods.fk_goods_category = goods_categories.id_goods_category
+                INNER JOIN groups_categories
+                ON groups_categories.id_group = goods_categories.fk_group_category
+                INNER JOIN macro_categories
+                ON macro_categories.id_macro_category = groups_categories.fk_macro_category
                 WHERE trips_logs.fk_portinformer = ${idPortinformer}
                 AND trips_logs.fk_state = 20)
             ORDER BY ormeggio`;
@@ -1031,11 +1070,16 @@ let shipReportDetails = function (idPortinformer) {
             ) as data_tug_services
             ON data_tug_services.fk_control_unit_data = control_unit_data.id_control_unit_data
             LEFT JOIN (
-                SELECT fk_control_unit_data, string_agg(goods_categories.description||' '||quantity||' '||unit, ',') AS details
+                SELECT fk_control_unit_data, string_agg(macro_categories.description||' '||groups_categories.description||' '||goods_categories.description||' '||quantity||' '||unit, ',') AS details
                 FROM shipped_goods
                 INNER JOIN 
                 goods_categories
                 ON fk_goods_category = id_goods_category
+                INNER JOIN 
+                groups_categories
+                ON groups_categories.id_group = goods_categories.fk_group_category
+                INNER JOIN macro_categories
+                ON macro_categories.id_macro_category = groups_categories.fk_macro_category
                 group by fk_control_unit_data
             ) as data_shipped_goods
             ON data_shipped_goods.fk_control_unit_data = control_unit_data.id_control_unit_data
