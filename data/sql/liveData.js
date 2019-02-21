@@ -293,7 +293,9 @@ let activeTrips = function (idPortinformer, notOperationalStates) {
 
 
 let shippedGoods = function (idPortinformer) {
-    return `SELECT ships.ship_description AS ship_name, 
+    return `SELECT
+        fk_control_unit_data AS id_trip,
+        ships.ship_description AS ship_name, 
         quantity, 
         unit, 
         goods_categories.description AS goods_category,
@@ -321,7 +323,10 @@ let shippedGoods = function (idPortinformer) {
 };
 
 let trafficList = function (idPortinformer) {
-    return `SELECT ships.ship_description, num_container, num_passengers, num_camion, 
+    return `SELECT
+                control_unit_data.id_control_unit_data AS id_trip,
+                ships.ship_description AS ship_name, 
+                num_container, num_passengers, num_camion, 
                 num_furgoni, num_rimorchi, num_auto, num_moto, num_camper, tons,
                 num_bus, num_minibus, traffic_list_mvnt_type, traffic_list_categories.description,
                 quays.description AS quay
