@@ -1115,21 +1115,21 @@ let arrivalsArchive = function (idPortinformer, idArrival, idArrivalPrevision) {
             ON control_unit_data.fk_ship = ships.id_ship
             INNER JOIN ship_types
             ON ships.fk_ship_type = ship_types.id_ship_type
-            INNER JOIN countries
+            LEFT JOIN countries
             ON ships.fk_country_flag = countries.id_country
             INNER JOIN maneuverings
             ON maneuverings.fk_control_unit_data = control_unit_data.id_control_unit_data
             AND maneuverings.fk_state = ${idArrivalPrevision}
-            INNER JOIN agencies
+            LEFT JOIN agencies
             ON data_avvistamento_nave.fk_agency = agencies.id_agency
             INNER JOIN shipping_details
             ON control_unit_data.fk_shipping_details = shipping_details.id_shipping_details
-            INNER JOIN (
+            LEFT JOIN (
                 SELECT id_port, ports.name AS port_name, ports.country AS port_country
                 FROM ports
             ) AS last_port_of_call
             ON shipping_details.fk_port_provenance = last_port_of_call.id_port
-            INNER JOIN (
+            LEFT JOIN (
                 SELECT id_port, ports.name AS port_name, ports.country AS port_country
                 FROM ports
             ) AS port_destination
