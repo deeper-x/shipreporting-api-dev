@@ -213,6 +213,9 @@ let arrivals = function (idPortinformer, idArrivalPrevision) {
     LEFT JOIN berths
     ON maneuverings.fk_stop_berth = berths.id_berth
     AND maneuverings.fk_state = ${idArrivalPrevision}
+    LEFT JOIN anchorage_points
+    ON maneuverings.fk_stop_anchorage_point = anchorage_points.id_anchorage_point
+    AND maneuverings.fk_state = ${idArrivalPrevision}
     WHERE control_unit_data.fk_portinformer = ${idPortinformer}
     AND LENGTH(ts_avvistamento) > 0
         AND ts_avvistamento::DATE = current_date`;
