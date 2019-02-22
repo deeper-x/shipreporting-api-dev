@@ -74,8 +74,9 @@ let tripsArchiveMultiRows = function (idPortinformer, arrivalPrevisionState, dep
             lpc_data.port_country AS last_port_of_call_country,
             data_avvistamento_nave.ts_avvistamento AS ts_sighting,
             data_fuori_dal_porto.ts_out_of_sight AS ts_out_of_sight,  
-            goods_categories.description AS shipped_goods_details, quantity, unit,
-            groups_categories.description AS shipped_goods_group,
+            goods_categories.description AS shipped_goods_details, 
+            CASE WHEN quantity = '' THEN '0' ELSE quantity END, 
+            unit, groups_categories.description AS shipped_goods_group,
             macro_categories.description AS shipped_goods_macro,
             quays.description AS quay, berths.description AS berth
             FROM shipped_goods
