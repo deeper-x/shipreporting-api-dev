@@ -300,7 +300,7 @@ let shippedGoods = function (idPortinformer) {
     return `SELECT
         fk_control_unit_data AS id_trip,
         ships.ship_description AS ship_name, 
-        quantity, 
+        CASE WHEN quantity = '' THEN '0' ELSE quantity END, 
         unit, 
         goods_categories.description AS goods_category,
         ship_types.type_acronym AS ship_type,  

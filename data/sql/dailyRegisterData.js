@@ -191,7 +191,8 @@ let registerPlannedArrivals = function (idPortinformer) {
 };
 
 let registerShippedGoods = function (idPortinformer) {
-    return `SELECT quantity, unit, goods_mvmnt_type, goods_categories.description AS shipped_goods, imo, ship_description AS ship_name, type_acronym,
+    return `SELECT CASE WHEN quantity = '' THEN '0' ELSE quantity END, unit, goods_mvmnt_type, goods_categories.description AS shipped_goods, 
+            imo, ship_description AS ship_name, type_acronym,
             iso3, quays.description AS quay, berths.description AS berth 
             FROM control_unit_data 
             INNER JOIN data_avvistamento_nave
