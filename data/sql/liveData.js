@@ -180,7 +180,8 @@ let arrivals = function (idPortinformer, idArrivalPrevision) {
     agencies.description AS agency,
     last_port_of_call.port_name||'('||last_port_of_call.port_country||')' AS last_port_of_call,
     port_destination.port_name||'('||port_destination.port_country||')' AS port_destination,
-    quays.description AS destination_quay_berth
+    quays.description AS destination_quay_berth,
+    anchorage_points.description AS destination_roadstead
     FROM control_unit_data
     INNER JOIN data_avvistamento_nave
     ON data_avvistamento_nave.fk_control_unit_data = id_control_unit_data
