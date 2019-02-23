@@ -258,6 +258,13 @@ class Router {
         QueryManager.runSelect(query, response);
     }
 
+    meteoArchive (response, params) {
+        const idPortinformer = params.fk_portinformer;
+
+        let query = sqlArchiveData.meteoArchive(idPortinformer);
+        QueryManager.runSelect(query, response);
+    }
+
     favicon (response) {
         response.statusCode = 200;
         response.end();

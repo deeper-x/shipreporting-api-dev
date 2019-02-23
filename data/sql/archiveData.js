@@ -1290,6 +1290,14 @@ let trafficListArchive = function (idPortinformer) {
                 WHERE control_unit_data.fk_portinformer = ${idPortinformer}`;
 };
 
+
+let meteoArchive = function (idPortinformer) {
+    return `SELECT temperature, wind, humidity, rain, ts_first_created
+            FROM archive_meteo_data
+            WHERE fk_portinformer = ${idPortinformer}`;
+};
+
+
 let archiveData = {
     tripsArchive: tripsArchive,
     arrivalsArchive: arrivalsArchive,
@@ -1301,7 +1309,8 @@ let archiveData = {
     shipReportList: shipReportList,
     shipReportDetails: shipReportDetails,
     shippedGoodsArchive: shippedGoodsArchive,
-    trafficListArchive: trafficListArchive 
+    trafficListArchive: trafficListArchive,
+    meteoArchive: meteoArchive, 
 };
 
 module.exports = archiveData;

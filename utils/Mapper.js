@@ -85,6 +85,12 @@ class Mapper {
                     'fk_portinformer'
                 ]
             },
+            '/meteoArchive': {
+                'methodToCall': routerObject.meteoArchive,
+                'params': [
+                    'fk_portinformer'
+                ]
+            },
             '/notFound': {
                 'methodToCall': routerObject.routeNotFound,
                 'params': []
