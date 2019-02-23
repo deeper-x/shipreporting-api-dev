@@ -140,6 +140,11 @@ http://<REMOTE_IP>:3000/shippedGoodsRecap?id_portinformer=<ID_PORTINFORMER>
 http://<REMOTE_IP>:3000/trafficListRecap?id_portinformer=<ID_PORTINFORMER>
 ```
 
+## E - METEO DATA ##
+1. __Meteo data archive__:
+```
+http://<REMOTE_IP>:3000/meteoArchive?id_portinformer=<ID_PORTINFORMER>
+```
 
 
 # __Deploy, start & stop server:__
