@@ -61,6 +61,7 @@ let tripsArchiveMultiRows = function (idPortinformer, arrivalPrevisionState, dep
             ships.net_tonnage AS net_tonnage,
             arrival_agency.description AS agency_arrival, countries.iso3 AS ship_flag,
             goods_mvmnt_type as operation,
+            ship_types.type_description AS ship_type,
             maneuv_data_arriv_prev.draft_aft as arr_prev_draft_aft,
             maneuv_data_arriv_prev.draft_fwd as arr_prev_draft_fwd,
             maneuv_data_dep.draft_aft as dep_draft_aft,
@@ -89,6 +90,8 @@ let tripsArchiveMultiRows = function (idPortinformer, arrivalPrevisionState, dep
             ON groups_categories.fk_macro_category = macro_categories.id_macro_category
             INNER JOIN ships
             ON control_unit_data.fk_ship = ships.id_ship
+            LEFT JOIN ship_types
+            ON ships.fk_ship_type = ship_types.id_ship_type
             INNER JOIN data_avvistamento_nave
             ON control_unit_data.id_control_unit_data = data_avvistamento_nave.fk_control_unit_data
             LEFT JOIN data_fuori_dal_porto
