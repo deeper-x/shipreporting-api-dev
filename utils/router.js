@@ -82,6 +82,20 @@ class Router {
         QueryManager.runSelect(query, response);
     }
 
+    shiftingPrevisionsNow (response, params) {
+        const idPortinformer = params.fk_portinformer;
+
+        let query = sqlLiveData.shiftingPrevisions(idPortinformer);
+        QueryManager.runSelect(query, response);
+    }
+
+    departurePrevisionsNow (response, params) {
+        const idPortinformer = params.fk_portinformer;
+
+        let query = sqlLiveData.departurePrevisions(idPortinformer);
+        QueryManager.runSelect(query, response);
+    }
+
     activeTripsNow (response, params) {
         let configuration = new Configuration();
 
@@ -231,7 +245,6 @@ class Router {
         const idArrivalPrevision = configuration.arrivalPrevisionState;
 
         let query = sqlArchiveData.arrivalsArchive(idPortinformer, idArrival, idArrivalPrevision);
-        console.log(query);
         QueryManager.runSelect(query, response);
     }
 

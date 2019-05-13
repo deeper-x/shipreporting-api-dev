@@ -31,6 +31,18 @@ class Mapper {
                     'fk_portinformer', 'fk_ship_current_activity'
                 ],
             },
+            '/shiftingPrevisionsNow': {
+                'methodToCall': routerObject.shiftingPrevisionsNow,
+                'params': [
+                    'fk_portinformer'
+                ]
+            },
+            '/departurePrevisionsNow': {
+                'methodToCall': routerObject.departurePrevisionsNow,
+                'params':[
+                    'fk_portinformer'
+                ]
+            },
             '/activeTripsNow': {
                 'methodToCall': routerObject.activeTripsNow,
                 'params': [

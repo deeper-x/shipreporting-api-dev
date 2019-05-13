@@ -129,6 +129,103 @@ let arrivalPrevisions = function (idPortinformer) {
         AND planned_arrivals.fk_portinformer = ${idPortinformer}`;
 };
 
+
+let shiftingPrevisions = function (idPortinformer) {
+    return `SELECT ship_description AS ship, ts_shifting_prevision,
+        ship_types.type_acronym AS ship_type,  
+        countries.iso3 AS ship_flag,
+        ships.width AS ship_width,
+        ships.length AS ship_length,
+        ships.gross_tonnage AS gross_tonnage,
+        ships.net_tonnage AS net_tonnage,
+        planned_shiftings.draft_aft, planned_shiftings.draft_fwd,
+        agencies.description AS agency,
+        start_quay.description AS starting_quay_berth,
+        start_anchorage_point.description AS starting_roadstead,
+        stop_quay.description AS stop_quay_berth,
+        stop_anchorage_point.description AS stop_roadstead,
+        planned_shiftings.cargo_on_board
+        FROM planned_shiftings
+        INNER JOIN planned_arrivals
+        ON planned_shiftings.fk_planned_arrival = planned_arrivals.id_planned_arrival
+        INNER JOIN ships
+        ON ships.id_ship = planned_arrivals.fk_ship
+        INNER JOIN ship_types
+        ON ships.fk_ship_type = ship_types.id_ship_type
+        INNER JOIN countries
+        ON ships.fk_country_flag = countries.id_country
+        INNER JOIN agencies
+        ON planned_shiftings.fk_agency = agencies.id_agency
+        LEFT JOIN (
+                select id_quay, description from quays
+        ) as start_quay
+        ON planned_shiftings.fk_start_quay = start_quay.id_quay
+        LEFT JOIN (
+                select id_quay, description from quays
+        ) as stop_quay
+        ON planned_shiftings.fk_stop_quay = stop_quay.id_quay
+        LEFT JOIN (
+                select id_berth, description from berths
+        ) as start_berth
+        ON planned_shiftings.fk_start_berth = start_berth.id_berth
+        LEFT JOIN (
+                select id_berth, description from berths
+        ) as stop_berth
+        ON planned_shiftings.fk_stop_berth = stop_berth.id_berth
+        LEFT JOIN (
+                select id_anchorage_point, description from anchorage_points
+        ) as start_anchorage_point
+        ON planned_shiftings.fk_start_anchorage_point = start_anchorage_point.id_anchorage_point
+        LEFT JOIN (
+                select id_anchorage_point, description from anchorage_points
+        ) as stop_anchorage_point
+        ON planned_shiftings.fk_stop_anchorage_point = stop_anchorage_point.id_anchorage_point	
+        WHERE LENGTH(planned_shiftings.ts_shifting_prevision) > 0 
+        AND planned_shiftings.is_active = true
+        AND planned_shiftings.fk_portinformer = ${idPortinformer}`;
+};
+
+let departurePrevisions = function (idPortinformer) {
+    return `SELECT ship_description AS ship, ts_departure_prevision,
+        ship_types.type_acronym AS ship_type,  
+        countries.iso3 AS ship_flag,
+        ships.width AS ship_width,
+        ships.length AS ship_length,
+        ships.gross_tonnage AS gross_tonnage,
+        ships.net_tonnage AS net_tonnage,
+        planned_departures.draft_aft, planned_departures.draft_fwd,
+        agencies.description AS agency,
+        destination_port.port_name||'('||destination_port.port_country||')' AS destination_port,
+        quays.description AS starting_quay_berth,
+        anchorage_points.description AS starting_roadstead,
+        planned_departures.cargo_on_board
+        FROM planned_departures
+        INNER JOIN planned_arrivals
+        ON planned_departures.fk_planned_arrival = planned_arrivals.id_planned_arrival
+        INNER JOIN ships
+        ON ships.id_ship = planned_arrivals.fk_ship
+        INNER JOIN ship_types
+        ON ships.fk_ship_type = ship_types.id_ship_type
+        INNER JOIN countries
+        ON ships.fk_country_flag = countries.id_country
+        INNER JOIN agencies
+        ON planned_departures.fk_agency = agencies.id_agency
+        INNER JOIN (
+                        SELECT id_port, ports.name AS port_name, ports.country AS port_country
+                        FROM ports
+        ) AS destination_port
+        ON planned_departures.fk_destination_port = destination_port.id_port
+        LEFT JOIN quays
+        ON planned_departures.fk_start_quay = quays.id_quay
+        LEFT JOIN berths
+        ON planned_departures.fk_start_berth = berths.id_berth
+        LEFT JOIN anchorage_points
+        ON planned_departures.fk_start_anchorage_point = anchorage_points.id_anchorage_point	
+        WHERE LENGTH(planned_departures.ts_departure_prevision) > 0 
+        AND planned_departures.is_active = true
+        AND planned_departures.fk_portinformer = ${idPortinformer}`;
+};
+
 let arrivals = function (idPortinformer, idArrivalPrevision) {
     return `SELECT id_control_unit_data AS id_trip, 
     ships.ship_description AS ship_name, 
@@ -322,6 +419,8 @@ let liveData = {
     arrivals: arrivals,
     departures: departures,
     arrivalPrevisions: arrivalPrevisions,
+    shiftingPrevisions: shiftingPrevisions,
+    departurePrevisions: departurePrevisions,
     activeTrips: activeTrips,
     shippedGoods: shippedGoods,
     trafficList: trafficList
