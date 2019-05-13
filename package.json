@@ -1,19 +1,26 @@
 {
-  "name": "@snam/shipreporting-api",
-  "version": "1.0.0",
-  "description": "## A - LIVE DATA SERVICES:",
+  "name": "shipreporting-api",
+  "version": "1.1.0",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "./node_modules/nodemon/bin/nodemon.js index.js",
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/deeper-x/shipreporting-api-dev.git"
   },
-  "author": "justorius",
+  "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/deeper-x/shipreporting-api-dev/issues"
+    "url": "https://github.com/deeper-x/shipreporting-api-dev.git/issues"
   },
-  "homepage": "https://github.com/deeper-x/shipreporting-api-dev#readme"
+  "homepage": "https://github.com/deeper-x/shipreporting-api-dev.git#readme",
+  "dependencies": {
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.12.1",
+    "nodemon": "^1.18.9",
+    "pg": "^7.6.1"
+  }
 }
