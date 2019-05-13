@@ -92,41 +92,41 @@ let roadstead = function (idPortinformer) {
 
 let arrivalPrevisions = function (idPortinformer) {
     return `SELECT ship_description AS ship, ts_arrival_prevision,
-                ship_types.type_acronym AS ship_type,  
-                countries.iso3 AS ship_flag,
-                ships.width AS ship_width,
-                ships.length AS ship_length,
-                ships.gross_tonnage AS gross_tonnage,
-                ships.net_tonnage AS net_tonnage,
-                draft_aft, draft_fwd,
-                agencies.description AS agency,
-                last_port_of_call.port_name||'('||last_port_of_call.port_country||')' AS last_port_of_call,
-                quays.description AS destination_quay_berth,
-                anchorage_points.description AS destination_roadstead,
-                cargo_on_board
-                FROM planned_arrivals
-                INNER JOIN ships
-                ON ships.id_ship = planned_arrivals.fk_ship
-                INNER JOIN ship_types
-                ON ships.fk_ship_type = ship_types.id_ship_type
-                INNER JOIN countries
-                ON ships.fk_country_flag = countries.id_country
-                INNER JOIN agencies
-                ON planned_arrivals.fk_agency = agencies.id_agency
-                INNER JOIN (
-                                SELECT id_port, ports.name AS port_name, ports.country AS port_country
-                                FROM ports
-                ) AS last_port_of_call
-                ON planned_arrivals.fk_last_port_of_call = last_port_of_call.id_port
-                LEFT JOIN quays
-                ON planned_arrivals.fk_stop_quay = quays.id_quay
-                LEFT JOIN berths
-                ON planned_arrivals.fk_stop_berth = berths.id_berth
-                LEFT JOIN anchorage_points
-                ON planned_arrivals.fk_stop_anchorage_point = anchorage_points.id_anchorage_point	
-                WHERE LENGTH(planned_arrivals.ts_arrival_prevision) > 0 
-                AND planned_arrivals.is_active = true
-                AND planned_arrivals.fk_portinformer =  ${idPortinformer}`;
+        ship_types.type_acronym AS ship_type,  
+        countries.iso3 AS ship_flag,
+        ships.width AS ship_width,
+        ships.length AS ship_length,
+        ships.gross_tonnage AS gross_tonnage,
+        ships.net_tonnage AS net_tonnage,
+        draft_aft, draft_fwd,
+        agencies.description AS agency,
+        last_port_of_call.port_name||'('||last_port_of_call.port_country||')' AS last_port_of_call,
+        quays.description AS destination_quay_berth,
+        anchorage_points.description AS destination_roadstead,
+        cargo_on_board
+        FROM planned_arrivals
+        INNER JOIN ships
+        ON ships.id_ship = planned_arrivals.fk_ship
+        INNER JOIN ship_types
+        ON ships.fk_ship_type = ship_types.id_ship_type
+        INNER JOIN countries
+        ON ships.fk_country_flag = countries.id_country
+        INNER JOIN agencies
+        ON planned_arrivals.fk_agency = agencies.id_agency
+        INNER JOIN (
+                        SELECT id_port, ports.name AS port_name, ports.country AS port_country
+                        FROM ports
+        ) AS last_port_of_call
+        ON planned_arrivals.fk_last_port_of_call = last_port_of_call.id_port
+        LEFT JOIN quays
+        ON planned_arrivals.fk_stop_quay = quays.id_quay
+        LEFT JOIN berths
+        ON planned_arrivals.fk_stop_berth = berths.id_berth
+        LEFT JOIN anchorage_points
+        ON planned_arrivals.fk_stop_anchorage_point = anchorage_points.id_anchorage_point	
+        WHERE LENGTH(planned_arrivals.ts_arrival_prevision) > 0 
+        AND planned_arrivals.is_active = true
+        AND planned_arrivals.fk_portinformer = ${idPortinformer}`;
 };
 
 let arrivals = function (idPortinformer, idArrivalPrevision) {
@@ -258,6 +258,7 @@ let activeTrips = function (idPortinformer, notOperationalStates) {
         WHERE is_active  = true
         and fk_portinformer = ${idPortinformer}`;
 };
+
 
 let shippedGoods = function (idPortinformer) {
     return `SELECT
