@@ -42,6 +42,16 @@ http://<REMOTE_IP>:3000/shippedGoodsNow?id_portinformer=<id_portinformer>
 http://<REMOTE_IP>:3000/trafficListNow?id_portinformer=<id_portinformer>
 ```
 
+9. __Shifting previsions__:
+``` 
+http://<REMOTE_IP>:3000/shiftingPrevisionsNow?id_portinformer=<id_portinformer>
+```
+
+10. __Departure previsions__:
+``` 
+http://<REMOTE_IP>:3000/departurePrevisionsNow?id_portinformer=<id_portinformer>
+```
+
 ## B - ARCHIVE DATA SERVICES:
 
 1. __Trips archive [global recap, one row per trip]__:
@@ -153,7 +163,7 @@ http://<REMOTE_IP>:3000/meteoArchive?id_portinformer=<ID_PORTINFORMER>
 $ cat /lib/systemd/system/shipreporting.service 
 [Unit]
 Description=Shipreporting service middleware
-Documentation=https://gitlab.com/deeper-x/shipreporting-api
+Documentation=https://github.com/deeper-x/shipreporting-api
 After=network.target
 
 [Service]

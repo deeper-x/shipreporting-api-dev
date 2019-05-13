@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/deeper-x/shipreporting-api.git"
+    "url": "git+https://github.com/deeper-x/shipreporting-api.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://gitlab.com/deeper-x/shipreporting-api/issues"
+    "url": "https://github.com/deeper-x/shipreporting-api/issues"
   },
-  "homepage": "https://gitlab.com/deeper-x/shipreporting-api#readme",
+  "homepage": "https://github.com/deeper-x/shipreporting-api#readme",
   "dependencies": {
     "babel-eslint": "^10.0.1",
     "eslint": "^5.12.1",
